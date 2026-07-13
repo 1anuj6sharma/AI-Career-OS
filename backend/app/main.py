@@ -3,8 +3,13 @@ from sqlalchemy import text
 
 from app.core.logging import logger
 from app.core.logging import setup_logging
+from app.api.v1.api import api_router
 
 setup_logging()
+from app.core.security import (
+    hash_password,
+    verify_password,
+)
 
 from app.core.config import settings
 from app.database.session import SessionLocal
@@ -47,3 +52,27 @@ def database_test():
     finally:
         db.close()
         
+from app.core.security import (
+    hash_password,
+    verify_password,
+)      
+        
+
+@app.get("/security-test")
+def security_test():
+    password = "Hello123"
+
+    hashed = hash_password(password)
+    verified = verify_password(password, hashed)
+
+    return {
+        "password": password,
+        "hashed": hashed,
+        "verified": verified
+    }
+
+
+app.include_router(
+    api_router,
+    prefix="/api/v1",
+)
