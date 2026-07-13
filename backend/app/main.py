@@ -39,3 +39,12 @@ def database_test():
 
     finally:
         db.close()
+        
+from app.database.init_db import create_database        
+@app.get("/init-db")
+def initialize_database():
+    create_database()
+
+    return {
+        "message": "Database initialized successfully"
+    }
