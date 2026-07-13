@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 
+from app.core.logging import logger
+from app.core.logging import setup_logging
+
+setup_logging()
+
 from app.core.config import settings
 from app.database.session import SessionLocal
 
@@ -9,11 +14,13 @@ app = FastAPI(
     version=settings.APP_VERSION,
 )
 
-
 @app.get("/")
 def root():
+
+    logger.info("Root endpoint accessed.")
+
     return {
-        "message": f"{settings.APP_NAME} Backend Running 🚀"
+        "message": "AI Career Operating System Backend Running 🚀"
     }
 
 
@@ -40,11 +47,3 @@ def database_test():
     finally:
         db.close()
         
-from app.database.init_db import create_database        
-@app.get("/init-db")
-def initialize_database():
-    create_database()
-
-    return {
-        "message": "Database initialized successfully"
-    }
