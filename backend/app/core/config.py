@@ -51,11 +51,6 @@ class Settings(BaseSettings):
     # -------------------------
     BACKEND_CORS_ORIGINS: str
     
-    
-    SECRET_KEY: str = Field(..., min_length=32)
-    ALGORITHM: str = "HS256"
-
-    
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
 

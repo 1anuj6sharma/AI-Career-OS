@@ -91,19 +91,55 @@ class ResourceNotFoundException(CareerOSException):
 class DuplicateResourceException(CareerOSException):
     def __init__(self, resource: str):
         super().__init__(f"{resource} already exists.")
+
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
+
+def register_exception_handlers(app: FastAPI):
+    @app.exception_handler(CareerOSException)
+    async def career_os_exception_handler(request: Request, exc: CareerOSException):
+        status_code = status.HTTP_400_BAD_REQUEST
         
-from jose import JWTError, jwt
+        if isinstance(exc, InvalidCredentialsException):
+            status_code = status.HTTP_401_UNAUTHORIZED
+            error_code = "INVALID_CREDENTIALS"
+        elif isinstance(exc, UnauthorizedException):
+            status_code = status.HTTP_401_UNAUTHORIZED
+            error_code = "UNAUTHORIZED"
+        elif isinstance(exc, ForbiddenException):
+            status_code = status.HTTP_403_FORBIDDEN
+            error_code = "FORBIDDEN"
+        elif isinstance(exc, TokenExpiredException):
+            status_code = status.HTTP_401_UNAUTHORIZED
+            error_code = "TOKEN_EXPIRED"
+        elif isinstance(exc, InvalidTokenException):
+            status_code = status.HTTP_401_UNAUTHORIZED
+            error_code = "INVALID_TOKEN"
+        elif isinstance(exc, UserAlreadyExistsException):
+            status_code = status.HTTP_409_CONFLICT
+            error_code = "USER_ALREADY_EXISTS"
+        elif isinstance(exc, UserNotFoundException):
+            status_code = status.HTTP_404_NOT_FOUND
+            error_code = "USER_NOT_FOUND"
+        elif isinstance(exc, ValidationException):
+            status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+            error_code = "VALIDATION_ERROR"
+        elif isinstance(exc, ResourceNotFoundException):
+            status_code = status.HTTP_404_NOT_FOUND
+            error_code = "RESOURCE_NOT_FOUND"
+        elif isinstance(exc, DuplicateResourceException):
+            status_code = status.HTTP_409_CONFLICT
+            error_code = "DUPLICATE_RESOURCE"
+        else:
+            error_code = "BAD_REQUEST"
 
-def decode_token(token: str) -> dict:
-    try:
-        payload = jwt.decode(
-            token,
-            SECRET_KEY,
-            algorithms=[ALGORITHM],
+        return JSONResponse(
+            status_code=status_code,
+            content={
+                "success": False,
+                "error": {
+                    "code": error_code,
+                    "message": exc.message
+                }
+            }
         )
-        return payload
-
-    except JWTError as exc:
-        raise AuthenticationException(
-            detail="Invalid or expired token."
-        ) from exc
