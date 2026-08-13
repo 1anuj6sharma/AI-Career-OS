@@ -264,14 +264,73 @@ function switchView(view) {
     btn.classList.toggle("active", btn.dataset.view === view);
   });
 
+  const viewAI = document.getElementById("viewAI");
+
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
   viewContacts.style.display = view === "contacts" ? "block" : "none";
+  if (viewAI) viewAI.style.display = view === "ai" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
   if (view === "contacts") loadContactsData();
 }
+
+// AI COPILOT CHAT
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
+
+if (chatForm) {
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+
+    appendChatMessage("user", msg);
+    chatInput.value = "";
+
+    try {
+      const res = await apiRequest("/ai/chat", {
+        method: "POST",
+        body: JSON.stringify({ message: msg }),
+      });
+      appendChatMessage("assistant", res.reply);
+    } catch (err) {
+      appendChatMessage("system", "Error communicating with AI Copilot: " + err.message);
+    }
+  });
+}
+
+document.getElementById("btnAiAnalyzeCareer")?.addEventListener("click", async () => {
+  appendChatMessage("system", "Running Career Strategist Agent analysis...");
+  try {
+    const res = await apiRequest("/ai/career/analyze", { method: "POST" });
+    appendChatMessage("assistant", res.summary);
+  } catch (err) {
+    appendChatMessage("system", "Error: " + err.message);
+  }
+});
+
+document.getElementById("btnAiPlanDaily")?.addEventListener("click", async () => {
+  appendChatMessage("system", "Synthesizing Daily Action Plan via Planner Agent...");
+  try {
+    const res = await apiRequest("/ai/career/plan", { method: "POST" });
+    appendChatMessage("assistant", res.daily_plan);
+  } catch (err) {
+    appendChatMessage("system", "Error: " + err.message);
+  }
+});
+
+function appendChatMessage(sender, text) {
+  if (!chatMessages) return;
+  const msgEl = document.createElement("div");
+  msgEl.className = `chat-msg ${sender}-msg`;
+  msgEl.innerHTML = `<strong>${sender === "user" ? "You" : sender === "assistant" ? "🤖 AI Copilot" : "System"}</strong>: ${escapeHtml(text)}`;
+  chatMessages.appendChild(msgEl);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
 
 // DASHBOARD
 async function loadDashboardData() {

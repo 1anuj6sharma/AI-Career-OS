@@ -22,6 +22,7 @@
         <button class="nav-btn active" data-view="dashboard" id="btnNavDashboard">📊 Dashboard</button>
         <button class="nav-btn" data-view="kanban" id="btnNavKanban">📋 Kanban Board</button>
         <button class="nav-btn" data-view="contacts" id="btnNavContacts">📇 Contacts</button>
+        <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
       </nav>
       <div class="user-menu" id="userMenu" style="display: none;">
         <span id="userGreeting" class="user-email">User</span>
@@ -172,6 +173,33 @@
         </div>
         <div id="contactsGrid" class="contacts-grid"></div>
       </section>
+
+      <!-- VIEW 4: AI CAREER COPILOT -->
+      <section id="viewAI" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>🤖 AI Career Intelligence Engine</h2>
+          <div class="ai-quick-actions">
+            <button class="btn btn-outline btn-sm" id="btnAiAnalyzeCareer">📊 Analyze Strategy</button>
+            <button class="btn btn-outline btn-sm" id="btnAiPlanDaily">📅 Generate Daily Plan</button>
+          </div>
+        </div>
+
+        <div class="ai-container">
+          <div class="glass-card ai-chat-card">
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-msg system-msg">
+                <strong>🤖 AI Copilot</strong>: Welcome! Ask me about job matching, interview prep, skill gap analysis, or career strategy.
+              </div>
+            </div>
+            
+            <form id="chatForm" class="chat-input-bar">
+              <input type="text" id="chatInput" placeholder="Ask AI Copilot (e.g. 'Match me with Python Developer role' or 'Prepare interview questions')..." required>
+              <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
 
     </div>
   </main>

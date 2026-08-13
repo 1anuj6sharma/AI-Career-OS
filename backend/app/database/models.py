@@ -20,4 +20,13 @@ from app.modules.jobs.models import (  # noqa: F401
     JobNote,
     JobTask,
 )
+from app.modules.ai.models import (  # noqa: F401
+    AIRun,
+    AIToolCall,
+    AIConversation,
+    AIMessage,
+    AIMemory,
+    AIPendingAction,
+)
+
 
