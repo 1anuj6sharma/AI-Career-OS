@@ -265,16 +265,134 @@ function switchView(view) {
   });
 
   const viewAI = document.getElementById("viewAI");
+  const viewResumes = document.getElementById("viewResumes");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
   viewContacts.style.display = view === "contacts" ? "block" : "none";
   if (viewAI) viewAI.style.display = view === "ai" ? "block" : "none";
+  if (viewResumes) viewResumes.style.display = view === "resumes" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
   if (view === "contacts") loadContactsData();
+  if (view === "resumes") loadResumesData();
 }
+
+// RESUMES MANAGEMENT (Module 5)
+const uploadResumeForm = document.getElementById("uploadResumeForm");
+const resumeFileInput = document.getElementById("resumeFileInput");
+const resumesList = document.getElementById("resumesList");
+
+if (uploadResumeForm) {
+  uploadResumeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!resumeFileInput.files[0]) return;
+
+    const formData = new FormData();
+    formData.append("file", resumeFileInput.files[0]);
+
+    try {
+      document.getElementById("btnUploadResume").disabled = true;
+      document.getElementById("btnUploadResume").textContent = "Uploading & Parsing...";
+
+      await apiRequest("/resumes/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      uploadResumeForm.reset();
+      loadResumesData();
+    } catch (err) {
+      alert("Error uploading resume: " + err.message);
+    } finally {
+      document.getElementById("btnUploadResume").disabled = false;
+      document.getElementById("btnUploadResume").textContent = "Upload Resume";
+    }
+  });
+}
+
+async function loadResumesData() {
+  if (!resumesList) return;
+  resumesList.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+  try {
+    const resumes = await apiRequest("/resumes");
+    renderResumesList(resumes);
+  } catch (err) {
+    resumesList.innerHTML = '<div class="alert alert-error">Failed to load resumes</div>';
+  }
+}
+
+function renderResumesList(resumes) {
+  resumesList.innerHTML = "";
+  if (!resumes || resumes.length === 0) {
+    resumesList.innerHTML = '<div class="empty-state"><h3>No resumes uploaded</h3><p>Upload a PDF or DOCX resume to get AI analysis, ATS scanning, and tailoring.</p></div>';
+    return;
+  }
+
+  resumes.forEach((r) => {
+    const card = document.createElement("div");
+    card.className = "resume-card";
+    const activeVersion = r.versions.find((v) => v.is_active) || r.versions[0];
+
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+        <div>
+          <h3>${escapeHtml(r.name)}</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(r.original_filename)}</span>
+        </div>
+        <span class="version-tag">${activeVersion ? activeVersion.version_name : "v1.0"}</span>
+      </div>
+
+      <div style="margin: 0.75rem 0; font-size: 0.85rem; color: var(--text-muted); max-height: 80px; overflow: hidden;">
+        ${escapeHtml(activeVersion ? activeVersion.content.substring(0, 180) : "No content")}...
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+        <button class="btn btn-sm btn-outline btn-analyze-resume" data-id="${r.id}">📊 Quality Analysis</button>
+        <button class="btn btn-sm btn-outline btn-ats-resume" data-id="${r.id}">🎯 ATS Scan</button>
+        <button class="btn btn-sm btn-outline btn-delete-resume" data-id="${r.id}" style="color: #fca5a5;">Delete</button>
+      </div>
+    `;
+
+    card.querySelector(".btn-analyze-resume").addEventListener("click", () => runResumeAnalysis(r.id));
+    card.querySelector(".btn-ats-resume").addEventListener("click", () => runATSScan(r.id));
+    card.querySelector(".btn-delete-resume").addEventListener("click", () => deleteResume(r.id));
+
+    resumesList.appendChild(card);
+  });
+}
+
+async function runResumeAnalysis(resumeId) {
+  try {
+    const res = await apiRequest(`/resumes/${resumeId}/analyze`, { method: "POST" });
+    alert(`Resume Quality Score: ${res.overall_score}/100\n\nStrengths:\n- ${res.strengths.join("\n- ")}\n\nWeaknesses:\n- ${res.weaknesses.join("\n- ")}`);
+  } catch (err) {
+    alert("Analysis error: " + err.message);
+  }
+}
+
+async function runATSScan(resumeId) {
+  const jobDesc = prompt("Enter Target Job Description to run ATS Keyword Scan:");
+  if (!jobDesc) return;
+  try {
+    const res = await apiRequest(`/resumes/${resumeId}/ats-analysis?job_description=${encodeURIComponent(jobDesc)}`, { method: "POST" });
+    alert(`ATS Keyword Match Coverage: ${res.keyword_coverage_percent}%\n\nMatched Keywords:\n${res.matched_keywords.join(", ")}\n\nMissing Keywords:\n${res.missing_keywords.join(", ")}`);
+  } catch (err) {
+    alert("ATS Scan error: " + err.message);
+  }
+}
+
+async function deleteResume(resumeId) {
+  if (!confirm("Are you sure you want to delete this resume?")) return;
+  try {
+    await apiRequest(`/resumes/${resumeId}`, { method: "DELETE" });
+    loadResumesData();
+  } catch (err) {
+    alert("Could not delete resume");
+  }
+}
+
 
 // AI COPILOT CHAT
 const chatForm = document.getElementById("chatForm");

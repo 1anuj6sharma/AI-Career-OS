@@ -144,8 +144,14 @@ class Application(Base):
     status = Column(String(50), nullable=False, default="SAVED", index=True)
     applied_at = Column(DateTime(timezone=True), nullable=True)
     application_deadline = Column(DateTime(timezone=True), nullable=True)
-    resume_id = Column(Integer, nullable=True)  # Future compatibility with Resume module
+    resume_id = Column(Integer, nullable=True)
+    resume_version_id = Column(
+        Integer,
+        ForeignKey("resume_versions.id", ondelete="SET NULL"),
+        nullable=True,
+    )
     cover_letter_id = Column(Integer, nullable=True)
+
     recruiter_contact_id = Column(
         Integer,
         ForeignKey("contacts.id", ondelete="SET NULL"),

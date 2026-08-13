@@ -28,5 +28,10 @@ from app.modules.ai.models import (  # noqa: F401
     AIMemory,
     AIPendingAction,
 )
+from app.modules.resumes.models import (  # noqa: F401
+    Resume,
+    ResumeVersion,
+)
+
 
 

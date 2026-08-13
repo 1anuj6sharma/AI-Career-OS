@@ -22,7 +22,9 @@
         <button class="nav-btn active" data-view="dashboard" id="btnNavDashboard">📊 Dashboard</button>
         <button class="nav-btn" data-view="kanban" id="btnNavKanban">📋 Kanban Board</button>
         <button class="nav-btn" data-view="contacts" id="btnNavContacts">📇 Contacts</button>
+        <button class="nav-btn" data-view="resumes" id="btnNavResumes">📄 Resumes</button>
         <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
+
       </nav>
       <div class="user-menu" id="userMenu" style="display: none;">
         <span id="userGreeting" class="user-email">User</span>
@@ -173,6 +175,19 @@
         </div>
         <div id="contactsGrid" class="contacts-grid"></div>
       </section>
+
+      <!-- VIEW 5: RESUMES & TAILORING -->
+      <section id="viewResumes" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>📄 Resume Intelligence & Versioning</h2>
+          <form id="uploadResumeForm" style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="file" id="resumeFileInput" accept=".pdf,.docx,.doc,.txt" required style="max-width: 250px;">
+            <button type="submit" class="btn btn-primary" id="btnUploadResume">Upload Resume</button>
+          </form>
+        </div>
+        <div id="resumesList" class="resumes-grid"></div>
+      </section>
+
 
       <!-- VIEW 4: AI CAREER COPILOT -->
       <section id="viewAI" class="app-view" style="display: none;">
