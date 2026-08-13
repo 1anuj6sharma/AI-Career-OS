@@ -272,6 +272,7 @@ function switchView(view) {
   const viewBrand = document.getElementById("viewBrand");
   const viewOpportunities = document.getElementById("viewOpportunities");
   const viewNetwork = document.getElementById("viewNetwork");
+  const viewOffers = document.getElementById("viewOffers");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -284,6 +285,7 @@ function switchView(view) {
   if (viewBrand) viewBrand.style.display = view === "brand" ? "block" : "none";
   if (viewOpportunities) viewOpportunities.style.display = view === "opportunities" ? "block" : "none";
   if (viewNetwork) viewNetwork.style.display = view === "network" ? "block" : "none";
+  if (viewOffers) viewOffers.style.display = view === "offers" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
@@ -295,7 +297,115 @@ function switchView(view) {
   if (view === "brand") loadBrandData();
   if (view === "opportunities") loadOpportunitiesData();
   if (view === "network") loadNetworkData();
+  if (view === "offers") loadOffersData();
 }
+
+// AI OFFER MANAGEMENT, NEGOTIATION & CAREER DECISION (Module 12)
+document.getElementById("btnAnalyzeOfferModal")?.addEventListener("click", async () => {
+  const company = prompt("Enter Company Name:", "TechCorp");
+  if (!company) return;
+  const role = prompt("Enter Offer Role Title:", "Senior Python Backend Engineer");
+  if (!role) return;
+  const base = prompt("Enter Offered Fixed Base Salary (INR ₹):", "1200000");
+  if (!base) return;
+
+  try {
+    const res = await apiRequest("/offers/ai/analyze", {
+      method: "POST",
+      body: JSON.stringify({
+        company_name: company,
+        role: role,
+        base_salary: parseFloat(base),
+        variable_salary: 200000,
+        joining_bonus: 100000,
+      }),
+    });
+    alert(`💰 Offer Analysis Complete!\n\nOverall Offer Score: ${res.overall_offer_score} / 100\nGuaranteed Compensation: ₹${res.compensation.guaranteed_compensation / 100000} LPA (${res.compensation.guaranteed_percentage}% fixed)\n\nAI Recommendation: ${res.decision.decision}\nReasoning: ${res.decision.reasoning}`);
+    loadOffersData();
+  } catch (err) {
+    alert("Error analyzing offer: " + err.message);
+  }
+});
+
+document.getElementById("btnNegotiateOfferModal")?.addEventListener("click", async () => {
+  const offers = await apiRequest("/offers");
+  if (!offers || offers.length === 0) {
+    alert("Please analyze an offer first!");
+    return;
+  }
+  const offerId = offers[0].id;
+  const target = prompt("Enter Target Base Salary (INR ₹):", "1400000");
+  if (!target) return;
+
+  try {
+    const res = await apiRequest("/offers/ai/negotiate", {
+      method: "POST",
+      body: JSON.stringify({ offer_id: offerId, target_base_salary: parseFloat(target) }),
+    });
+    alert(`💬 Counter-Offer Email Generated (Leverage: ${res.leverage_score}/100):\n\nPrimary Ask:\n${res.primary_ask}\n\nDraft Email:\n${res.draft_negotiation_email.substring(0, 300)}...`);
+    const draftEl = document.getElementById("offerNegotiationDraft");
+    draftEl.innerHTML = `<div style="padding: 0.5rem; background: rgba(15, 23, 42, 0.4); border-radius: 6px;"><strong>Draft Counter-Offer Email:</strong><pre style="white-space: pre-wrap; font-size: 0.8rem; margin-top: 0.5rem;">${escapeHtml(res.draft_negotiation_email)}</pre></div>`;
+  } catch (err) {
+    alert("Error generating negotiation strategy: " + err.message);
+  }
+});
+
+document.getElementById("btnTransitionPlanModal")?.addEventListener("click", async () => {
+  const offers = await apiRequest("/offers");
+  if (!offers || offers.length === 0) {
+    alert("Please analyze an offer first!");
+    return;
+  }
+  const offerId = offers[0].id;
+
+  try {
+    const res = await apiRequest("/offers/ai/transition-plan", {
+      method: "POST",
+      body: JSON.stringify({ offer_id: offerId }),
+    });
+    alert(`🚀 30/60/90 Day Onboarding Plan for ${res.role} @ ${res.company_name}:\n\nDay 1-30:\n- ${res.plan_30_days.join('\n- ')}\n\nDay 31-60:\n- ${res.plan_60_days.join('\n- ')}\n\nDay 61-90:\n- ${res.plan_90_days.join('\n- ')}`);
+  } catch (err) {
+    alert("Error generating transition plan: " + err.message);
+  }
+});
+
+async function loadOffersData() {
+  try {
+    const offers = await apiRequest("/offers");
+    const listEl = document.getElementById("offersList");
+    listEl.innerHTML = "";
+
+    if (!offers || offers.length === 0) {
+      listEl.innerHTML = `<div style="font-size: 0.85rem; color: var(--text-muted);">No active career offers added. Click '+ Analyze New Offer' to get started!</div>`;
+      return;
+    }
+
+    offers.forEach((o) => {
+      const comp = o.compensation || {};
+      const analysis = o.analysis || {};
+
+      const item = document.createElement("div");
+      item.style.padding = "1rem";
+      item.style.background = "rgba(15, 23, 42, 0.5)";
+      item.style.borderRadius = "8px";
+      item.style.border = "1px solid var(--border-color)";
+
+      item.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(o.role)} <span style="font-size: 0.85rem; color: var(--text-main);">@ ${escapeHtml(o.company_name)}</span></div>
+          <span style="background: rgba(34, 197, 94, 0.2); color: #4ade80; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">Status: ${escapeHtml(o.status)}</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">
+          Total CTC: <strong>₹${(comp.total_ctc || 0) / 100000} LPA</strong> (Guaranteed: ₹${(comp.guaranteed_compensation || 0) / 100000} LPA) | Score: <strong>${analysis.overall_score || 82.5} / 100</strong>
+        </div>
+      `;
+      listEl.appendChild(item);
+    });
+  } catch (err) {
+    console.log("Offers loading notice:", err.message);
+  }
+}
+
 
 // AI NETWORKING & RECRUITER RELATIONSHIP CRM (Module 11)
 document.getElementById("btnCreateContactModal")?.addEventListener("click", async () => {

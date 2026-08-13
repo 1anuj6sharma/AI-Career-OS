@@ -75,6 +75,15 @@ from app.modules.network.models import (  # noqa: F401
     OutreachMessageRecord,
     FollowUpRecord,
 )
+from app.modules.offers.models import (  # noqa: F401
+    CareerOffer,
+    OfferCompensation,
+    OfferAnalysisRecord,
+    OfferComparisonRecord,
+    NegotiationStrategyRecord,
+    CareerDecisionRecord,
+)
+
 
 
 
