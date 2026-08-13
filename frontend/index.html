@@ -23,7 +23,9 @@
         <button class="nav-btn" data-view="kanban" id="btnNavKanban">📋 Kanban Board</button>
         <button class="nav-btn" data-view="contacts" id="btnNavContacts">📇 Contacts</button>
         <button class="nav-btn" data-view="resumes" id="btnNavResumes">📄 Resumes</button>
+        <button class="nav-btn" data-view="interviews" id="btnNavInterviews">🎤 Interviews</button>
         <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
+
 
       </nav>
       <div class="user-menu" id="userMenu" style="display: none;">
@@ -187,6 +189,16 @@
         </div>
         <div id="resumesList" class="resumes-grid"></div>
       </section>
+
+      <!-- VIEW 6: MOCK INTERVIEWS & COACH -->
+      <section id="viewInterviews" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>🎤 Interview Intelligence & Live AI Coach</h2>
+          <button class="btn btn-primary" id="btnOpenScheduleInterviewModal">+ Schedule Interview</button>
+        </div>
+        <div id="interviewsList" class="interviews-grid"></div>
+      </section>
+
 
 
       <!-- VIEW 4: AI CAREER COPILOT -->

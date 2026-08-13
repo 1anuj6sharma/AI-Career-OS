@@ -768,4 +768,28 @@ input:focus, select:focus, textarea:focus {
   font-weight: 600;
 }
 
+/* Interviews View */
+.interviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.interview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.score-badge {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  padding: 0.25rem 0.65rem;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+
 

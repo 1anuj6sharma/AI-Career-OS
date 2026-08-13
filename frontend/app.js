@@ -266,18 +266,113 @@ function switchView(view) {
 
   const viewAI = document.getElementById("viewAI");
   const viewResumes = document.getElementById("viewResumes");
+  const viewInterviews = document.getElementById("viewInterviews");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
   viewContacts.style.display = view === "contacts" ? "block" : "none";
   if (viewAI) viewAI.style.display = view === "ai" ? "block" : "none";
   if (viewResumes) viewResumes.style.display = view === "resumes" ? "block" : "none";
+  if (viewInterviews) viewInterviews.style.display = view === "interviews" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
   if (view === "contacts") loadContactsData();
   if (view === "resumes") loadResumesData();
+  if (view === "interviews") loadInterviewsData();
 }
+
+// INTERVIEWS & MOCK COACH (Module 6)
+const interviewsList = document.getElementById("interviewsList");
+
+document.getElementById("btnOpenScheduleInterviewModal")?.addEventListener("click", async () => {
+  const title = prompt("Enter Interview Title (e.g. 'Backend Engineer Interview'):");
+  if (!title) return;
+  const company = prompt("Enter Company Name (e.g. 'Amazon'):");
+
+  try {
+    await apiRequest("/interviews", {
+      method: "POST",
+      body: JSON.stringify({
+        title: title,
+        company_name: company || "Tech Company",
+        interview_type: "TECHNICAL",
+      }),
+    });
+    loadInterviewsData();
+  } catch (err) {
+    alert("Could not schedule interview: " + err.message);
+  }
+});
+
+async function loadInterviewsData() {
+  if (!interviewsList) return;
+  interviewsList.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+  try {
+    const interviews = await apiRequest("/interviews");
+    renderInterviewsList(interviews);
+  } catch (err) {
+    interviewsList.innerHTML = '<div class="alert alert-error">Failed to load interview sessions</div>';
+  }
+}
+
+function renderInterviewsList(interviews) {
+  interviewsList.innerHTML = "";
+  if (!interviews || interviews.length === 0) {
+    interviewsList.innerHTML = '<div class="empty-state"><h3>No interviews scheduled</h3><p>Schedule your upcoming interview to generate preparation strategy, practice questions, and Module 3 tasks.</p></div>';
+    return;
+  }
+
+  interviews.forEach((inv) => {
+    const card = document.createElement("div");
+    card.className = "interview-card";
+    const scoreText = inv.overall_score ? `${inv.overall_score}/100` : "Not Scored";
+
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+        <div>
+          <h3>${escapeHtml(inv.title)}</h3>
+          <span style="font-size: 0.85rem; color: var(--primary); font-weight: 500;">${escapeHtml(inv.company_name || "Company")}</span>
+        </div>
+        <span class="score-badge">${scoreText}</span>
+      </div>
+
+      <div style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">
+        Status: <strong>${inv.status}</strong> • Type: <strong>${inv.interview_type}</strong>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+        <button class="btn btn-sm btn-primary btn-prep-interview" data-id="${inv.id}">📅 Prepare & Tasks</button>
+        <button class="btn btn-sm btn-outline btn-report-interview" data-id="${inv.id}">📊 Final Report</button>
+      </div>
+    `;
+
+    card.querySelector(".btn-prep-interview").addEventListener("click", () => runInterviewPreparation(inv.id));
+    card.querySelector(".btn-report-interview").addEventListener("click", () => runInterviewReport(inv.id));
+
+    interviewsList.appendChild(card);
+  });
+}
+
+async function runInterviewPreparation(interviewId) {
+  try {
+    const res = await apiRequest(`/interviews/${interviewId}/prepare`, { method: "POST" });
+    alert(`Interview Preparation Strategy Generated!\n\nPriority Topics:\n- ${res.priority_topics.join("\n- ")}\n\nModule 3 Tasks Created: ${res.preparation_tasks_created}`);
+    loadInterviewsData();
+  } catch (err) {
+    alert("Preparation error: " + err.message);
+  }
+}
+
+async function runInterviewReport(interviewId) {
+  try {
+    const res = await apiRequest(`/interviews/${interviewId}/report`);
+    alert(`Final Interview Report (${res.title})\n\nOverall Score: ${res.overall_score}/100\nTechnical: ${res.technical_score}\nCommunication: ${res.communication_score}\n\nKey Strengths:\n- ${res.strengths.join("\n- ")}\n\nNext Steps:\n- ${res.recommended_next_steps.join("\n- ")}`);
+  } catch (err) {
+    alert("Report error: " + err.message);
+  }
+}
+
 
 // RESUMES MANAGEMENT (Module 5)
 const uploadResumeForm = document.getElementById("uploadResumeForm");
