@@ -11,3 +11,13 @@ from app.modules.profile.models import (  # noqa: F401
     Certification,
     CareerPreference,
 )
+from app.modules.jobs.models import (  # noqa: F401
+    Company,
+    Contact,
+    Job,
+    Application,
+    ApplicationEvent,
+    JobNote,
+    JobTask,
+)
+

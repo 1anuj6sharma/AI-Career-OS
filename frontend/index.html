@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Career OS — Job & Application OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">💼</span>
+        <span class="logo-text">AI Career <span class="accent">OS</span></span>
+        <span class="badge">Module 3</span>
+      </div>
+      <nav class="nav-links" id="navLinks" style="display: none;">
+        <button class="nav-btn active" data-view="dashboard" id="btnNavDashboard">📊 Dashboard</button>
+        <button class="nav-btn" data-view="kanban" id="btnNavKanban">📋 Kanban Board</button>
+        <button class="nav-btn" data-view="contacts" id="btnNavContacts">📇 Contacts</button>
+      </nav>
+      <div class="user-menu" id="userMenu" style="display: none;">
+        <span id="userGreeting" class="user-email">User</span>
+        <button class="btn btn-outline" id="btnLogout">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Auth Section -->
+    <section id="authSection" class="auth-section">
+      <div class="glass-card auth-card">
+        <h2 class="auth-title">Welcome to AI Career OS</h2>
+        <p class="auth-subtitle">Centralized Job & Application Management Pipeline</p>
+        
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin">Sign In</button>
+          <button class="auth-tab" id="tabRegister">Create Account</button>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <div class="form-group" id="groupName" style="display: none;">
+            <div class="form-row">
+              <div>
+                <label>First Name</label>
+                <input type="text" id="authFirstName" placeholder="Alice">
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input type="text" id="authLastName" placeholder="Engineer">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="authEmail" required placeholder="user@example.com">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="authPassword" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btnAuthSubmit">Sign In</button>
+        </form>
+        <div id="authError" class="alert alert-error" style="display: none;"></div>
+      </div>
+    </section>
+
+    <!-- Main App Section (Shown when authenticated) -->
+    <div id="appSection" style="display: none;">
+      
+      <!-- Metrics Bar -->
+      <section class="metrics-section">
+        <div class="metrics-grid">
+          <div class="metric-card metric-saved">
+            <div class="metric-value" id="countSaved">0</div>
+            <div class="metric-label">Saved Jobs</div>
+          </div>
+          <div class="metric-card metric-applied">
+            <div class="metric-value" id="countApplied">0</div>
+            <div class="metric-label">Applied</div>
+          </div>
+          <div class="metric-card metric-interview">
+            <div class="metric-value" id="countInterview">0</div>
+            <div class="metric-label">Interviews</div>
+          </div>
+          <div class="metric-card metric-offer">
+            <div class="metric-value" id="countOffer">0</div>
+            <div class="metric-label">Offers</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Global Error / Notice Banner -->
+      <div id="globalBanner" class="alert" style="display: none;"></div>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="viewDashboard" class="app-view">
+        <div class="toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search jobs by title, company, location, keywords...">
+          </div>
+          
+          <div class="filter-controls">
+            <select id="filterStatus" class="select-control">
+              <option value="">All Statuses</option>
+              <option value="SAVED">Saved</option>
+              <option value="APPLIED">Applied</option>
+              <option value="UNDER_REVIEW">Under Review</option>
+              <option value="SHORTLISTED">Shortlisted</option>
+              <option value="INTERVIEW">Interview</option>
+              <option value="OFFER">Offer</option>
+              <option value="REJECTED">Rejected</option>
+            </select>
+
+            <select id="filterRemote" class="select-control">
+              <option value="">All Locations</option>
+              <option value="REMOTE">Remote</option>
+              <option value="HYBRID">Hybrid</option>
+              <option value="ONSITE">Onsite</option>
+            </select>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="filterFavorite"> ⭐ Favorites
+            </label>
+
+            <button class="btn btn-primary" id="btnOpenAddJobModal">+ Add Job</button>
+          </div>
+        </div>
+
+        <!-- Jobs Grid / List -->
+        <div id="jobsLoading" class="loading-spinner" style="display: none;">
+          <div class="spinner"></div>
+          <p>Loading jobs...</p>
+        </div>
+
+        <div id="jobsEmpty" class="empty-state" style="display: none;">
+          <div class="empty-icon">📌</div>
+          <h3>No jobs found</h3>
+          <p>Start tracking your applications by adding your first job offer or opportunity.</p>
+          <button class="btn btn-primary" id="btnEmptyAddJob">+ Add Job</button>
+        </div>
+
+        <div id="jobsGrid" class="jobs-grid"></div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-bar" id="paginationBar" style="display: none;">
+          <button class="btn btn-outline" id="btnPrevPage" disabled>← Previous</button>
+          <span class="page-info" id="pageInfo">Page 1 of 1</span>
+          <button class="btn btn-outline" id="btnNextPage" disabled>Next →</button>
+        </div>
+      </section>
+
+      <!-- VIEW 2: KANBAN BOARD -->
+      <section id="viewKanban" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>Application Pipeline Board</h2>
+          <p class="section-desc">Drag or shift applications across recruitment stages</p>
+        </div>
+        <div class="kanban-board" id="kanbanBoard"></div>
+      </section>
+
+      <!-- VIEW 3: RECRUITER CONTACTS DIRECTORY -->
+      <section id="viewContacts" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>Recruiter & HR Directory</h2>
+          <button class="btn btn-primary" id="btnOpenAddContactModal">+ Add Contact</button>
+        </div>
+        <div id="contactsGrid" class="contacts-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL 1: ADD / EDIT JOB -->
+  <div class="modal-overlay" id="jobModal" style="display: none;">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3 id="jobModalTitle">Add New Job</h3>
+        <button class="btn-close" id="btnCloseJobModal">✕</button>
+      </div>
+      <form id="jobForm" class="modal-form">
+        <input type="hidden" id="jobEditId">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Job Title *</label>
+            <input type="text" id="jobTitle" required placeholder="Senior Full-Stack Engineer">
+          </div>
+          <div class="form-group">
+            <label>Company Name *</label>
+            <input type="text" id="jobCompanyName" required placeholder="Tech Corp">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" id="jobLocation" placeholder="San Francisco, CA / Remote">
+          </div>
+          <div class="form-group">
+            <label>Work Type</label>
+            <select id="jobRemoteType" class="select-control">
+              <option value="REMOTE">Remote</option>
+              <option value="HYBRID">Hybrid</option>
+              <option value="ONSITE">Onsite</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Min Salary ($ or ₹)</label>
+            <input type="number" id="jobSalaryMin" placeholder="100000">
+          </div>
+          <div class="form-group">
+            <label>Max Salary ($ or ₹)</label>
+            <input type="number" id="jobSalaryMax" placeholder="140000">
+          </div>
+          <div class="form-group">
+            <label>Currency</label>
+            <input type="text" id="jobCurrency" value="USD">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Job URL</label>
+            <input type="url" id="jobUrl" placeholder="https://linkedin.com/jobs/...">
+          </div>
+          <div class="form-group">
+            <label>Source</label>
+            <input type="text" id="jobSource" placeholder="LinkedIn, Referral, Indeed...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Job Description</label>
+          <textarea id="jobDescription" rows="3" placeholder="Key responsibilities and tech stack..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelJobModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveJob">Save Job</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: JOB DETAILS & APPLICATION TRACKING -->
+  <div class="modal-overlay" id="detailsModal" style="display: none;">
+    <div class="glass-card modal-card modal-large">
+      <div class="modal-header">
+        <div>
+          <h2 id="detailJobTitle">Job Details</h2>
+          <p id="detailJobSub" class="detail-subtitle"></p>
+        </div>
+        <button class="btn-close" id="btnCloseDetailsModal">✕</button>
+      </div>
+      
+      <div class="details-body">
+        <!-- Details Sidebar / Info -->
+        <div class="details-main">
+          <div class="detail-badges" id="detailBadges"></div>
+          
+          <div class="detail-section">
+            <h4>Description</h4>
+            <p id="detailDescription" class="description-box">No description provided.</p>
+          </div>
+
+          <div class="detail-section">
+            <h4>Recruiter & Contact</h4>
+            <div id="detailRecruiterBox" class="contact-card-sm">
+              <p class="muted">No recruiter assigned.</p>
+            </div>
+          </div>
+
+          <!-- Application Tasks -->
+          <div class="detail-section">
+            <div class="section-header-flex">
+              <h4>Tasks & Action Items</h4>
+              <button class="btn btn-sm btn-outline" id="btnAddDetailTask">+ Task</button>
+            </div>
+            <div id="detailTasksList" class="tasks-list"></div>
+          </div>
+        </div>
+
+        <!-- Details Sidebar: Timeline & Status Shift -->
+        <div class="details-sidebar">
+          <div class="status-box">
+            <label>Application Stage</label>
+            <select id="detailStatusSelect" class="select-control status-select">
+              <option value="SAVED">Saved</option>
+              <option value="APPLIED">Applied</option>
+              <option value="UNDER_REVIEW">Under Review</option>
+              <option value="SHORTLISTED">Shortlisted</option>
+              <option value="ASSESSMENT">Assessment / OA</option>
+              <option value="INTERVIEW">Interview</option>
+              <option value="HR_ROUND">HR Round</option>
+              <option value="OFFER">Offer</option>
+              <option value="REJECTED">Rejected</option>
+              <option value="WITHDRAWN">Withdrawn</option>
+            </select>
+          </div>
+
+          <!-- Timeline -->
+          <div class="timeline-box">
+            <h4>Application Timeline</h4>
+            <div id="detailTimeline" class="timeline"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CONTACT FORM -->
+  <div class="modal-overlay" id="contactModal" style="display: none;">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <h3>Add Recruiter / Contact</h3>
+        <button class="btn-close" id="btnCloseContactModal">✕</button>
+      </div>
+      <form id="contactForm" class="modal-form">
+        <div class="form-group">
+          <label>Name *</label>
+          <input type="text" id="contactName" required placeholder="Rahul Sharma">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Designation</label>
+            <input type="text" id="contactDesignation" placeholder="Senior Recruiter">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="contactEmail" placeholder="rahul@company.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" id="contactPhone" placeholder="+1 555-0199">
+          </div>
+          <div class="form-group">
+            <label>LinkedIn URL</label>
+            <input type="url" id="contactLinkedin" placeholder="https://linkedin.com/in/...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelContactModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Contact</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
