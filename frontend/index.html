@@ -25,7 +25,9 @@
         <button class="nav-btn" data-view="resumes" id="btnNavResumes">📄 Resumes</button>
         <button class="nav-btn" data-view="interviews" id="btnNavInterviews">🎤 Interviews</button>
         <button class="nav-btn" data-view="career" id="btnNavCareer">🎯 Career Growth</button>
+        <button class="nav-btn" data-view="learning" id="btnNavLearning">📚 Learning Hub</button>
         <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
+
 
 
 
@@ -231,7 +233,36 @@
             </div>
           </div>
         </div>
+      <!-- VIEW 8: AI LEARNING HUB -->
+      <section id="viewLearning" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>📚 AI Learning Hub & Adaptive Skill Development</h2>
+          <div class="ai-quick-actions">
+            <button class="btn btn-primary btn-sm" id="btnGenerateLearningPath">⚡ Generate Learning Path</button>
+            <button class="btn btn-outline btn-sm" id="btnAskTutorModal">🎓 Ask AI Tutor (RAG)</button>
+          </div>
+        </div>
+
+        <div id="learningContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
+          <div>
+            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
+              <h3 id="learningPathTitle">Personalized Curriculum</h3>
+              <p id="learningPathSub" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Click 'Generate Learning Path' to build custom modules derived from Module 7 skill gaps.</p>
+              <div id="learningModules" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
+              <h4>🧪 AI Practice & Quiz</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">Test your knowledge to update skill proficiency in Module 2.</p>
+              <button class="btn btn-outline btn-sm btn-block" id="btnGeneratePractice" style="margin-bottom: 0.5rem;">Generate Docker Challenge</button>
+              <button class="btn btn-primary btn-sm btn-block" id="btnSubmitAssessment">Submit Assessment</button>
+            </div>
+          </div>
+        </div>
       </section>
+
 
 
 

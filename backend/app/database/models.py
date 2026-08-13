@@ -43,6 +43,15 @@ from app.modules.career.models import (  # noqa: F401
     CareerMilestone,
     CareerAdaptation,
 )
+from app.modules.learning.models import (  # noqa: F401
+    LearningPath,
+    LearningModule,
+    LearningTopic,
+    LearningResource,
+    LearningAssessment,
+    LearningNote,
+)
+
 
 
 

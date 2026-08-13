@@ -268,6 +268,7 @@ function switchView(view) {
   const viewResumes = document.getElementById("viewResumes");
   const viewInterviews = document.getElementById("viewInterviews");
   const viewCareer = document.getElementById("viewCareer");
+  const viewLearning = document.getElementById("viewLearning");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -276,6 +277,7 @@ function switchView(view) {
   if (viewResumes) viewResumes.style.display = view === "resumes" ? "block" : "none";
   if (viewInterviews) viewInterviews.style.display = view === "interviews" ? "block" : "none";
   if (viewCareer) viewCareer.style.display = view === "career" ? "block" : "none";
+  if (viewLearning) viewLearning.style.display = view === "learning" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
@@ -283,7 +285,93 @@ function switchView(view) {
   if (view === "resumes") loadResumesData();
   if (view === "interviews") loadInterviewsData();
   if (view === "career") loadCareerData();
+  if (view === "learning") loadLearningData();
 }
+
+// AI LEARNING HUB (Module 8)
+document.getElementById("btnGenerateLearningPath")?.addEventListener("click", async () => {
+  try {
+    await apiRequest("/learning/ai/generate-path", { method: "POST" });
+    loadLearningData();
+    alert("Personalized Learning Path generated!");
+  } catch (err) {
+    alert("Error generating learning path: " + err.message);
+  }
+});
+
+document.getElementById("btnAskTutorModal")?.addEventListener("click", async () => {
+  const topic = prompt("Enter Technical Topic (e.g. 'Docker Networking'):");
+  if (!topic) return;
+  const question = prompt("Ask AI Tutor a Question:");
+  if (!question) return;
+
+  try {
+    const res = await apiRequest("/learning/ai/tutor", {
+      method: "POST",
+      body: JSON.stringify({ topic, question, mode: "INTERMEDIATE" }),
+    });
+    alert(`🎓 AI Tutor Explanation (${res.topic}):\n\n${res.explanation}\n\nSuggested Practice:\n${res.suggested_practice}`);
+  } catch (err) {
+    alert("Tutor Error: " + err.message);
+  }
+});
+
+document.getElementById("btnGeneratePractice")?.addEventListener("click", async () => {
+  try {
+    const res = await apiRequest("/learning/ai/generate-practice?topic=Docker", { method: "POST" });
+    alert(`🧪 Practice Challenge: ${res.challenge_title}\n\n${res.problem_statement}\n\nVerification Hints:\n- ${res.verification_hints.join("\n- ")}`);
+  } catch (err) {
+    alert("Practice Error: " + err.message);
+  }
+});
+
+document.getElementById("btnSubmitAssessment")?.addEventListener("click", async () => {
+  const ans = prompt("Submit your technical solution summary / concept answer for 'Docker Networking':");
+  if (!ans) return;
+
+  try {
+    const res = await apiRequest("/learning/ai/assess", {
+      method: "POST",
+      body: JSON.stringify({ topic_title: "Docker Networking", submission_text: ans }),
+    });
+    alert(`Assessment Result:\nScore: ${res.score}/100 (${res.passed ? "PASSED" : "FAILED"})\n\nFeedback:\n${res.feedback}`);
+  } catch (err) {
+    alert("Assessment Error: " + err.message);
+  }
+});
+
+async function loadLearningData() {
+  try {
+    const active = await apiRequest("/learning/paths/active");
+    if (active) {
+      document.getElementById("learningPathTitle").textContent = active.title;
+      document.getElementById("learningPathSub").textContent = active.description || "Active AI Learning Path";
+
+      const modulesEl = document.getElementById("learningModules");
+      modulesEl.innerHTML = "";
+
+      (active.modules || []).forEach((m) => {
+        const item = document.createElement("div");
+        item.style.padding = "1rem";
+        item.style.background = "rgba(15, 23, 42, 0.5)";
+        item.style.borderRadius = "8px";
+        item.style.border = "1px solid var(--border-color)";
+
+        const topicsHtml = (m.topics || []).map(t => `<li style="margin-top: 0.3rem;"><strong>${escapeHtml(t.title)}</strong> (${t.difficulty})</li>`).join("");
+
+        item.innerHTML = `
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(m.title)}</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin: 0.4rem 0;">${escapeHtml(m.description)}</div>
+          <ul style="font-size: 0.85rem; padding-left: 1.2rem; color: var(--text-main);">${topicsHtml}</ul>
+        `;
+        modulesEl.appendChild(item);
+      });
+    }
+  } catch (err) {
+    console.log("Learning path notice:", err.message);
+  }
+}
+
 
 // CAREER EXECUTION & ADAPTIVE GROWTH (Module 7)
 document.getElementById("btnGenerateCareerRoadmap")?.addEventListener("click", async () => {
