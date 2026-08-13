@@ -51,6 +51,16 @@ from app.modules.learning.models import (  # noqa: F401
     LearningAssessment,
     LearningNote,
 )
+from app.modules.brand.models import (  # noqa: F401
+    PortfolioProfile,
+    PortfolioProject,
+    CareerBrandProfile,
+    BrandScore,
+    ContentItem,
+    GitHubAnalysis,
+    ProfileRecommendation,
+)
+
 
 
 

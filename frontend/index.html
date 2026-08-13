@@ -26,7 +26,9 @@
         <button class="nav-btn" data-view="interviews" id="btnNavInterviews">🎤 Interviews</button>
         <button class="nav-btn" data-view="career" id="btnNavCareer">🎯 Career Growth</button>
         <button class="nav-btn" data-view="learning" id="btnNavLearning">📚 Learning Hub</button>
+        <button class="nav-btn" data-view="brand" id="btnNavBrand">🌟 Personal Brand</button>
         <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
+
 
 
 
@@ -261,7 +263,49 @@
             </div>
           </div>
         </div>
+      <!-- VIEW 9: AI PORTFOLIO & PERSONAL BRANDING -->
+      <section id="viewBrand" class="app-view" style="display: none;">
+        <div class="toolbar">
+          <h2>🌟 AI Portfolio & Personal Branding Engine</h2>
+          <div class="ai-quick-actions">
+            <button class="btn btn-primary btn-sm" id="btnAnalyzeBrand">🔍 Analyze Brand & Visibility</button>
+            <button class="btn btn-outline btn-sm" id="btnGeneratePortfolio">🌐 Build Role Portfolio</button>
+            <button class="btn btn-outline btn-sm" id="btnOptimizeLinkedIn">💼 Optimize LinkedIn</button>
+            <button class="btn btn-primary btn-sm" id="btnGenerateContent">✍️ Content Studio</button>
+          </div>
+        </div>
+
+        <div id="brandContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
+          <div>
+            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
+              <h3 id="portfolioTitle">Active Role Portfolio</h3>
+              <p id="portfolioBio" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Click 'Build Role Portfolio' to convert your skills and project evidence into recruiter case studies.</p>
+              <div id="portfolioProjects" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
+              <h4>📊 Brand Visibility Score</h4>
+              <div style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <div>Overall Brand Score: <strong id="brandOverallScore">77.5 / 100</strong></div>
+                <div>Portfolio Score: <strong id="brandPortfolioScore">80 / 100</strong></div>
+                <div>GitHub Quality: <strong id="brandGithubScore">75 / 100</strong></div>
+                <div>LinkedIn Alignment: <strong id="brandLinkedinScore">70 / 100</strong></div>
+              </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h4>💡 Visibility Recommendations</h4>
+              <div id="brandRecommendations" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <div>- Publish a technical article on Docker containerization best practices</div>
+                <div>- Add microservice architectural diagrams to GitHub README</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
+
 
 
 

@@ -269,6 +269,7 @@ function switchView(view) {
   const viewInterviews = document.getElementById("viewInterviews");
   const viewCareer = document.getElementById("viewCareer");
   const viewLearning = document.getElementById("viewLearning");
+  const viewBrand = document.getElementById("viewBrand");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -278,6 +279,7 @@ function switchView(view) {
   if (viewInterviews) viewInterviews.style.display = view === "interviews" ? "block" : "none";
   if (viewCareer) viewCareer.style.display = view === "career" ? "block" : "none";
   if (viewLearning) viewLearning.style.display = view === "learning" ? "block" : "none";
+  if (viewBrand) viewBrand.style.display = view === "brand" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
@@ -286,7 +288,87 @@ function switchView(view) {
   if (view === "interviews") loadInterviewsData();
   if (view === "career") loadCareerData();
   if (view === "learning") loadLearningData();
+  if (view === "brand") loadBrandData();
 }
+
+// AI PORTFOLIO & PERSONAL BRANDING (Module 9)
+document.getElementById("btnAnalyzeBrand")?.addEventListener("click", async () => {
+  const handle = prompt("Enter GitHub Username for repository inspection (optional):");
+  try {
+    const url = handle ? `/brand/ai/analyze?github_username=${encodeURIComponent(handle)}` : "/brand/ai/analyze";
+    const res = await apiRequest(url, { method: "POST" });
+    alert(`🔍 Brand Analysis Complete!\n\nOverall Score: ${res.scores.overall_score}/100\nRouting Strategy: ${res.routing_strategy}\n\nTop Recommendation:\n${res.recommendations[0] || 'Maintain high project activity'}`);
+    loadBrandData();
+  } catch (err) {
+    alert("Error analyzing brand: " + err.message);
+  }
+});
+
+document.getElementById("btnGeneratePortfolio")?.addEventListener("click", async () => {
+  try {
+    await apiRequest("/brand/ai/generate-portfolio", { method: "POST" });
+    loadBrandData();
+    alert("Role Portfolio & Technical Case Studies generated!");
+  } catch (err) {
+    alert("Error building portfolio: " + err.message);
+  }
+});
+
+document.getElementById("btnOptimizeLinkedIn")?.addEventListener("click", async () => {
+  try {
+    const res = await apiRequest("/brand/ai/optimize-profile", { method: "POST" });
+    alert(`💼 LinkedIn Optimization Recommendations:\n\nSuggested Headline:\n${res.suggested_headline}\n\nSuggested About:\n${res.suggested_about}\n\nKeyword Gaps: ${res.keyword_gaps.join(", ")}`);
+  } catch (err) {
+    alert("Error optimizing LinkedIn: " + err.message);
+  }
+});
+
+document.getElementById("btnGenerateContent")?.addEventListener("click", async () => {
+  const topic = prompt("Enter Technical Topic for Article/Post (e.g. 'Building Asynchronous Microservices with FastAPI'):");
+  if (!topic) return;
+
+  try {
+    const res = await apiRequest("/brand/ai/generate-content", {
+      method: "POST",
+      body: JSON.stringify({ content_type: "ARTICLE", topic }),
+    });
+    alert(`✍️ Content Generated (${res.title}):\n\n${res.content.substring(0, 400)}...\n\nStatus: ${res.status}`);
+  } catch (err) {
+    alert("Error generating content: " + err.message);
+  }
+});
+
+async function loadBrandData() {
+  try {
+    const active = await apiRequest("/brand/portfolio");
+    if (active) {
+      document.getElementById("portfolioTitle").textContent = active.title;
+      document.getElementById("portfolioBio").textContent = active.bio || "Active Professional Portfolio";
+
+      const projectsEl = document.getElementById("portfolioProjects");
+      projectsEl.innerHTML = "";
+
+      (active.projects || []).forEach((p) => {
+        const item = document.createElement("div");
+        item.style.padding = "1rem";
+        item.style.background = "rgba(15, 23, 42, 0.5)";
+        item.style.borderRadius = "8px";
+        item.style.border = "1px solid var(--border-color)";
+
+        item.innerHTML = `
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(p.title)} <span style="font-size: 0.75rem; color: var(--text-muted);">(Confidence: ${Math.round(p.confidence_score * 100)}%)</span></div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin: 0.4rem 0;">${escapeHtml(p.description)}</div>
+          <div style="font-size: 0.8rem; color: var(--text-main); margin-top: 0.3rem;"><strong>Architecture:</strong> ${escapeHtml(p.architecture || 'N/A')}</div>
+          <div style="font-size: 0.8rem; color: var(--text-main); margin-top: 0.2rem;"><strong>Impact:</strong> ${escapeHtml(p.impact || 'N/A')}</div>
+        `;
+        projectsEl.appendChild(item);
+      });
+    }
+  } catch (err) {
+    console.log("Portfolio loading notice:", err.message);
+  }
+}
+
 
 // AI LEARNING HUB (Module 8)
 document.getElementById("btnGenerateLearningPath")?.addEventListener("click", async () => {
