@@ -60,6 +60,15 @@ from app.modules.brand.models import (  # noqa: F401
     GitHubAnalysis,
     ProfileRecommendation,
 )
+from app.modules.opportunities.models import (  # noqa: F401
+    JobOpportunity,
+    JobRequirementItem,
+    JobMatch,
+    ApplicationReadiness,
+    JobRecommendationRecord,
+    CompanyIntelligenceRecord,
+)
+
 
 
 

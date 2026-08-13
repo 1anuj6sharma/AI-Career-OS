@@ -270,6 +270,7 @@ function switchView(view) {
   const viewCareer = document.getElementById("viewCareer");
   const viewLearning = document.getElementById("viewLearning");
   const viewBrand = document.getElementById("viewBrand");
+  const viewOpportunities = document.getElementById("viewOpportunities");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -280,6 +281,7 @@ function switchView(view) {
   if (viewCareer) viewCareer.style.display = view === "career" ? "block" : "none";
   if (viewLearning) viewLearning.style.display = view === "learning" ? "block" : "none";
   if (viewBrand) viewBrand.style.display = view === "brand" ? "block" : "none";
+  if (viewOpportunities) viewOpportunities.style.display = view === "opportunities" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
@@ -289,7 +291,66 @@ function switchView(view) {
   if (view === "career") loadCareerData();
   if (view === "learning") loadLearningData();
   if (view === "brand") loadBrandData();
+  if (view === "opportunities") loadOpportunitiesData();
 }
+
+// AI JOB MATCHING & OPPORTUNITY INTELLIGENCE (Module 10)
+document.getElementById("btnAnalyzeOpportunity")?.addEventListener("click", async () => {
+  const company = prompt("Enter Company Name:", "TechCorp");
+  if (!company) return;
+  const title = prompt("Enter Job Title:", "Senior Python Backend Engineer");
+  if (!title) return;
+  const desc = prompt("Paste Raw Job Description Text:", "We are looking for a Senior Backend Engineer proficient in Python, FastAPI, PostgreSQL, and Docker. Experience with AWS is preferred.");
+  if (!desc) return;
+
+  try {
+    const res = await apiRequest("/opportunities/ai/analyze", {
+      method: "POST",
+      body: JSON.stringify({ company_name: company, title: title, description: desc }),
+    });
+
+    alert(`🎯 Opportunity Analysis Complete!\n\nOverall Match Score: ${res.match_breakdown.overall_match}%\nReadiness: ${res.readiness.readiness_score}% (${res.readiness.recommendation})\n\nStrategy Recommendation:\n${res.readiness.reason}`);
+    loadOpportunitiesData();
+  } catch (err) {
+    alert("Error analyzing opportunity: " + err.message);
+  }
+});
+
+async function loadOpportunitiesData() {
+  try {
+    const opps = await apiRequest("/opportunities/recommended");
+    const listEl = document.getElementById("opportunitiesList");
+    listEl.innerHTML = "";
+
+    if (opps.length === 0) {
+      listEl.innerHTML = `<div style="font-size: 0.85rem; color: var(--text-muted);">No job opportunities analyzed yet. Click 'Analyze New Job Opportunity' to get started!</div>`;
+      return;
+    }
+
+    opps.forEach((o) => {
+      const match = o.latest_match || {};
+      const score = match.overall_match || 85.0;
+
+      const item = document.createElement("div");
+      item.style.padding = "1rem";
+      item.style.background = "rgba(15, 23, 42, 0.5)";
+      item.style.borderRadius = "8px";
+      item.style.border = "1px solid var(--border-color)";
+
+      item.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(o.title)} <span style="font-size: 0.85rem; color: var(--text-main);">@ ${escapeHtml(o.company_name)}</span></div>
+          <span style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem;">Match: ${score}%</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">${escapeHtml(o.description.substring(0, 140))}...</div>
+      `;
+      listEl.appendChild(item);
+    });
+  } catch (err) {
+    console.log("Opportunities loading notice:", err.message);
+  }
+}
+
 
 // AI PORTFOLIO & PERSONAL BRANDING (Module 9)
 document.getElementById("btnAnalyzeBrand")?.addEventListener("click", async () => {

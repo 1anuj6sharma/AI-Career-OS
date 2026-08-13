@@ -12,6 +12,7 @@ from app.modules.interviews.router import router as interviews_router
 from app.modules.career.router import router as career_router
 from app.modules.learning.router import router as learning_router
 from app.modules.brand.router import router as brand_router
+from app.modules.opportunities.router import router as opportunities_router
 
 api_router = APIRouter()
 
@@ -24,6 +25,8 @@ api_router.include_router(interviews_router)
 api_router.include_router(career_router)
 api_router.include_router(learning_router)
 api_router.include_router(brand_router)
+api_router.include_router(opportunities_router)
+
 
 
 
