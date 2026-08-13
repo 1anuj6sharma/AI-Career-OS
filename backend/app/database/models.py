@@ -68,6 +68,14 @@ from app.modules.opportunities.models import (  # noqa: F401
     JobRecommendationRecord,
     CompanyIntelligenceRecord,
 )
+from app.modules.network.models import (  # noqa: F401
+    ProfessionalContact,
+    Relationship,
+    NetworkInteraction,
+    OutreachMessageRecord,
+    FollowUpRecord,
+)
+
 
 
 

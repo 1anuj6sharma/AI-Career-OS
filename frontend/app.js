@@ -271,6 +271,7 @@ function switchView(view) {
   const viewLearning = document.getElementById("viewLearning");
   const viewBrand = document.getElementById("viewBrand");
   const viewOpportunities = document.getElementById("viewOpportunities");
+  const viewNetwork = document.getElementById("viewNetwork");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -282,6 +283,7 @@ function switchView(view) {
   if (viewLearning) viewLearning.style.display = view === "learning" ? "block" : "none";
   if (viewBrand) viewBrand.style.display = view === "brand" ? "block" : "none";
   if (viewOpportunities) viewOpportunities.style.display = view === "opportunities" ? "block" : "none";
+  if (viewNetwork) viewNetwork.style.display = view === "network" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
@@ -292,7 +294,114 @@ function switchView(view) {
   if (view === "learning") loadLearningData();
   if (view === "brand") loadBrandData();
   if (view === "opportunities") loadOpportunitiesData();
+  if (view === "network") loadNetworkData();
 }
+
+// AI NETWORKING & RECRUITER RELATIONSHIP CRM (Module 11)
+document.getElementById("btnCreateContactModal")?.addEventListener("click", async () => {
+  const name = prompt("Enter Contact Name:", "Rahul Sharma");
+  if (!name) return;
+  const role = prompt("Enter Role (e.g. 'Technical Recruiter'):", "Technical Recruiter");
+  if (!role) return;
+  const company = prompt("Enter Company:", "TechCorp");
+  if (!company) return;
+
+  try {
+    await apiRequest("/network/contacts", {
+      method: "POST",
+      body: JSON.stringify({ name, role, company, source: "RECRUITER" }),
+    });
+    loadNetworkData();
+    alert("Contact added to Network CRM!");
+  } catch (err) {
+    alert("Error adding contact: " + err.message);
+  }
+});
+
+document.getElementById("btnGenerateOutreachModal")?.addEventListener("click", async () => {
+  const contacts = await apiRequest("/network/contacts");
+  if (!contacts || contacts.length === 0) {
+    alert("Please add a contact first before drafting outreach!");
+    return;
+  }
+  const contactId = contacts[0].id;
+
+  try {
+    const res = await apiRequest("/network/ai/generate-outreach", {
+      method: "POST",
+      body: JSON.stringify({ contact_id: contactId, purpose: "RECRUITER_OUTREACH" }),
+    });
+    alert(`✍️ Outreach Draft Generated (Status: ${res.status}):\n\nSubject: ${res.subject}\n\nMessage:\n${res.message.substring(0, 300)}...`);
+    loadNetworkData();
+  } catch (err) {
+    alert("Error drafting outreach: " + err.message);
+  }
+});
+
+document.getElementById("btnAnalyzeConversationModal")?.addEventListener("click", async () => {
+  const text = prompt("Paste recruiter response message text:");
+  if (!text) return;
+
+  try {
+    const res = await apiRequest("/network/ai/analyze-conversation", {
+      method: "POST",
+      body: JSON.stringify({ contact_id: 1, message_text: text }),
+    });
+    alert(`💬 Recruiter Conversation Analysis:\n\nIntent: ${res.intent}\nOpportunity Level: ${res.opportunity_level}\n\nRecommended Action:\n${res.recommended_action}\n\nSuggested Reply:\n${res.suggested_reply}`);
+  } catch (err) {
+    alert("Error analyzing conversation: " + err.message);
+  }
+});
+
+async function loadNetworkData() {
+  try {
+    const contacts = await apiRequest("/network/contacts");
+    const listEl = document.getElementById("networkContactsList");
+    listEl.innerHTML = "";
+
+    if (!contacts || contacts.length === 0) {
+      listEl.innerHTML = `<div style="font-size: 0.85rem; color: var(--text-muted);">No contacts in CRM. Click '+ Add Contact' to get started!</div>`;
+    } else {
+      contacts.forEach((c) => {
+        const item = document.createElement("div");
+        item.style.padding = "1rem";
+        item.style.background = "rgba(15, 23, 42, 0.5)";
+        item.style.borderRadius = "8px";
+        item.style.border = "1px solid var(--border-color)";
+
+        item.innerHTML = `
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(c.name)} <span style="font-size: 0.8rem; color: var(--text-muted);">(${escapeHtml(c.source)})</span></div>
+          <div style="font-size: 0.85rem; color: var(--text-main); margin-top: 0.3rem;">${escapeHtml(c.role)} @ <strong>${escapeHtml(c.company)}</strong></div>
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
+    const analytics = await apiRequest("/network/analytics");
+    document.getElementById("netTotalContacts").textContent = analytics.total_contacts;
+    document.getElementById("netActiveRel").textContent = analytics.active_relationships;
+    document.getElementById("netPendingDrafts").textContent = analytics.pending_outreach_drafts;
+
+    const drafts = await apiRequest("/network/outreach");
+    const draftsEl = document.getElementById("pendingOutreachList");
+    draftsEl.innerHTML = "";
+    if (!drafts || drafts.length === 0) {
+      draftsEl.innerHTML = `<div>No pending drafts requiring review.</div>`;
+    } else {
+      drafts.forEach((d) => {
+        const item = document.createElement("div");
+        item.style.padding = "0.5rem";
+        item.style.background = "rgba(15, 23, 42, 0.4)";
+        item.style.borderRadius = "6px";
+        item.innerHTML = `<strong>Draft [${d.status}]:</strong> ${escapeHtml(d.subject || 'Outreach')}`;
+        draftsEl.appendChild(item);
+      });
+    }
+  } catch (err) {
+    console.log("Network CRM loading notice:", err.message);
+  }
+}
+
 
 // AI JOB MATCHING & OPPORTUNITY INTELLIGENCE (Module 10)
 document.getElementById("btnAnalyzeOpportunity")?.addEventListener("click", async () => {
