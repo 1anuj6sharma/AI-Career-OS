@@ -267,6 +267,7 @@ function switchView(view) {
   const viewAI = document.getElementById("viewAI");
   const viewResumes = document.getElementById("viewResumes");
   const viewInterviews = document.getElementById("viewInterviews");
+  const viewCareer = document.getElementById("viewCareer");
 
   viewDashboard.style.display = view === "dashboard" ? "block" : "none";
   viewKanban.style.display = view === "kanban" ? "block" : "none";
@@ -274,13 +275,73 @@ function switchView(view) {
   if (viewAI) viewAI.style.display = view === "ai" ? "block" : "none";
   if (viewResumes) viewResumes.style.display = view === "resumes" ? "block" : "none";
   if (viewInterviews) viewInterviews.style.display = view === "interviews" ? "block" : "none";
+  if (viewCareer) viewCareer.style.display = view === "career" ? "block" : "none";
 
   if (view === "dashboard") loadDashboardData();
   if (view === "kanban") loadKanbanData();
   if (view === "contacts") loadContactsData();
   if (view === "resumes") loadResumesData();
   if (view === "interviews") loadInterviewsData();
+  if (view === "career") loadCareerData();
 }
+
+// CAREER EXECUTION & ADAPTIVE GROWTH (Module 7)
+document.getElementById("btnGenerateCareerRoadmap")?.addEventListener("click", async () => {
+  const role = prompt("Enter Target Career Role (e.g. 'Senior Python Backend Engineer'):");
+  try {
+    const url = role ? `/career/roadmaps/generate?target_role=${encodeURIComponent(role)}` : "/career/roadmaps/generate";
+    await apiRequest(url, { method: "POST" });
+    loadCareerData();
+  } catch (err) {
+    alert("Error generating roadmap: " + err.message);
+  }
+});
+
+document.getElementById("btnAdaptCareerStrategy")?.addEventListener("click", async () => {
+  try {
+    await apiRequest("/career/roadmaps/adapt", { method: "POST" });
+    loadCareerData();
+    alert("Roadmap successfully adapted to new execution strategy version!");
+  } catch (err) {
+    alert("Error adapting strategy: " + err.message);
+  }
+});
+
+async function loadCareerData() {
+  try {
+    const metrics = await apiRequest("/career/progress");
+    document.getElementById("gaugeTaskRate").textContent = `${metrics.task_completion_rate}% (${metrics.completed_tasks}/${metrics.total_tasks})`;
+    document.getElementById("gaugeAppRate").textContent = `${metrics.application_response_rate}%`;
+    document.getElementById("gaugeInterviewScore").textContent = `${metrics.interview_score_avg}/100`;
+
+    const active = await apiRequest("/career/roadmaps/active");
+    if (active) {
+      document.getElementById("roadmapTitle").textContent = `${active.target_role} (Roadmap v${active.version})`;
+      document.getElementById("roadmapObjective").textContent = active.objective;
+
+      const milestonesEl = document.getElementById("roadmapMilestones");
+      milestonesEl.innerHTML = "";
+
+      const msList = active.milestones || [];
+      msList.forEach((m) => {
+        const item = document.createElement("div");
+        item.style.padding = "1rem";
+        item.style.background = "rgba(15, 23, 42, 0.5)";
+        item.style.borderRadius = "8px";
+        item.style.border = "1px solid var(--border-color)";
+
+        item.innerHTML = `
+          <div style="font-weight: 600; color: var(--primary);">${escapeHtml(m.title)} <span style="font-size: 0.75rem; color: var(--text-muted);">(${escapeHtml(m.target_date || 'Ongoing')})</span></div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">${escapeHtml(m.description)}</div>
+        `;
+        milestonesEl.appendChild(item);
+      });
+    }
+  } catch (err) {
+    console.log("Career roadmap loading notice:", err.message);
+  }
+}
+
 
 // INTERVIEWS & MOCK COACH (Module 6)
 const interviewsList = document.getElementById("interviewsList");

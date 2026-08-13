@@ -38,6 +38,12 @@ from app.modules.interviews.models import (  # noqa: F401
     InterviewAnswer,
     AnswerEvaluation,
 )
+from app.modules.career.models import (  # noqa: F401
+    CareerRoadmap,
+    CareerMilestone,
+    CareerAdaptation,
+)
+
 
 
 
