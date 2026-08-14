@@ -1,648 +1,860 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Career OS — Job & Application OS</title>
+  <title>AI Career OS — Job, Application & AI Career Intelligence Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header Navbar -->
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="logo">
-        <span class="logo-icon">💼</span>
-        <span class="logo-text">AI Career <span class="accent">OS</span></span>
-        <span class="badge">Module 3</span>
+  <!-- AUTH SECTION (Show if not logged in) -->
+  <div id="authSection" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 420px;">
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <div class="logo-icon-box" style="margin: 0 auto 0.75rem; width: 44px; height: 44px; font-size: 1.4rem;">💼</div>
+        <h2 style="font-size: 1.4rem; font-weight: 700;">Welcome to AI Career OS</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Sign in to access your AI Career Copilot</p>
       </div>
-      <nav class="nav-links" id="navLinks" style="display: none;">
-        <button class="nav-btn active" data-view="dashboard" id="btnNavDashboard">📊 Dashboard</button>
-        <button class="nav-btn" data-view="kanban" id="btnNavKanban">📋 Kanban Board</button>
-        <button class="nav-btn" data-view="contacts" id="btnNavContacts">📇 Contacts</button>
-        <button class="nav-btn" data-view="resumes" id="btnNavResumes">📄 Resumes</button>
-        <button class="nav-btn" data-view="interviews" id="btnNavInterviews">🎤 Interviews</button>
-        <button class="nav-btn" data-view="career" id="btnNavCareer">🎯 Career Growth</button>
-        <button class="nav-btn" data-view="learning" id="btnNavLearning">📚 Learning Hub</button>
-        <button class="nav-btn" data-view="brand" id="btnNavBrand">🌟 Personal Brand</button>
-        <button class="nav-btn" data-view="opportunities" id="btnNavOpportunities">🎯 Opportunities</button>
-        <button class="nav-btn" data-view="network" id="btnNavNetwork">🤝 Networking CRM</button>
-        <button class="nav-btn" data-view="offers" id="btnNavOffers">💰 Offers & Decisions</button>
-        <button class="nav-btn" data-view="ai" id="btnNavAI">🤖 AI Copilot</button>
 
+      <div style="display: flex; background: var(--bg-input); padding: 3px; border-radius: 8px; margin-bottom: 1rem;">
+        <button class="btn btn-block active" id="tabLogin" style="font-size: 0.8rem; padding: 0.4rem;">Sign In</button>
+        <button class="btn btn-block" id="tabRegister" style="font-size: 0.8rem; padding: 0.4rem; background: transparent; color: var(--text-muted);">Create Account</button>
+      </div>
 
+      <form id="authForm">
+        <div class="form-group" id="groupName" style="display: none;">
+          <label>Full Name</label>
+          <input type="text" id="authName" placeholder="Anuj Saraswat">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="authEmail" required value="anuj.saraswat@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="authPassword" required value="password123">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="btnAuthSubmit">Sign In</button>
+      </form>
+      <div id="authError" style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--danger); text-align: center; display: none;"></div>
+    </div>
+  </div>
 
+  <!-- MAIN APP SHELL -->
+  <div id="appSection" class="app-shell">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <div class="logo-icon-box">💼</div>
+          <span>AI Career <span style="color: var(--primary);">OS</span></span>
+        </div>
+      </div>
 
-
-
-
-
+      <nav class="sidebar-nav">
+        <button class="nav-link active" data-view="dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </button>
+        <button class="nav-link" data-view="resumes">
+          <span class="nav-icon">📄</span> Resume Builder
+        </button>
+        <button class="nav-link" data-view="jobs">
+          <span class="nav-icon">🔍</span> Job Finder
+        </button>
+        <button class="nav-link" data-view="aiCoach">
+          <span class="nav-icon">🤖</span> AI Coach
+        </button>
+        <button class="nav-link" data-view="skillPath">
+          <span class="nav-icon">📈</span> Skill Path
+        </button>
+        <button class="nav-link" data-view="projects">
+          <span class="nav-icon">📁</span> Projects
+        </button>
+        <button class="nav-link" data-view="kanban">
+          <span class="nav-icon">📋</span> Applications
+        </button>
+        <button class="nav-link" data-view="interviews">
+          <span class="nav-icon">🎤</span> Interview Prep
+        </button>
+        <button class="nav-link" data-view="learning">
+          <span class="nav-icon">📚</span> Learning
+        </button>
+        <button class="nav-link" data-view="offers">
+          <span class="nav-icon">💰</span> Offers
+        </button>
+        <button class="nav-link" data-view="analytics">
+          <span class="nav-icon">📊</span> Analytics
+        </button>
+        <button class="nav-link" data-view="settings">
+          <span class="nav-icon">⚙️</span> Settings
+        </button>
       </nav>
-      <div class="user-menu" id="userMenu" style="display: none;">
-        <span id="userGreeting" class="user-email">User</span>
-        <button class="btn btn-outline" id="btnLogout">Sign Out</button>
-      </div>
-    </div>
-  </header>
 
-  <main class="main-container">
-    <!-- Auth Section -->
-    <section id="authSection" class="auth-section">
-      <div class="glass-card auth-card">
-        <h2 class="auth-title">Welcome to AI Career OS</h2>
-        <p class="auth-subtitle">Centralized Job & Application Management Pipeline</p>
+      <!-- SIDEBAR USER PROFILE FOOTER -->
+      <div class="sidebar-user-card">
+        <div class="user-info">
+          <div class="user-avatar" id="avatarInitials">AS</div>
+          <div class="user-details">
+            <h5 id="userNameDisplay">Anuj Saraswat</h5>
+            <span id="userRoleBadge">Premium Plan</span>
+          </div>
+        </div>
+        <button class="btn-signout" id="btnLogout" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <!-- MAIN RIGHT WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOP HEADER BAR -->
+      <header class="top-header">
+        <div class="header-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearch" placeholder="Search anything (jobs, skills, notes)...">
+        </div>
+
+        <div class="header-actions">
+          <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">🌙</button>
+          <button class="btn-ask-ai" id="btnHeaderAskAI">
+            <span>🤖</span> Ask AI Assistant
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT AREA -->
+      <main class="page-content">
         
-        <div class="auth-tabs">
-          <button class="auth-tab active" id="tabLogin">Sign In</button>
-          <button class="auth-tab" id="tabRegister">Create Account</button>
-        </div>
+        <!-- VIEW 1: DASHBOARD (Matching Reference Images) -->
+        <section id="viewDashboard" class="app-view">
+          <div class="page-greeting">
+            <h1>Welcome back, <span id="greetingName">Anuj</span>! 👋</h1>
+            <p>Your AI Career Assistant is here to help you grow, apply and succeed.</p>
+          </div>
 
-        <form id="authForm" class="auth-form">
-          <div class="form-group" id="groupName" style="display: none;">
-            <div class="form-row">
-              <div>
-                <label>First Name</label>
-                <input type="text" id="authFirstName" placeholder="Alice">
+          <!-- TOP METRICS ROW -->
+          <div class="metrics-row">
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Profile Strength</span>
+                <div class="stat-value" id="valProfileStrength">85%</div>
+                <div class="stat-trend">🟢 Strong</div>
               </div>
-              <div>
-                <label>Last Name</label>
-                <input type="text" id="authLastName" placeholder="Engineer">
+              <div style="font-size: 1.8rem;">📈</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Applications</span>
+                <div class="stat-value" id="valApplications">24</div>
+                <div class="stat-trend" style="color: var(--primary);">Applied</div>
               </div>
+              <div style="font-size: 1.8rem;">📤</div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="authEmail" required placeholder="user@example.com">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="authPassword" required placeholder="••••••••">
-          </div>
-          <button type="submit" class="btn btn-primary btn-block" id="btnAuthSubmit">Sign In</button>
-        </form>
-        <div id="authError" class="alert alert-error" style="display: none;"></div>
-      </div>
-    </section>
 
-    <!-- Main App Section (Shown when authenticated) -->
-    <div id="appSection" style="display: none;">
-      
-      <!-- Metrics Bar -->
-      <section class="metrics-section">
-        <div class="metrics-grid">
-          <div class="metric-card metric-saved">
-            <div class="metric-value" id="countSaved">0</div>
-            <div class="metric-label">Saved Jobs</div>
-          </div>
-          <div class="metric-card metric-applied">
-            <div class="metric-value" id="countApplied">0</div>
-            <div class="metric-label">Applied</div>
-          </div>
-          <div class="metric-card metric-interview">
-            <div class="metric-value" id="countInterview">0</div>
-            <div class="metric-label">Interviews</div>
-          </div>
-          <div class="metric-card metric-offer">
-            <div class="metric-value" id="countOffer">0</div>
-            <div class="metric-label">Offers</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Global Error / Notice Banner -->
-      <div id="globalBanner" class="alert" style="display: none;"></div>
-
-      <!-- VIEW 1: DASHBOARD -->
-      <section id="viewDashboard" class="app-view">
-        <div class="toolbar">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Search jobs by title, company, location, keywords...">
-          </div>
-          
-          <div class="filter-controls">
-            <select id="filterStatus" class="select-control">
-              <option value="">All Statuses</option>
-              <option value="SAVED">Saved</option>
-              <option value="APPLIED">Applied</option>
-              <option value="UNDER_REVIEW">Under Review</option>
-              <option value="SHORTLISTED">Shortlisted</option>
-              <option value="INTERVIEW">Interview</option>
-              <option value="OFFER">Offer</option>
-              <option value="REJECTED">Rejected</option>
-            </select>
-
-            <select id="filterRemote" class="select-control">
-              <option value="">All Locations</option>
-              <option value="REMOTE">Remote</option>
-              <option value="HYBRID">Hybrid</option>
-              <option value="ONSITE">Onsite</option>
-            </select>
-
-            <label class="checkbox-label">
-              <input type="checkbox" id="filterFavorite"> ⭐ Favorites
-            </label>
-
-            <button class="btn btn-primary" id="btnOpenAddJobModal">+ Add Job</button>
-          </div>
-        </div>
-
-        <!-- Jobs Grid / List -->
-        <div id="jobsLoading" class="loading-spinner" style="display: none;">
-          <div class="spinner"></div>
-          <p>Loading jobs...</p>
-        </div>
-
-        <div id="jobsEmpty" class="empty-state" style="display: none;">
-          <div class="empty-icon">📌</div>
-          <h3>No jobs found</h3>
-          <p>Start tracking your applications by adding your first job offer or opportunity.</p>
-          <button class="btn btn-primary" id="btnEmptyAddJob">+ Add Job</button>
-        </div>
-
-        <div id="jobsGrid" class="jobs-grid"></div>
-
-        <!-- Pagination Controls -->
-        <div class="pagination-bar" id="paginationBar" style="display: none;">
-          <button class="btn btn-outline" id="btnPrevPage" disabled>← Previous</button>
-          <span class="page-info" id="pageInfo">Page 1 of 1</span>
-          <button class="btn btn-outline" id="btnNextPage" disabled>Next →</button>
-        </div>
-      </section>
-
-      <!-- VIEW 2: KANBAN BOARD -->
-      <section id="viewKanban" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>Application Pipeline Board</h2>
-          <p class="section-desc">Drag or shift applications across recruitment stages</p>
-        </div>
-        <div class="kanban-board" id="kanbanBoard"></div>
-      </section>
-
-      <!-- VIEW 3: RECRUITER CONTACTS DIRECTORY -->
-      <section id="viewContacts" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>Recruiter & HR Directory</h2>
-          <button class="btn btn-primary" id="btnOpenAddContactModal">+ Add Contact</button>
-        </div>
-        <div id="contactsGrid" class="contacts-grid"></div>
-      </section>
-
-      <!-- VIEW 5: RESUMES & TAILORING -->
-      <section id="viewResumes" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>📄 Resume Intelligence & Versioning</h2>
-          <form id="uploadResumeForm" style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="file" id="resumeFileInput" accept=".pdf,.docx,.doc,.txt" required style="max-width: 250px;">
-            <button type="submit" class="btn btn-primary" id="btnUploadResume">Upload Resume</button>
-          </form>
-        </div>
-        <div id="resumesList" class="resumes-grid"></div>
-      </section>
-
-      <!-- VIEW 6: MOCK INTERVIEWS & COACH -->
-      <section id="viewInterviews" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🎤 Interview Intelligence & Live AI Coach</h2>
-          <button class="btn btn-primary" id="btnOpenScheduleInterviewModal">+ Schedule Interview</button>
-        </div>
-        <div id="interviewsList" class="interviews-grid"></div>
-      </section>
-
-      <!-- VIEW 7: CAREER EXECUTION & ADAPTIVE GROWTH -->
-      <section id="viewCareer" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🎯 AI Career Execution & Adaptive Roadmap</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnGenerateCareerRoadmap">⚡ Generate Versioned Roadmap</button>
-            <button class="btn btn-outline btn-sm" id="btnAdaptCareerStrategy">🔄 Adapt Strategy</button>
-          </div>
-        </div>
-
-        <div id="careerContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3 id="roadmapTitle">Active Career Roadmap</h3>
-              <p id="roadmapObjective" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Select 'Generate Versioned Roadmap' to build your personalized career milestones.</p>
-              <div id="roadmapMilestones" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>📊 Execution Gauges</h4>
-              <div style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div>Task Completion: <strong id="gaugeTaskRate">0%</strong></div>
-                <div>Application Conversion: <strong id="gaugeAppRate">0%</strong></div>
-                <div>Mock Interview Avg: <strong id="gaugeInterviewScore">0/100</strong></div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Interviews</span>
+                <div class="stat-value" id="valInterviews">6</div>
+                <div class="stat-trend" style="color: var(--accent);">Upcoming</div>
               </div>
+              <div style="font-size: 1.8rem;">🎤</div>
             </div>
-          </div>
-        </div>
-      <!-- VIEW 8: AI LEARNING HUB -->
-      <section id="viewLearning" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>📚 AI Learning Hub & Adaptive Skill Development</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnGenerateLearningPath">⚡ Generate Learning Path</button>
-            <button class="btn btn-outline btn-sm" id="btnAskTutorModal">🎓 Ask AI Tutor (RAG)</button>
-          </div>
-        </div>
 
-        <div id="learningContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3 id="learningPathTitle">Personalized Curriculum</h3>
-              <p id="learningPathSub" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Click 'Generate Learning Path' to build custom modules derived from Module 7 skill gaps.</p>
-              <div id="learningModules" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>🧪 AI Practice & Quiz</h4>
-              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">Test your knowledge to update skill proficiency in Module 2.</p>
-              <button class="btn btn-outline btn-sm btn-block" id="btnGeneratePractice" style="margin-bottom: 0.5rem;">Generate Docker Challenge</button>
-              <button class="btn btn-primary btn-sm btn-block" id="btnSubmitAssessment">Submit Assessment</button>
-            </div>
-          </div>
-        </div>
-      <!-- VIEW 9: AI PORTFOLIO & PERSONAL BRANDING -->
-      <section id="viewBrand" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🌟 AI Portfolio & Personal Branding Engine</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnAnalyzeBrand">🔍 Analyze Brand & Visibility</button>
-            <button class="btn btn-outline btn-sm" id="btnGeneratePortfolio">🌐 Build Role Portfolio</button>
-            <button class="btn btn-outline btn-sm" id="btnOptimizeLinkedIn">💼 Optimize LinkedIn</button>
-            <button class="btn btn-primary btn-sm" id="btnGenerateContent">✍️ Content Studio</button>
-          </div>
-        </div>
-
-        <div id="brandContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3 id="portfolioTitle">Active Role Portfolio</h3>
-              <p id="portfolioBio" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Click 'Build Role Portfolio' to convert your skills and project evidence into recruiter case studies.</p>
-              <div id="portfolioProjects" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>📊 Brand Visibility Score</h4>
-              <div style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div>Overall Brand Score: <strong id="brandOverallScore">77.5 / 100</strong></div>
-                <div>Portfolio Score: <strong id="brandPortfolioScore">80 / 100</strong></div>
-                <div>GitHub Quality: <strong id="brandGithubScore">75 / 100</strong></div>
-                <div>LinkedIn Alignment: <strong id="brandLinkedinScore">70 / 100</strong></div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Job Matches</span>
+                <div class="stat-value" id="valJobMatches">18</div>
+                <div class="stat-trend" style="color: var(--accent-cyan);">High Match</div>
               </div>
+              <div style="font-size: 1.8rem;">🎯</div>
             </div>
 
-            <div class="glass-card" style="padding: 1.25rem;">
-              <h4>💡 Visibility Recommendations</h4>
-              <div id="brandRecommendations" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                <div>- Publish a technical article on Docker containerization best practices</div>
-                <div>- Add microservice architectural diagrams to GitHub README</div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Skills</span>
+                <div class="stat-value" id="valSkills">32</div>
+                <div class="stat-trend" style="color: var(--success);">Acquired</div>
               </div>
-            </div>
-          </div>
-        </div>
-      <!-- VIEW 10: AI JOB MATCHING & OPPORTUNITY INTELLIGENCE -->
-      <section id="viewOpportunities" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🎯 AI Job Matching & Opportunity Intelligence</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnAnalyzeOpportunity">⚡ Analyze New Job Opportunity</button>
-          </div>
-        </div>
-
-        <div id="opportunitiesContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3>Ranked Opportunities</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Evaluated against your candidate profile, project evidence, and active career goal.</p>
-              <div id="opportunitiesList" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+              <div style="font-size: 1.8rem;">🎓</div>
             </div>
           </div>
 
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>📊 Active Opportunity Breakdown</h4>
-              <div id="oppMatchGauges" style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div>Overall Match Score: <strong id="gaugeOppMatch">88%</strong></div>
-                <div>Readiness Score: <strong id="gaugeOppReadiness">81%</strong></div>
-                <div>Skill Match: <strong id="gaugeOppSkill">90%</strong></div>
-                <div>Experience Match: <strong id="gaugeOppExp">85%</strong></div>
-              </div>
-            </div>
-
-            <div class="glass-card" style="padding: 1.25rem;">
-              <h4>📋 Application Strategy Checklist</h4>
-              <div id="oppStrategyChecklist" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                <div>- Tailor resume summary to highlight FastAPI</div>
-                <div>- Highlight AI Career OS microservice project</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- VIEW 11: AI NETWORKING & RECRUITER RELATIONSHIP CRM -->
-      <section id="viewNetwork" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🤝 AI Networking & Recruiter Relationship CRM</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnCreateContactModal">+ Add Contact</button>
-            <button class="btn btn-outline btn-sm" id="btnGenerateOutreachModal">✍️ Draft Outreach (Approval)</button>
-            <button class="btn btn-outline btn-sm" id="btnAnalyzeConversationModal">💬 Analyze Recruiter Message</button>
-          </div>
-        </div>
-
-        <div id="networkContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3>Recruiter Directory & Relationships</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Manage target company recruiters, hiring managers, and referral contacts.</p>
-              <div id="networkContactsList" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>📊 Network CRM Analytics</h4>
-              <div style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div>Total Network Contacts: <strong id="netTotalContacts">0</strong></div>
-                <div>Active Relationships: <strong id="netActiveRel">0</strong></div>
-                <div>Pending Outreach Drafts: <strong id="netPendingDrafts">0</strong></div>
-                <div>Recruiter Response Rate: <strong id="netResponseRate">28.5%</strong></div>
-              </div>
-            </div>
-
-            <div class="glass-card" style="padding: 1.25rem;">
-              <h4>📝 Pending Outreach Drafts (Human Approval)</h4>
-              <div id="pendingOutreachList" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                <div>No pending drafts requiring review.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- VIEW 12: AI OFFER MANAGEMENT, NEGOTIATION & CAREER DECISION -->
-      <section id="viewOffers" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>💰 AI Offer Management, Negotiation & Career Decision Engine</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-primary btn-sm" id="btnAnalyzeOfferModal">+ Analyze New Offer</button>
-            <button class="btn btn-outline btn-sm" id="btnNegotiateOfferModal">💬 Generate Negotiation Strategy</button>
-            <button class="btn btn-outline btn-sm" id="btnTransitionPlanModal">🚀 30/60/90 Day Onboarding Plan</button>
-          </div>
-        </div>
-
-        <div id="offersContainer" style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem;">
-          <div>
-            <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.25rem;">
-              <h3>Active Career Offers</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem;">Evaluated with deterministic compensation arithmetic, market benchmarking, and AI risk analysis.</p>
-              <div id="offersList" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h4>📊 Active Offer Decision Advisor</h4>
-              <div style="margin-top: 1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div>Overall Offer Score: <strong id="offerOverallScore">88.5 / 100</strong></div>
-                <div>Guaranteed Cash: <strong id="offerGuaranteedCash">₹13.0 LPA</strong></div>
-                <div>Market Positioning: <strong id="offerMarketPos">Above Median</strong></div>
-                <div>AI Decision Recommendation: <span style="background: rgba(34, 197, 94, 0.2); color: #4ade80; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;" id="offerDecisionRec">ACCEPT</span></div>
-              </div>
-            </div>
-
-            <div class="glass-card" style="padding: 1.25rem;">
-              <h4>✍️ Negotiation Counter-Offer Draft</h4>
-              <div id="offerNegotiationDraft" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                <div>Select an offer and click 'Generate Negotiation Strategy' to draft a counter-offer email.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-
-
-
-
-
-
-      <!-- VIEW 4: AI CAREER COPILOT -->
-      <section id="viewAI" class="app-view" style="display: none;">
-        <div class="toolbar">
-          <h2>🤖 AI Career Intelligence Engine</h2>
-          <div class="ai-quick-actions">
-            <button class="btn btn-outline btn-sm" id="btnAiAnalyzeCareer">📊 Analyze Strategy</button>
-            <button class="btn btn-outline btn-sm" id="btnAiPlanDaily">📅 Generate Daily Plan</button>
-          </div>
-        </div>
-
-        <div class="ai-container">
-          <div class="glass-card ai-chat-card">
-            <div class="chat-messages" id="chatMessages">
-              <div class="chat-msg system-msg">
-                <strong>🤖 AI Copilot</strong>: Welcome! Ask me about job matching, interview prep, skill gap analysis, or career strategy.
-              </div>
-            </div>
+          <!-- DASHBOARD MAIN GRID -->
+          <div class="dashboard-grid">
             
-            <form id="chatForm" class="chat-input-bar">
-              <input type="text" id="chatInput" placeholder="Ask AI Copilot (e.g. 'Match me with Python Developer role' or 'Prepare interview questions')..." required>
-              <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-          </div>
-        </div>
-      </section>
+            <!-- LEFT COLUMN -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- TODAY'S PLAN -->
+              <div class="card">
+                <div class="card-title">
+                  <span>Today's Plan</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="planProgressText">Progress: 60%</span>
+                </div>
+                
+                <div class="task-checklist" id="checklistTasks">
+                  <div class="checklist-item done">
+                    <div class="checklist-left">
+                      <input type="checkbox" class="checklist-checkbox" checked>
+                      <span class="checklist-title">Improve Python skills</span>
+                    </div>
+                    <span class="checklist-time">45m</span>
+                  </div>
 
+                  <div class="checklist-item">
+                    <div class="checklist-left">
+                      <input type="checkbox" class="checklist-checkbox">
+                      <span class="checklist-title">Apply to 3 Data Engineer jobs</span>
+                    </div>
+                    <span class="checklist-time">30m</span>
+                  </div>
 
-    </div>
-  </main>
+                  <div class="checklist-item">
+                    <div class="checklist-left">
+                      <input type="checkbox" class="checklist-checkbox">
+                      <span class="checklist-title">System Design practice</span>
+                    </div>
+                    <span class="checklist-time">60m</span>
+                  </div>
 
-  <!-- MODAL 1: ADD / EDIT JOB -->
-  <div class="modal-overlay" id="jobModal" style="display: none;">
-    <div class="glass-card modal-card">
-      <div class="modal-header">
-        <h3 id="jobModalTitle">Add New Job</h3>
-        <button class="btn-close" id="btnCloseJobModal">✕</button>
-      </div>
-      <form id="jobForm" class="modal-form">
-        <input type="hidden" id="jobEditId">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Job Title *</label>
-            <input type="text" id="jobTitle" required placeholder="Senior Full-Stack Engineer">
-          </div>
-          <div class="form-group">
-            <label>Company Name *</label>
-            <input type="text" id="jobCompanyName" required placeholder="Tech Corp">
-          </div>
-        </div>
+                  <div class="checklist-item">
+                    <div class="checklist-left">
+                      <input type="checkbox" class="checklist-checkbox">
+                      <span class="checklist-title">Resume review</span>
+                    </div>
+                    <span class="checklist-time">20m</span>
+                  </div>
+                </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text" id="jobLocation" placeholder="San Francisco, CA / Remote">
-          </div>
-          <div class="form-group">
-            <label>Work Type</label>
-            <select id="jobRemoteType" class="select-control">
-              <option value="REMOTE">Remote</option>
-              <option value="HYBRID">Hybrid</option>
-              <option value="ONSITE">Onsite</option>
-            </select>
-          </div>
-        </div>
+                <div class="progress-container">
+                  <div class="progress-header">
+                    <span>Total Progress</span>
+                    <span id="planPercentLabel">60%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" id="planPercentBar" style="width: 60%;"></div>
+                  </div>
+                </div>
+              </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>Min Salary ($ or ₹)</label>
-            <input type="number" id="jobSalaryMin" placeholder="100000">
-          </div>
-          <div class="form-group">
-            <label>Max Salary ($ or ₹)</label>
-            <input type="number" id="jobSalaryMax" placeholder="140000">
-          </div>
-          <div class="form-group">
-            <label>Currency</label>
-            <input type="text" id="jobCurrency" value="USD">
-          </div>
-        </div>
+              <!-- SKILL PROGRESS -->
+              <div class="card">
+                <div class="card-title">Skill Progress</div>
+                <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                  <div>
+                    <div class="progress-header">
+                      <span>Python (Advanced)</span>
+                      <span>80%</span>
+                    </div>
+                    <div class="progress-track">
+                      <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                  </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label>Job URL</label>
-            <input type="url" id="jobUrl" placeholder="https://linkedin.com/jobs/...">
+                  <div>
+                    <div class="progress-header">
+                      <span>SQL (Advanced)</span>
+                      <span>75%</span>
+                    </div>
+                    <div class="progress-track">
+                      <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="progress-header">
+                      <span>Azure (Intermediate)</span>
+                      <span>60%</span>
+                    </div>
+                    <div class="progress-track">
+                      <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="progress-header">
+                      <span>Power BI (Intermediate)</span>
+                      <span>50%</span>
+                    </div>
+                    <div class="progress-track">
+                      <div class="progress-fill" style="width: 50%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RECENT ACTIVITIES -->
+              <div class="card">
+                <div class="card-title">Recent Activities</div>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <span>Applied to <strong>Data Engineer at TCS</strong></span>
+                    <span style="color: var(--text-muted);">2h ago</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <span>Resume updated with Azure skills</span>
+                    <span style="color: var(--text-muted);">5h ago</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
+                    <span>Completed SQL Advanced lesson</span>
+                    <span style="color: var(--text-muted);">Yesterday</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>AI Mock Interview Completed (Score: 88%)</span>
+                    <span style="color: var(--text-muted);">2 days ago</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- AI RECOMMENDATION -->
+              <div class="card ai-recommendation-card">
+                <div class="card-title" style="color: var(--primary);">
+                  <span>🤖 AI Recommendation</span>
+                </div>
+                <p style="font-size: 0.85rem; line-height: 1.4;">Based on your profile, I recommend you focus on <strong>Data Engineering</strong> roles.</p>
+                
+                <div style="margin-top: 0.6rem;">
+                  <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Top Skills to improve:</span>
+                  <div class="skill-pills">
+                    <span class="pill">Azure Data Factory</span>
+                    <span class="pill">SQL</span>
+                    <span class="pill">Data Modeling</span>
+                    <span class="pill">Python</span>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnDashStartLearning">Start Learning</button>
+              </div>
+
+              <!-- JOB MATCHES -->
+              <div class="card">
+                <div class="card-title">
+                  <span>Job Matches</span>
+                  <button class="btn btn-outline btn-sm" id="btnDashViewJobs">View All →</button>
+                </div>
+                
+                <div class="job-match-list">
+                  <div class="job-match-item">
+                    <div class="job-match-company">
+                      <div class="company-logo-placeholder">TCS</div>
+                      <div class="job-match-details">
+                        <h6>Data Engineer</h6>
+                        <span>TCS • Bengaluru</span>
+                      </div>
+                    </div>
+                    <span class="match-score-badge">95% Match</span>
+                  </div>
+
+                  <div class="job-match-item">
+                    <div class="job-match-company">
+                      <div class="company-logo-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">NC</div>
+                      <div class="job-match-details">
+                        <h6>Azure Data Engineer</h6>
+                        <span>Networth Corp • Remote</span>
+                      </div>
+                    </div>
+                    <span class="match-score-badge">90% Match</span>
+                  </div>
+
+                  <div class="job-match-item">
+                    <div class="job-match-company">
+                      <div class="company-logo-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">AC</div>
+                      <div class="job-match-details">
+                        <h6>Junior Data Engineer</h6>
+                        <span>Accenture • Hybrid</span>
+                      </div>
+                    </div>
+                    <span class="match-score-badge">85% Match</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI CAREER ASSISTANT QUICK CHAT CARD -->
+              <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white;">
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;">AI Career Assistant</h4>
+                <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.75rem;">Hi Anuj! I can help you with:</p>
+                <div style="font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem;">
+                  <div>✓ Resume Review</div>
+                  <div>✓ Mock Interviews</div>
+                  <div>✓ Career Guidance</div>
+                  <div>✓ Skill Recommendations</div>
+                </div>
+                <button class="btn btn-block" style="background: white; color: var(--primary); font-weight: 700;" id="btnDashChatAI">Chat with AI</button>
+              </div>
+
+            </div>
+
           </div>
-          <div class="form-group">
-            <label>Source</label>
-            <input type="text" id="jobSource" placeholder="LinkedIn, Referral, Indeed...">
-          </div>
-        </div>
+        </section>
 
-        <div class="form-group">
-          <label>Job Description</label>
-          <textarea id="jobDescription" rows="3" placeholder="Key responsibilities and tech stack..."></textarea>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline" id="btnCancelJobModal">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="btnSaveJob">Save Job</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL 2: JOB DETAILS & APPLICATION TRACKING -->
-  <div class="modal-overlay" id="detailsModal" style="display: none;">
-    <div class="glass-card modal-card modal-large">
-      <div class="modal-header">
-        <div>
-          <h2 id="detailJobTitle">Job Details</h2>
-          <p id="detailJobSub" class="detail-subtitle"></p>
-        </div>
-        <button class="btn-close" id="btnCloseDetailsModal">✕</button>
-      </div>
-      
-      <div class="details-body">
-        <!-- Details Sidebar / Info -->
-        <div class="details-main">
-          <div class="detail-badges" id="detailBadges"></div>
-          
-          <div class="detail-section">
-            <h4>Description</h4>
-            <p id="detailDescription" class="description-box">No description provided.</p>
-          </div>
-
-          <div class="detail-section">
-            <h4>Recruiter & Contact</h4>
-            <div id="detailRecruiterBox" class="contact-card-sm">
-              <p class="muted">No recruiter assigned.</p>
+        <!-- VIEW 2: RESUME BUILDER (Matching Reference Images) -->
+        <section id="viewResumes" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h1>Resume Builder</h1>
+              <p>Create a professional resume that gets you hired.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline" id="btnResumePreview">👁️ Preview</button>
+              <button class="btn btn-primary" id="btnResumeDownload">📥 Download PDF</button>
             </div>
           </div>
 
-          <!-- Application Tasks -->
-          <div class="detail-section">
-            <div class="section-header-flex">
-              <h4>Tasks & Action Items</h4>
-              <button class="btn btn-sm btn-outline" id="btnAddDetailTask">+ Task</button>
+          <div class="resume-builder-layout">
+            
+            <!-- LEFT PANEL: AI SUGGESTIONS -->
+            <div class="card">
+              <div class="card-title" style="font-size: 0.95rem;">AI Suggestions</div>
+              
+              <div class="ai-suggestion-box">
+                <h6>💡 Improve Summary</h6>
+                <p>Add key achievements and quantify your impact for Data Engineering roles.</p>
+              </div>
+
+              <div class="ai-suggestion-box">
+                <h6>⚡ Skills Optimization</h6>
+                <p>Add relevant skills like Azure Data Factory, Data Modeling, and PySpark.</p>
+              </div>
+
+              <div class="ai-suggestion-box">
+                <h6>🎯 Experience Enhancement</h6>
+                <p>Use stronger action verbs (e.g. 'Architected', 'Optimized', 'Automated').</p>
+              </div>
+
+              <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnApplyAISuggestions">Apply All Suggestions</button>
             </div>
-            <div id="detailTasksList" class="tasks-list"></div>
-          </div>
-        </div>
 
-        <!-- Details Sidebar: Timeline & Status Shift -->
-        <div class="details-sidebar">
-          <div class="status-box">
-            <label>Application Stage</label>
-            <select id="detailStatusSelect" class="select-control status-select">
-              <option value="SAVED">Saved</option>
-              <option value="APPLIED">Applied</option>
-              <option value="UNDER_REVIEW">Under Review</option>
-              <option value="SHORTLISTED">Shortlisted</option>
-              <option value="ASSESSMENT">Assessment / OA</option>
-              <option value="INTERVIEW">Interview</option>
-              <option value="HR_ROUND">HR Round</option>
-              <option value="OFFER">Offer</option>
-              <option value="REJECTED">Rejected</option>
-              <option value="WITHDRAWN">Withdrawn</option>
-            </select>
+            <!-- CENTER PANEL: LIVE RESUME EDITOR / PREVIEW -->
+            <div class="resume-paper" id="resumePaper">
+              <h2 contenteditable="true" id="resName">Anuj Saraswat</h2>
+              <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;" contenteditable="true" id="resTitle">Aspiring Data Engineer</p>
+              <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;" contenteditable="true" id="resContact">anuj.saraswat@example.com • Noida, India • linkedin.com/in/anuj-saraswat</p>
+
+              <h3>Summary</h3>
+              <p style="font-size: 0.85rem; line-height: 1.5;" contenteditable="true" id="resSummary">Passionate Computer Science student skilled in Python, SQL, Azure, and data technologies. Strong problem-solving and analytical abilities.</p>
+
+              <h3>Skills</h3>
+              <p style="font-size: 0.85rem;" contenteditable="true" id="resSkills">Python • SQL • Azure • Data Structures • Power BI • ETL • Excel</p>
+
+              <h3>Experience</h3>
+              <div style="margin-bottom: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 0.85rem;">
+                  <span>Software Developer Intern — Tech Solutions</span>
+                  <span style="color: #64748b;">June 2024 - Aug 2024</span>
+                </div>
+                <ul style="font-size: 0.8rem; margin-left: 1.2rem; margin-top: 0.25rem;">
+                  <li>Developed backend APIs using Python and FastAPI</li>
+                  <li>Worked on database design and SQL queries</li>
+                  <li>Collaborated in a team to deliver features</li>
+                </ul>
+              </div>
+
+              <h3>Education</h3>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
+                <span>B.Tech Computer Science Engineering</span>
+                <span style="color: #64748b;">2022 - 2026</span>
+              </div>
+            </div>
+
+            <!-- RIGHT PANEL: RESUME SCORE & BREAKDOWN -->
+            <div class="card">
+              <div class="card-title" style="font-size: 0.95rem;">Resume Score</div>
+              
+              <div style="text-align: center; margin: 1rem 0;">
+                <div style="font-size: 2.4rem; font-weight: 700; color: var(--primary);">85 <span style="font-size: 1rem; color: var(--text-muted);">/100</span></div>
+                <p style="font-size: 0.8rem; color: var(--success); font-weight: 600; margin-top: 0.2rem;">Great! Your resume is strong.</p>
+              </div>
+
+              <div style="margin-top: 1rem;">
+                <div class="score-breakdown-bar">
+                  <div class="score-breakdown-info">
+                    <span>Content</span>
+                    <span>90%</span>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill" style="width: 90%;"></div></div>
+                </div>
+
+                <div class="score-breakdown-bar">
+                  <div class="score-breakdown-info">
+                    <span>Format</span>
+                    <span>84%</span>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill" style="width: 84%;"></div></div>
+                </div>
+
+                <div class="score-breakdown-bar">
+                  <div class="score-breakdown-info">
+                    <span>Skills</span>
+                    <span>85%</span>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill" style="width: 85%;"></div></div>
+                </div>
+
+                <div class="score-breakdown-bar">
+                  <div class="score-breakdown-info">
+                    <span>Impact</span>
+                    <span>85%</span>
+                  </div>
+                  <div class="progress-track"><div class="progress-fill" style="width: 85%;"></div></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- VIEW 3: JOB FINDER -->
+        <section id="viewJobs" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Job Finder</h1>
+            <p>Find the best jobs tailored for you.</p>
           </div>
 
-          <!-- Timeline -->
-          <div class="timeline-box">
-            <h4>Application Timeline</h4>
-            <div id="detailTimeline" class="timeline"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="job-finder-split">
+            <!-- LEFT LIST -->
+            <div>
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="jobSearchQuery" placeholder="Search by title or skill..." style="flex: 1;">
+                <button class="btn btn-primary" id="btnFilterJobs">Search</button>
+              </div>
 
-  <!-- MODAL 3: CONTACT FORM -->
-  <div class="modal-overlay" id="contactModal" style="display: none;">
-    <div class="glass-card modal-card">
-      <div class="modal-header">
-        <h3>Add Recruiter / Contact</h3>
-        <button class="btn-close" id="btnCloseContactModal">✕</button>
-      </div>
-      <form id="contactForm" class="modal-form">
-        <div class="form-group">
-          <label>Name *</label>
-          <input type="text" id="contactName" required placeholder="Rahul Sharma">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Designation</label>
-            <input type="text" id="contactDesignation" placeholder="Senior Recruiter">
+              <div id="jobListCards">
+                <div class="job-card-selectable active">
+                  <div style="display: flex; justify-content: space-between;">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">Data Engineer</h5>
+                    <span class="match-score-badge">95% Match</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--primary);">TCS • Bengaluru</p>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Onsite</p>
+                </div>
+
+                <div class="job-card-selectable">
+                  <div style="display: flex; justify-content: space-between;">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">Azure Data Engineer</h5>
+                    <span class="match-score-badge">90% Match</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--primary);">Networth Corp • Remote</p>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Remote</p>
+                </div>
+
+                <div class="job-card-selectable">
+                  <div style="display: flex; justify-content: space-between;">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">Junior Data Engineer</h5>
+                    <span class="match-score-badge">85% Match</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--primary);">Accenture • Hybrid</p>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Hybrid</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT DETAIL VIEW -->
+            <div class="card" id="jobDetailPane">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div>
+                  <h2 style="font-size: 1.3rem;">Data Engineer</h2>
+                  <p style="color: var(--primary); font-weight: 600;">TCS — Bengaluru, India</p>
+                </div>
+                <button class="btn btn-primary" id="btnApplyJob">Apply Now</button>
+              </div>
+
+              <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
+                <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">Key Responsibilities</h4>
+                <ul style="font-size: 0.85rem; color: var(--text-muted); margin-left: 1.2rem; line-height: 1.6;">
+                  <li>Build and maintain ETL data pipelines</li>
+                  <li>Work with Azure Data Services & PySpark</li>
+                  <li>Optimize SQL data warehouse queries</li>
+                  <li>Collaborate with cross-functional analytics teams</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="contactEmail" placeholder="rahul@company.com">
+        </section>
+
+        <!-- VIEW 4: AI COACH (Matching Reference Images) -->
+        <section id="viewAICoach" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>AI Career Coach</h1>
+            <p>Your personal career coach available 24/7.</p>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Phone</label>
-            <input type="text" id="contactPhone" placeholder="+1 555-0199">
+
+          <div class="coach-chat-container">
+            <!-- CHAT CARD -->
+            <div class="card chat-box-card">
+              <div class="chat-messages-area" id="coachChatMessages">
+                <div class="chat-msg-bubble ai">
+                  <strong>🤖 AI Career Coach</strong><br>
+                  Great choice! Data Engineering is in high demand. Here's a roadmap for you:<br>
+                  1. Strengthen SQL and Python<br>
+                  2. Learn Cloud (Azure/AWS)<br>
+                  3. Master Data Engineering tools (PySpark, Databricks)<br>
+                  4. Build real-world pipeline projects
+                </div>
+
+                <div class="chat-msg-bubble user">
+                  What skills should I focus on for Azure Data Engineer roles?
+                </div>
+
+                <div class="chat-msg-bubble ai">
+                  Based on current market trends, focus on:<br>
+                  • Azure Data Factory<br>
+                  • PySpark & Databricks<br>
+                  • Azure Synapse Analytics<br>
+                  • Data Modeling & SQL
+                </div>
+              </div>
+
+              <form id="coachChatForm" class="chat-input-row">
+                <input type="text" id="coachChatInput" placeholder="Ask anything about your career..." required>
+                <button type="submit" class="btn btn-primary">Send</button>
+              </form>
+            </div>
+
+            <!-- RIGHT SIDEBAR: COACH TOOLS -->
+            <div class="card">
+              <div class="card-title">Coach Tools</div>
+              
+              <button class="coach-tool-btn" id="toolResumeReview">
+                <span>📄 Resume Review</span>
+                <span>→</span>
+              </button>
+
+              <button class="coach-tool-btn" id="toolMockInterview">
+                <span>🎤 Mock Interview</span>
+                <span>→</span>
+              </button>
+
+              <button class="coach-tool-btn" id="toolSkillGap">
+                <span>📈 Skill Gap Analysis</span>
+                <span>→</span>
+              </button>
+
+              <button class="coach-tool-btn" id="toolRoadmap">
+                <span>🎯 Career Roadmap</span>
+                <span>→</span>
+              </button>
+            </div>
           </div>
-          <div class="form-group">
-            <label>LinkedIn URL</label>
-            <input type="url" id="contactLinkedin" placeholder="https://linkedin.com/in/...">
+        </section>
+
+        <!-- VIEW 5: SKILL PATH (Matching Reference Images) -->
+        <section id="viewSkillPath" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Skill Path</h1>
+            <p>Personalized learning path for your goals.</p>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline" id="btnCancelContactModal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Contact</button>
-        </div>
-      </form>
+
+          <div style="display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem;">
+            <!-- LEFT TIMELINE -->
+            <div class="card">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Data Engineer Roadmap</h3>
+              
+              <div class="roadmap-timeline">
+                <div class="roadmap-step completed">
+                  <div class="roadmap-step-header">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">1. SQL & Database Fundamentals</h5>
+                    <span class="badge-status completed">Completed</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">Master queries, indexing, joins, and schema normalization.</p>
+                </div>
+
+                <div class="roadmap-step">
+                  <div class="roadmap-step-header">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">2. Python for Data Engineering</h5>
+                    <span class="badge-status in-progress">In Progress</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">Pandas, PySpark, API integration, and file parsing.</p>
+                </div>
+
+                <div class="roadmap-step locked">
+                  <div class="roadmap-step-header">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">3. Data Modeling</h5>
+                    <span class="badge-status locked">Locked</span>
+                  </div>
+                </div>
+
+                <div class="roadmap-step locked">
+                  <div class="roadmap-step-header">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">4. ETL & Data Warehousing</h5>
+                    <span class="badge-status locked">Locked</span>
+                  </div>
+                </div>
+
+                <div class="roadmap-step locked">
+                  <div class="roadmap-step-header">
+                    <h5 style="font-size: 0.95rem; font-weight: 600;">5. Cloud (Azure)</h5>
+                    <span class="badge-status locked">Locked</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT PROGRESS -->
+            <div class="card">
+              <div class="card-title">Current Progress</div>
+              <div style="text-align: center; margin: 1.5rem 0;">
+                <div style="font-size: 2.8rem; font-weight: 700; color: var(--primary);">45%</div>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Overall Progress</p>
+              </div>
+
+              <div style="background: var(--bg-input); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Upcoming</span>
+                <h6 style="font-size: 0.9rem; margin-top: 0.2rem;">Data Modeling</h6>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Next season</span>
+                <button class="btn btn-primary btn-block btn-sm" style="margin-top: 0.75rem;">Continue Learning</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 6: PROJECTS -->
+        <section id="viewProjects" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Projects & Role Portfolio</h1>
+            <p>Showcase real-world engineering project evidence.</p>
+          </div>
+          <div class="card">
+            <h3>Real-time Data Pipeline with Azure</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Automated ETL pipeline using Azure Data Factory, Databricks, and Synapse.</p>
+          </div>
+        </section>
+
+        <!-- VIEW 7: KANBAN -->
+        <section id="viewKanban" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Applications Pipeline Board</h1>
+            <p>Track applications across recruitment stages.</p>
+          </div>
+          <div style="display: flex; gap: 1rem; overflow-x: auto;" id="kanbanCols">
+            <div class="card" style="flex: 0 0 260px;">
+              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Saved (2)</h4>
+              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
+                <h6 style="font-size: 0.85rem;">ETL Developer</h6>
+                <span style="font-size: 0.75rem; color: var(--primary);">Capgemini</span>
+              </div>
+            </div>
+
+            <div class="card" style="flex: 0 0 260px;">
+              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Applied (5)</h4>
+              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
+                <h6 style="font-size: 0.85rem;">Data Engineer</h6>
+                <span style="font-size: 0.75rem; color: var(--primary);">TCS</span>
+              </div>
+            </div>
+
+            <div class="card" style="flex: 0 0 260px;">
+              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Interview (3)</h4>
+              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
+                <h6 style="font-size: 0.85rem;">Azure Data Engineer</h6>
+                <span style="font-size: 0.75rem; color: var(--primary);">Networth Corp</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 8: INTERVIEW PREP -->
+        <section id="viewInterviews" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Interview Prep</h1>
+            <p>Mock interviews and technical practice.</p>
+          </div>
+          <div class="card">
+            <h3>Technical Interview Practice</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Practice Python, SQL, and Azure architecture questions.</p>
+          </div>
+        </section>
+
+        <!-- VIEW 9: LEARNING -->
+        <section id="viewLearning" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Learning Hub</h1>
+            <p>Interactive skill building challenges.</p>
+          </div>
+          <div class="card">
+            <h3>Python & SQL Modules</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Self-paced learning paths and exercises.</p>
+          </div>
+        </section>
+
+        <!-- VIEW 10: OFFERS -->
+        <section id="viewOffers" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Offers & Decisions</h1>
+            <p>Compensation analysis and AI offer guidance.</p>
+          </div>
+          <div class="card">
+            <h3>Active Offer: Data Engineer</h3>
+            <p style="font-size: 0.85rem; color: var(--success); font-weight: 600;">Recommendation: ACCEPT</p>
+          </div>
+        </section>
+
+        <!-- VIEW 11: ANALYTICS (Matching Reference Images) -->
+        <section id="viewAnalytics" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Analytics</h1>
+            <p>Track your progress and performance.</p>
+          </div>
+
+          <div class="metrics-row">
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Profile Views</span>
+                <div class="stat-value">128</div>
+                <div class="stat-trend">+12%</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Applications</span>
+                <div class="stat-value">24</div>
+                <div class="stat-trend">+16%</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Interview Calls</span>
+                <div class="stat-value">6</div>
+                <div class="stat-trend">+20%</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Offers</span>
+                <div class="stat-value">1</div>
+                <div class="stat-trend">+100%</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 12: SETTINGS -->
+        <section id="viewSettings" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Settings</h1>
+            <p>Manage your account settings and preferences.</p>
+          </div>
+          <div class="card" style="max-width: 500px;">
+            <div class="form-group">
+              <label>Target Role Preference</label>
+              <input type="text" value="Data Engineer">
+            </div>
+            <div class="form-group">
+              <label>Target Location</label>
+              <input type="text" value="Bengaluru / Remote">
+            </div>
+            <button class="btn btn-primary">Save Settings</button>
+          </div>
+        </section>
+
+      </main>
     </div>
   </div>
 

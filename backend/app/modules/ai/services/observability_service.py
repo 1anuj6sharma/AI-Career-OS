@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.modules.ai.models import AIRun, AIToolCall
 
 
-def start_ai_run(db: Session, user_id: int, workflow_name: str, model: str = "gpt-4o-mini") -> AIRun:
+def start_ai_run(db: Session, user_id: int, workflow_name: str, model: str = "gemini-1.5-flash") -> AIRun:
     run = AIRun(
         user_id=user_id,
         workflow_name=workflow_name,

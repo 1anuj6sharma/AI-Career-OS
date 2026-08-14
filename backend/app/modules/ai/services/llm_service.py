@@ -14,7 +14,7 @@ class LLMService:
         self.primary_provider = os.getenv("AI_PRIMARY_PROVIDER", "gemini").lower()
         self.fallback_provider = os.getenv("AI_FALLBACK_PROVIDER", "groq").lower()
         self.gemini_model = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
-        self.groq_model = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")
+        self.groq_model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
     def get_llm(self, reasoning: bool = False) -> Any:
         # 1. Try Primary Provider (Google Gemini)
@@ -23,7 +23,7 @@ class LLMService:
             if api_key:
                 try:
                     from langchain_google_genai import ChatGoogleGenerativeAI
-                    model = "gemini-1.5-pro" if reasoning else self.gemini_model
+                    model = self.gemini_model
                     logger.info(f"Initializing Gemini LLM ({model})")
                     return ChatGoogleGenerativeAI(model=model, google_api_key=api_key, temperature=0.2)
                 except Exception as e:
