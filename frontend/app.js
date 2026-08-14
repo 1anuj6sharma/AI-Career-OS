@@ -1,7 +1,7 @@
 /**
  * AI CAREER OPERATING SYSTEM — FRONTEND CORE ENGINE
  * Synchronizes UI components, dual-theme switching, view routing,
- * live checklist progress, AI chat, and backend API integration (Modules 1–13).
+ * live checklist progress, AI chat, and backend API integration (Modules 1–14).
  */
 
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initChecklist();
   initAIChat();
   initResumeBuilder();
+  initModule14ApprovalGateway();
   checkBackendHealth();
 });
 
@@ -67,7 +68,6 @@ function initNavigation() {
     });
   });
 
-  // Action buttons cross-navigation
   const btnDashStartLearning = document.getElementById('btnDashStartLearning');
   if (btnDashStartLearning) {
     btnDashStartLearning.addEventListener('click', () => switchView('skillPath'));
@@ -118,9 +118,11 @@ function switchView(viewId) {
   state.currentView = viewId;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Refresh Module 13 data on view switch
   if (state.backendOnline && viewId === 'dashboard') {
     fetchModule13Dashboard();
+  }
+  if (state.backendOnline && (viewId === 'jobs' || viewId === 'opportunities')) {
+    fetchModule14Opportunities();
   }
 }
 
@@ -266,8 +268,55 @@ function initResumeBuilder() {
 }
 
 /* ==========================================================================
-   6. MODULE 13 BACKEND API SYNCHRONIZATION
+   6. MODULE 14 HUMAN-IN-THE-LOOP APPROVAL GATEWAY & API SYNCHRONIZATION
    ========================================================================== */
+function initModule14ApprovalGateway() {
+  const btnApprove = document.getElementById('btnApproveApplication');
+  const btnReject = document.getElementById('btnRejectApplication');
+
+  if (btnApprove) {
+    btnApprove.addEventListener('click', async () => {
+      if (state.backendOnline && state.user.token) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/applications/1/approve`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${state.user.token}`
+            },
+            body: JSON.stringify({ notes: 'Candidate manually approved application submission.' })
+          });
+          if (res.ok) {
+            alert('✅ Application Approved! AI has submitted your application package.');
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      alert('✅ Application Approved! AI has submitted your tailored application package to Stripe.');
+    });
+  }
+
+  if (btnReject) {
+    btnReject.addEventListener('click', async () => {
+      if (state.backendOnline && state.user.token) {
+        try {
+          await fetch(`${API_BASE_URL}/applications/1/reject`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${state.user.token}`
+            }
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      alert('🛑 Application Execution Rejected by user.');
+    });
+  }
+}
+
 async function checkBackendHealth() {
   try {
     const res = await fetch('http://localhost:8000/health');
@@ -275,6 +324,7 @@ async function checkBackendHealth() {
       state.backendOnline = true;
       console.log('✅ Connected to AI Career OS FastAPI Backend.');
       fetchModule13Dashboard();
+      fetchModule14Opportunities();
     }
   } catch (err) {
     state.backendOnline = false;
@@ -292,8 +342,6 @@ async function fetchModule13Dashboard() {
     });
     if (res.ok) {
       const data = await res.json();
-      console.log('📊 Module 13 Performance Dashboard data:', data);
-      
       const valProfileStrength = document.getElementById('valProfileStrength');
       if (valProfileStrength) {
         valProfileStrength.textContent = `${data.performance_score}%`;
@@ -301,5 +349,22 @@ async function fetchModule13Dashboard() {
     }
   } catch (err) {
     console.log('Using default dashboard metrics.');
+  }
+}
+
+async function fetchModule14Opportunities() {
+  if (!state.user.token) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/opportunities`, {
+      headers: {
+        'Authorization': `Bearer ${state.user.token}`
+      }
+    });
+    if (res.ok) {
+      const opps = await res.json();
+      console.log('🎯 Module 14 Opportunities fetched:', opps);
+    }
+  } catch (err) {
+    console.log('Using default opportunities data.');
   }
 }

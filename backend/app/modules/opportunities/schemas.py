@@ -50,6 +50,7 @@ class ApplicationStrategyOut(BaseModel):
 class JobOpportunityOut(BaseModel):
     id: int
     source: str
+    external_job_id: Optional[str] = None
     company_name: str
     title: str
     description: str
@@ -71,3 +72,104 @@ class CompanyIntelligenceOut(BaseModel):
     career_growth: float
     overall_fit: float
     analysis_summary: str
+
+
+# ============================================================================
+# MODULE 14 — OPPORTUNITY ACQUISITION & APPLICATION SCHEMAS
+# ============================================================================
+
+class OpportunityCreate(BaseModel):
+    company_name: str = Field(..., example="Stripe")
+    title: str = Field(..., example="Senior Backend Engineer")
+    description: str = Field(..., example="Build resilient payments APIs using Python, FastAPI, and Postgres")
+    location: Optional[str] = Field("Remote", example="Remote")
+    remote_status: str = Field("REMOTE", example="REMOTE")
+    salary_min: Optional[float] = Field(140000, example=140000)
+    salary_max: Optional[float] = Field(180000, example=180000)
+    source: str = Field("LINKEDIN", example="LINKEDIN")
+    external_job_id: Optional[str] = Field(None, example="job_stripe_9921")
+
+
+class OpportunityScoreOut(BaseModel):
+    id: int
+    opportunity_id: int
+    skill_score: float
+    experience_score: float
+    career_alignment_score: float
+    compensation_score: float
+    growth_score: float
+    company_score: float
+    overall_score: float
+    reasoning: Optional[str] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ApplicationPrepareQuery(BaseModel):
+    opportunity_id: int = Field(..., example=1)
+    target_role: Optional[str] = Field(None, example="Senior Backend Engineer")
+
+
+class ApplicationApprovalPayload(BaseModel):
+    notes: Optional[str] = Field(None, example="Approved by candidate for automated submission")
+
+
+class ApplicationEventOut(BaseModel):
+    id: int
+    application_id: int
+    event_type: str
+    description: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ApplicationDocumentOut(BaseModel):
+    id: int
+    application_id: int
+    document_type: str
+    content_text: Optional[str] = None
+    document_url: Optional[str] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ApplicationOut(BaseModel):
+    id: int
+    user_id: int
+    opportunity_id: int
+    resume_id: Optional[int] = None
+    cover_letter_id: Optional[int] = None
+    status: str
+    applied_at: Optional[datetime] = None
+    source: str
+    external_application_id: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    opportunity: Optional[JobOpportunityOut] = None
+    events: List[ApplicationEventOut] = []
+    documents: List[ApplicationDocumentOut] = []
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ApplicationFeedbackOut(BaseModel):
+    id: int
+    user_id: int
+    analysis_summary: str
+    insights_json: Optional[Dict[str, Any]] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class OpportunityAcquisitionDashboardOut(BaseModel):
+    total_opportunities_discovered: int
+    high_priority_matches_count: int
+    applications_prepared_count: int
+    applications_submitted_count: int
+    interviews_scheduled_count: int
+    recommended_opportunities: List[JobOpportunityOut] = []
+    active_applications: List[ApplicationOut] = []

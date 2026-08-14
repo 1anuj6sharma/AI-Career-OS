@@ -560,21 +560,56 @@
             <div class="card" id="jobDetailPane">
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
                 <div>
-                  <h2 style="font-size: 1.3rem;">Data Engineer</h2>
-                  <p style="color: var(--primary); font-weight: 600;">TCS — Bengaluru, India</p>
+                  <h2 style="font-size: 1.3rem;" id="oppDetailTitle">Senior Backend Engineer</h2>
+                  <p style="color: var(--primary); font-weight: 600;" id="oppDetailCompany">Stripe — Remote</p>
                 </div>
-                <button class="btn btn-primary" id="btnApplyJob">Apply Now</button>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);" id="oppDetailScore">91.5 <span style="font-size: 0.8rem; color: var(--text-muted);">/100</span></div>
+                  <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;">High Priority Match</span>
+                </div>
               </div>
 
-              <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
-                <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">Key Responsibilities</h4>
-                <ul style="font-size: 0.85rem; color: var(--text-muted); margin-left: 1.2rem; line-height: 1.6;">
-                  <li>Build and maintain ETL data pipelines</li>
-                  <li>Work with Azure Data Services & PySpark</li>
-                  <li>Optimize SQL data warehouse queries</li>
-                  <li>Collaborate with cross-functional analytics teams</li>
-                </ul>
+              <!-- MODULE 14 OPPORTUNITY SCORES BREAKDOWN -->
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem; background: var(--bg-surface); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Skill Match</span><br><strong style="font-size: 0.9rem; color: var(--success);">88%</strong></div>
+                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Career Alignment</span><br><strong style="font-size: 0.9rem; color: var(--primary);">95%</strong></div>
+                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Compensation</span><br><strong style="font-size: 0.9rem; color: var(--accent-cyan);">$150k-$190k</strong></div>
               </div>
+
+              <div style="border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.5rem;">
+                <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">Key Requirements & Evidence</h4>
+                <div style="font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem;">
+                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ Python</span>
+                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ FastAPI</span>
+                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ PostgreSQL</span>
+                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ Docker</span>
+                  <span style="background: rgba(239, 68, 68, 0.15); color: var(--danger); padding: 2px 8px; border-radius: 4px; font-weight: 600;">! AWS Cloud</span>
+                </div>
+              </div>
+
+              <!-- HUMAN-IN-THE-LOOP APPROVAL GATEWAY CARD -->
+              <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08)); border: 1.5px solid var(--primary); margin-top: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">🛡️ Human-in-the-Loop Approval Gateway</span>
+                  <span style="font-size: 0.7rem; padding: 2px 8px; background: rgba(245, 158, 11, 0.2); color: var(--accent); border-radius: 12px; font-weight: 600;">Status: PENDING_APPROVAL</span>
+                </div>
+                
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                  AI has prepared your tailored application package using verified Career Evidence. Please review and approve before submission:
+                </p>
+
+                <div style="font-size: 0.78rem; background: var(--bg-surface); padding: 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 0.75rem;">
+                  <div><strong>Selected Resume:</strong> Backend Resume v3</div>
+                  <div><strong>Grounded Highlights:</strong> FastAPI microservices, PostgreSQL indexing, Redis cache</div>
+                  <div style="margin-top: 0.25rem;"><strong>Cover Letter Preview:</strong> <em>"Dear Hiring Team at Stripe, I am writing to express my strong interest in the Senior Backend Engineer position..."</em></div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-primary btn-block" id="btnApproveApplication">✓ Approve & Submit Application</button>
+                  <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" id="btnRejectApplication">✕ Reject</button>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>

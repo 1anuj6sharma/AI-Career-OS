@@ -10,23 +10,22 @@ class OpportunityState(TypedDict, total=False):
     skills: List[str]
     projects: List[Dict[str, Any]]
     resume: Dict[str, Any]
-    skill_match: Dict[str, Any]
-    experience_match: Dict[str, Any]
-    project_match: Dict[str, Any]
-    resume_match: Dict[str, Any]
-    career_match: Dict[str, Any]
-    location_match: Dict[str, Any]
-    compensation_match: Dict[str, Any]
-    growth_match: Dict[str, Any]
-    match_score: Optional[float]
-    readiness_score: Optional[float]
-    skill_gaps: List[str]
-    risks: List[str]
+    
+    opportunities: List[Dict[str, Any]]
+    selected_opportunity: Dict[str, Any]
+    company_research: Dict[str, Any]
+    opportunity_score: float
+    opportunity_score_data: Dict[str, Any]
+    
     application_strategy: Dict[str, Any]
-    recommendation: str
+    resume_version: Dict[str, Any]
+    cover_letter: str
+    
+    approval_status: str  # PENDING, APPROVED, REJECTED
+    application_status: str  # PREPARED, PENDING_APPROVAL, SUBMITTED
+    application_id: Optional[int]
+    
+    feedback: Dict[str, Any]
     errors: List[str]
     current_node: str
-    retry_count: int
-    failed_sources: List[str]
-    partial_results: Dict[str, Any]
     approval_required: bool

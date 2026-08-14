@@ -161,3 +161,147 @@ class CompanyIntelligenceRecord(Base):
         server_default=func.now(),
         onupdate=func.now(),
     )
+
+
+# ============================================================================
+# MODULE 14 — OPPORTUNITY ACQUISITION ENTITIES
+# ============================================================================
+
+class OpportunityScore(Base):
+    __tablename__ = "opportunity_scores"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    opportunity_id = Column(
+        Integer,
+        ForeignKey("job_opportunities.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    skill_score = Column(Float, nullable=False, default=0.0)
+    experience_score = Column(Float, nullable=False, default=0.0)
+    career_alignment_score = Column(Float, nullable=False, default=0.0)
+    compensation_score = Column(Float, nullable=False, default=0.0)
+    growth_score = Column(Float, nullable=False, default=0.0)
+    company_score = Column(Float, nullable=False, default=0.0)
+    overall_score = Column(Float, nullable=False, default=0.0)
+    reasoning = Column(Text, nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class ApplicationStrategyRecord(Base):
+    __tablename__ = "application_strategies"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    opportunity_id = Column(
+        Integer,
+        ForeignKey("job_opportunities.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    resume_id = Column(Integer, nullable=True)
+    target_role = Column(String(200), nullable=False)
+    suggested_highlights = Column(JSON, nullable=True)
+    cover_letter_recommended = Column(Boolean, nullable=False, default=True)
+    strategy_json = Column(JSON, nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class ApplicationRecord(Base):
+    __tablename__ = "module14_applications"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    opportunity_id = Column(
+        Integer,
+        ForeignKey("job_opportunities.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    resume_id = Column(Integer, nullable=True)
+    cover_letter_id = Column(Integer, nullable=True)
+    status = Column(String(50), nullable=False, default="PREPARED", index=True) 
+    # PREPARED, PENDING_APPROVAL, APPROVED, REJECTED_BY_USER, SUBMITTED, SCREENING, ASSESSMENT, INTERVIEW, OFFER, REJECTED
+
+    applied_at = Column(DateTime(timezone=True), nullable=True)
+    source = Column(String(100), nullable=False, default="AI_CAREER_OS")
+    external_application_id = Column(String(200), nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+    )
+
+    user = relationship("User", backref="module14_applications")
+    opportunity = relationship("JobOpportunity")
+    events = relationship("ApplicationEventRecord", back_populates="application", cascade="all, delete-orphan")
+    documents = relationship("ApplicationDocumentRecord", back_populates="application", cascade="all, delete-orphan")
+
+
+class ApplicationEventRecord(Base):
+    __tablename__ = "application_events"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    application_id = Column(
+        Integer,
+        ForeignKey("module14_applications.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    event_type = Column(String(100), nullable=False, index=True)
+    description = Column(Text, nullable=False)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    application = relationship("ApplicationRecord", back_populates="events")
+
+
+class ApplicationDocumentRecord(Base):
+    __tablename__ = "application_documents"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    application_id = Column(
+        Integer,
+        ForeignKey("module14_applications.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_type = Column(String(50), nullable=False, default="RESUME") # RESUME, COVER_LETTER, PORTFOLIO
+    content_text = Column(Text, nullable=True)
+    document_url = Column(String(500), nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    application = relationship("ApplicationRecord", back_populates="documents")
+
+
+class ApplicationFeedbackRecord(Base):
+    __tablename__ = "application_feedback"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    analysis_summary = Column(Text, nullable=False)
+    insights_json = Column(JSON, nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    user = relationship("User", backref="application_feedback_records")
