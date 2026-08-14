@@ -79,7 +79,7 @@ def upgrade() -> None:
 
     # 4. Application Events Table
     op.create_table(
-        'application_events',
+        'module14_application_events',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
         sa.Column('application_id', sa.Integer(), nullable=False),
         sa.Column('event_type', sa.String(length=100), nullable=False),
@@ -88,8 +88,8 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(['application_id'], ['module14_applications.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_application_events_application_id'), 'application_events', ['application_id'], unique=False)
-    op.create_index(op.f('ix_application_events_event_type'), 'application_events', ['event_type'], unique=False)
+    op.create_index(op.f('ix_module14_application_events_application_id'), 'module14_application_events', ['application_id'], unique=False)
+    op.create_index(op.f('ix_module14_application_events_event_type'), 'module14_application_events', ['event_type'], unique=False)
 
     # 5. Application Documents Table
     op.create_table(
@@ -122,7 +122,7 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_table('application_feedback')
     op.drop_table('application_documents')
-    op.drop_table('application_events')
+    op.drop_table('module14_application_events')
     op.drop_table('module14_applications')
     op.drop_table('application_strategies')
     op.drop_table('opportunity_scores')

@@ -60,3 +60,7 @@ class FallbackMockLLM:
 class FallbackMessage:
     def __init__(self, content: str):
         self.content = content
+
+
+def get_llm_service() -> LLMService:
+    return LLMService()

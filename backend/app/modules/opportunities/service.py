@@ -44,7 +44,7 @@ class OpportunityService:
             raise JobOpportunityNotFoundException()
         return job
 
-    def list_recommended_opportunities((self), user_id: int) -> List[Dict[str, Any]]:
+    def list_recommended_opportunities(self, user_id: int) -> List[Dict[str, Any]]:
         opps = self.repo.list_opportunities()
         res = []
         for o in opps:

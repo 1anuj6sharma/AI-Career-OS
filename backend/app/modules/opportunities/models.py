@@ -253,7 +253,7 @@ class ApplicationRecord(Base):
 
 
 class ApplicationEventRecord(Base):
-    __tablename__ = "application_events"
+    __tablename__ = "module14_application_events"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     application_id = Column(
