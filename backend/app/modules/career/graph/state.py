@@ -1,20 +1,27 @@
 from typing import TypedDict, Optional, Dict, Any, List
 
 
-class CareerExecutionState(TypedDict, total=False):
+class CareerPerformanceState(TypedDict, total=False):
     user_id: int
     career_goal: Dict[str, Any]
-    current_skills: List[str]
-    required_skills: List[str]
+    current_role: Dict[str, Any]
+    target_role: Dict[str, Any]
+    skills: List[Dict[str, Any]]
     skill_gaps: List[Dict[str, Any]]
-    roadmap: Dict[str, Any]
+    active_goals: List[Dict[str, Any]]
     milestones: List[Dict[str, Any]]
     tasks: List[Dict[str, Any]]
-    application_metrics: Dict[str, Any]
-    interview_metrics: Dict[str, Any]
+    recent_activity: List[Dict[str, Any]]
     progress_metrics: Dict[str, Any]
-    feedback: List[str]
-    recommendations: List[str]
-    adaptation_required: bool
-    next_action: str
+    performance_score: float
+    blockers: List[Dict[str, Any]]
+    risks: List[Dict[str, Any]]
+    market_changes: List[Dict[str, Any]]
+    recommended_actions: List[str]
+    updated_roadmap: Dict[str, Any]
+    next_review_date: Optional[str]
     errors: List[str]
+
+
+# Backward compatibility alias
+CareerExecutionState = CareerPerformanceState

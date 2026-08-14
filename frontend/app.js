@@ -1,7 +1,7 @@
 /**
  * AI CAREER OPERATING SYSTEM — FRONTEND CORE ENGINE
  * Synchronizes UI components, dual-theme switching, view routing,
- * live checklist progress, AI chat, and backend API integration.
+ * live checklist progress, AI chat, and backend API integration (Modules 1–13).
  */
 
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -117,6 +117,11 @@ function switchView(viewId) {
 
   state.currentView = viewId;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Refresh Module 13 data on view switch
+  if (state.backendOnline && viewId === 'dashboard') {
+    fetchModule13Dashboard();
+  }
 }
 
 function capitalize(str) {
@@ -173,12 +178,11 @@ function initAIChat() {
     appendChatMessage('user', text);
     input.value = '';
 
-    // Show AI thinking indicator
-    const thinkingMsg = appendChatMessage('ai', '🤖 AI is analyzing your career context...');
+    const thinkingMsg = appendChatMessage('ai', '🤖 AI is analyzing your Career Performance State...');
 
     try {
       if (state.backendOnline) {
-        const response = await fetch(`${API_BASE_URL}/ai/chat`, {
+        const response = await fetch(`${API_BASE_URL}/career/coach`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -187,9 +191,8 @@ function initAIChat() {
           body: JSON.stringify({ message: text })
         });
         const data = await response.json();
-        thinkingMsg.innerHTML = `<strong>🤖 AI Career Coach</strong><br>${data.reply || data.response || 'Analysis complete based on your profile.'}`;
+        thinkingMsg.innerHTML = `<strong>🤖 AI Career Coach</strong><br>${data.reply || data.response || 'Analysis complete based on your active career state.'}`;
       } else {
-        // Fallback response generator
         setTimeout(() => {
           thinkingMsg.innerHTML = getFallbackAIResponse(text);
         }, 600);
@@ -201,7 +204,6 @@ function initAIChat() {
     }
   });
 
-  // Coach tools navigation
   ['toolResumeReview', 'toolMockInterview', 'toolSkillGap', 'toolRoadmap'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
@@ -264,7 +266,7 @@ function initResumeBuilder() {
 }
 
 /* ==========================================================================
-   6. BACKEND HEALTH CHECK & API SYNC
+   6. MODULE 13 BACKEND API SYNCHRONIZATION
    ========================================================================== */
 async function checkBackendHealth() {
   try {
@@ -272,9 +274,32 @@ async function checkBackendHealth() {
     if (res.ok) {
       state.backendOnline = true;
       console.log('✅ Connected to AI Career OS FastAPI Backend.');
+      fetchModule13Dashboard();
     }
   } catch (err) {
     state.backendOnline = false;
     console.log('ℹ️ Running in rich interactive frontend demo mode (Backend offline).');
+  }
+}
+
+async function fetchModule13Dashboard() {
+  if (!state.user.token) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/career/dashboard`, {
+      headers: {
+        'Authorization': `Bearer ${state.user.token}`
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log('📊 Module 13 Performance Dashboard data:', data);
+      
+      const valProfileStrength = document.getElementById('valProfileStrength');
+      if (valProfileStrength) {
+        valProfileStrength.textContent = `${data.performance_score}%`;
+      }
+    }
+  } catch (err) {
+    console.log('Using default dashboard metrics.');
   }
 }
