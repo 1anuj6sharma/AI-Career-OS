@@ -3,23 +3,16 @@ from typing import TypedDict, Optional, Dict, Any, List
 
 class NetworkingState(TypedDict, total=False):
     user_id: int
-    opportunity_id: Optional[int]
-    company_id: Optional[int]
-    contact_id: Optional[int]
-    user_profile: Dict[str, Any]
     career_goal: Dict[str, Any]
-    job: Dict[str, Any]
-    contact_profile: Dict[str, Any]
-    relationship: Dict[str, Any]
-    previous_interactions: List[Dict[str, Any]]
-    outreach_intent: Optional[str]
-    outreach_message: Optional[Dict[str, Any]]
-    approval_status: str
-    response: Optional[Dict[str, Any]]
-    response_classification: Optional[Dict[str, Any]]
-    next_action: Optional[str]
-    follow_up_date: Optional[str]
+    target_opportunities: List[Dict[str, Any]]
+    target_companies: List[str]
+    contacts: List[Dict[str, Any]]
+    relationship_assessments: List[Dict[str, Any]]
+    referral_opportunities: List[Dict[str, Any]]
+    networking_strategy: Dict[str, Any]
+    outreach_messages: List[Dict[str, Any]]
+    approval_status: str  # PENDING, APPROVED, REJECTED
+    interaction_results: List[Dict[str, Any]]
+    followups: List[Dict[str, Any]]
+    brand_analysis: Dict[str, Any]
     errors: List[str]
-    retry_count: int
-    failed_tools: List[str]
-    partial_results: Dict[str, Any]

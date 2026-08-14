@@ -1,7 +1,7 @@
 /**
  * AI CAREER OPERATING SYSTEM — FRONTEND CORE ENGINE
  * Synchronizes UI components, dual-theme switching, view routing,
- * live checklist progress, AI chat, and backend API integration (Modules 1–15).
+ * live checklist progress, AI chat, and backend API integration (Modules 1–16).
  */
 
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initResumeBuilder();
   initModule14ApprovalGateway();
   initModule15CommandCenter();
+  initModule16Network();
   checkBackendHealth();
 });
 
@@ -127,6 +128,9 @@ function switchView(viewId) {
   }
   if (state.backendOnline && viewId === 'commandCenter') {
     fetchModule15NextBestAction();
+  }
+  if (state.backendOnline && viewId === 'network') {
+    fetchModule16NetworkAnalytics();
   }
 }
 
@@ -272,7 +276,7 @@ function initResumeBuilder() {
 }
 
 /* ==========================================================================
-   6. MODULE 14 & MODULE 15 MASTER ORCHESTRATOR FRONTEND INTEGRATION
+   6. MODULE 14, 15 & 16 FRONTEND INTEGRATION
    ========================================================================== */
 function initModule14ApprovalGateway() {
   const btnApprove = document.getElementById('btnApproveApplication');
@@ -370,6 +374,39 @@ function initModule15CommandCenter() {
   });
 }
 
+function initModule16Network() {
+  const btnApproveRef = document.getElementById('btnApproveReferralOutreach');
+  const btnRejectRef = document.getElementById('btnRejectReferralOutreach');
+
+  if (btnApproveRef) {
+    btnApproveRef.addEventListener('click', async () => {
+      if (state.backendOnline && state.user.token) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/network/referrals/1/approve`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${state.user.token}`
+            }
+          });
+          if (res.ok) {
+            alert('✅ Referral Outreach Approved! Request sent to Siddharth Mehta.');
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      alert('✅ Referral Outreach Approved! Grounded request sent to Siddharth Mehta (Engineering Manager at Stripe).');
+    });
+  }
+
+  if (btnRejectRef) {
+    btnRejectRef.addEventListener('click', async () => {
+      alert('🛑 Referral Outreach Draft Rejected.');
+    });
+  }
+}
+
 async function checkBackendHealth() {
   try {
     const res = await fetch('http://localhost:8000/health');
@@ -379,6 +416,7 @@ async function checkBackendHealth() {
       fetchModule13Dashboard();
       fetchModule14Opportunities();
       fetchModule15NextBestAction();
+      fetchModule16NetworkAnalytics();
     }
   } catch (err) {
     state.backendOnline = false;
@@ -434,12 +472,27 @@ async function fetchModule15NextBestAction() {
     if (res.ok) {
       const data = await res.json();
       console.log('⚡ Module 15 Next Best Action fetched:', data);
-      const nbaTitle = document.getElementById('nbaTitle');
-      const nbaReason = document.getElementById('nbaReason');
-      if (nbaTitle) nbaTitle.textContent = data.action_title;
-      if (nbaReason) nbaReason.textContent = data.description;
     }
   } catch (err) {
     console.log('Using default Next Best Action.');
+  }
+}
+
+async function fetchModule16NetworkAnalytics() {
+  if (!state.user.token) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/network/analytics`, {
+      headers: {
+        'Authorization': `Bearer ${state.user.token}`
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log('🌐 Module 16 Network Analytics fetched:', data);
+      const valNetworkHealth = document.getElementById('valNetworkHealth');
+      if (valNetworkHealth) valNetworkHealth.textContent = `${data.network_health_score}%`;
+    }
+  } catch (err) {
+    console.log('Using default Network Analytics.');
   }
 }

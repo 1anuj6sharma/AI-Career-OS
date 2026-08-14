@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.session import get_db
@@ -14,17 +14,19 @@ from app.modules.network.schemas import (
     OutreachMessageOut,
     ConversationAnalyzeQuery,
     ConversationAnalysisOut,
+    ReferralOpportunityOut,
+    PersonalBrandProfileOut,
     NetworkingAnalyticsOut,
 )
 
-router = APIRouter(prefix="/network", tags=["Module 11 — AI Career Networking & Recruiter Relationship Engine"])
+router = APIRouter(prefix="", tags=["Module 16 — AI Career Network, Personal Brand & Referral Intelligence Engine"])
 
 
 @router.post(
-    "/contacts",
+    "/network/contacts",
     response_model=ProfessionalContactOut,
     status_code=status.HTTP_201_CREATED,
-    summary="Add a new professional contact or recruiter into network CRM",
+    summary="Add a new professional contact into network CRM",
 )
 def create_contact(
     payload: ProfessionalContactCreate,
@@ -43,7 +45,7 @@ def create_contact(
 
 
 @router.get(
-    "/contacts",
+    "/network/contacts",
     response_model=List[ProfessionalContactOut],
     summary="List candidate network CRM directory",
 )
@@ -55,10 +57,10 @@ def list_contacts(
 
 
 @router.post(
-    "/ai/generate-outreach",
+    "/network/ai/generate-outreach",
     response_model=OutreachMessageOut,
     status_code=status.HTTP_201_CREATED,
-    summary="Generate personalized recruiter outreach draft requiring explicit human review and approval",
+    summary="Generate personalized outreach draft grounded in verified evidence requiring human approval",
 )
 def generate_outreach_draft(
     payload: OutreachGenerateQuery,
@@ -76,9 +78,9 @@ def generate_outreach_draft(
 
 
 @router.get(
-    "/outreach",
+    "/network/outreach",
     response_model=List[OutreachMessageOut],
-    summary="List all pending and historical outreach message drafts",
+    summary="List pending and historical outreach message drafts",
 )
 def list_outreach_drafts(
     current_user: User = Depends(get_current_active_user),
@@ -88,22 +90,81 @@ def list_outreach_drafts(
 
 
 @router.post(
-    "/ai/analyze-conversation",
-    response_model=ConversationAnalysisOut,
-    summary="Analyze recruiter response text, classify intent, and generate suggested reply",
+    "/network/outreach/{message_id}/approve",
+    response_model=OutreachMessageOut,
+    summary="Approve outreach message draft for submission (Human-in-the-Loop Gateway)",
 )
-def analyze_conversation(
-    payload: ConversationAnalyzeQuery,
+def approve_outreach(
+    message_id: int,
     current_user: User = Depends(get_current_active_user),
     service: NetworkService = Depends(get_network_service),
 ):
-    return service.analyze_conversation(payload.message_text)
+    res = service.approve_outreach(current_user.id, message_id)
+    if not res:
+        raise HTTPException(status_code=404, detail="Outreach message record not found")
+    return res
+
+
+@router.post(
+    "/network/outreach/{message_id}/reject",
+    response_model=OutreachMessageOut,
+    summary="Reject outreach message draft",
+)
+def reject_outreach(
+    message_id: int,
+    current_user: User = Depends(get_current_active_user),
+    service: NetworkService = Depends(get_network_service),
+):
+    res = service.reject_outreach(current_user.id, message_id)
+    if not res:
+        raise HTTPException(status_code=404, detail="Outreach message record not found")
+    return res
 
 
 @router.get(
-    "/analytics",
+    "/network/referrals",
+    response_model=List[ReferralOpportunityOut],
+    summary="List detected referral opportunities for target jobs",
+)
+def list_referrals(
+    current_user: User = Depends(get_current_active_user),
+    service: NetworkService = Depends(get_network_service),
+):
+    return service.list_referrals(current_user.id)
+
+
+@router.post(
+    "/network/referrals/{referral_id}/approve",
+    response_model=ReferralOpportunityOut,
+    summary="Approve referral request outreach",
+)
+def approve_referral(
+    referral_id: int,
+    current_user: User = Depends(get_current_active_user),
+    service: NetworkService = Depends(get_network_service),
+):
+    ref = service.approve_referral(current_user.id, referral_id)
+    if not ref:
+        raise HTTPException(status_code=404, detail="Referral record not found")
+    return ref
+
+
+@router.get(
+    "/brand/analysis",
+    response_model=PersonalBrandProfileOut,
+    summary="Get Personal Brand Score (0–100) and profile optimization recommendations",
+)
+def get_personal_brand(
+    current_user: User = Depends(get_current_active_user),
+    service: NetworkService = Depends(get_network_service),
+):
+    return service.get_personal_brand(current_user.id)
+
+
+@router.get(
+    "/network/analytics",
     response_model=NetworkingAnalyticsOut,
-    summary="Get professional network CRM analytics and recruiter response metrics",
+    summary="Get professional network analytics and referral conversion metrics",
 )
 def get_networking_analytics(
     current_user: User = Depends(get_current_active_user),

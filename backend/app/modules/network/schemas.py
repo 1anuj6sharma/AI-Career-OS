@@ -70,9 +70,57 @@ class FollowUpOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class ReferralOpportunityOut(BaseModel):
+    id: int
+    user_id: int
+    opportunity_id: int
+    contact_id: int
+    relevance_score: float
+    relationship_score: float
+    referral_score: float
+    status: str
+    recommended_action: str
+    created_at: datetime
+    contact: Optional[ProfessionalContactOut] = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class PersonalBrandProfileOut(BaseModel):
+    id: int
+    user_id: int
+    headline: str
+    about_summary: str
+    brand_score: float
+    positioning_tier: str
+    strengths_json: Optional[List[str]] = None
+    weaknesses_json: Optional[List[str]] = None
+    recommendations_json: Optional[List[str]] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ContentIdeaOut(BaseModel):
+    id: int
+    user_id: int
+    pillar_title: str
+    topic: str
+    content_format: str
+    target_audience: str
+    draft_text: str
+    status: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class NetworkingAnalyticsOut(BaseModel):
     total_contacts: int
     active_relationships: int
     pending_outreach_drafts: int
     recruiter_response_rate: float
     referral_conversion_rate: float
+    network_health_score: float = 78.5
+
+    model_config = ConfigDict(from_attributes=True)
