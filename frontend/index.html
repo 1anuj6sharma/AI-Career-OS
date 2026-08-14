@@ -59,6 +59,9 @@
         <button class="nav-link active" data-view="dashboard">
           <span class="nav-icon">📊</span> Dashboard
         </button>
+        <button class="nav-link" data-view="commandCenter">
+          <span class="nav-icon">🧠</span> Command Center
+        </button>
         <button class="nav-link" data-view="resumes">
           <span class="nav-icon">📄</span> Resume Builder
         </button>
@@ -128,6 +131,108 @@
       <!-- PAGE CONTENT AREA -->
       <main class="page-content">
         
+        <!-- VIEW 0: CAREER OS COMMAND CENTER (Module 15 Master Orchestrator) -->
+        <section id="viewCommandCenter" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>🧠 Career OS Command Center</h1>
+            <p>Autonomous Master Orchestrator & Multi-Agent Executive Command Center.</p>
+          </div>
+
+          <!-- NEXT BEST ACTION HERO CARD -->
+          <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12)); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;">🎯 Next Best Action Recommendation</span>
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin-top: 0.2rem;" id="nbaTitle">Complete System Design Mock Interview</h2>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 3px 10px; border-radius: 12px; font-weight: 700;">Rank Score: 92.5</span>
+              </div>
+            </div>
+            
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;" id="nbaReason">
+              Your target role (Senior Backend Engineer) requires stronger system design performance, which is identified as your primary gap blocking interview progression.
+            </p>
+
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <button class="btn btn-primary" id="btnExecuteNextBestAction">⚡ Execute Next Best Action (Module 6)</button>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Impact: <strong style="color: var(--success);">HIGH</strong> • Target: <strong>Interview Prep</strong></span>
+            </div>
+          </div>
+
+          <!-- COMMAND CENTER GRID -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+            
+            <!-- LEFT: CONVERSATIONAL COMMAND CENTER CHAT & MASTER STRATEGY -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- COMMAND CENTER INTERFACE CHAT -->
+              <div class="card chat-box-card">
+                <div class="card-title">💬 Command Center Conversational Interface</div>
+                <div class="chat-messages-area" id="commandCenterMessages" style="height: 260px;">
+                  <div class="chat-msg-bubble ai">
+                    <strong>🧠 Master Career Orchestrator</strong><br>
+                    Welcome to the AI Career OS Command Center. I coordinate all 14 specialized modules to achieve your career objective. Ask me anything like:<br>
+                    • <em>"What should I do today?"</em><br>
+                    • <em>"Why am I not getting interviews?"</em><br>
+                    • <em>"Create a 90-day plan to become an AI Engineer."</em>
+                  </div>
+                </div>
+
+                <form id="commandCenterForm" class="chat-input-row">
+                  <input type="text" id="commandCenterInput" placeholder="Command your AI Career OS..." required>
+                  <button type="submit" class="btn btn-primary">Execute</button>
+                </form>
+              </div>
+
+              <!-- MASTER STRATEGY VERSIONING -->
+              <div class="card">
+                <div class="card-title">🎯 Master Strategy & Goal Decomposition</div>
+                <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-color);">
+                  <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem;">
+                    <span>Active Strategy: Mastery Plan v1</span>
+                    <span style="color: var(--primary);">Goal: Senior Backend / AI Engineer</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+                    Objective: Systematically master backend microservices, system design, and AI application engineering over 90 days.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT: PENDING APPROVALS & AGENT EXECUTION -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- LEVEL 3/4 APPROVALS WIDGET -->
+              <div class="card">
+                <div class="card-title">🛡️ Pending Approvals</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">
+                  <div style="padding: 0.6rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--accent); border-radius: 4px; margin-top: 0.5rem;">
+                    <strong>Application Handoff: Stripe</strong><br>
+                    Senior Backend Engineer • Score 91.5/100<br>
+                    <span style="font-size: 0.75rem; color: var(--accent);">Level 3 Approval Required</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SYSTEM READINESS & MODULE STATUS -->
+              <div class="card">
+                <div class="card-title">🌐 Module Capability Network</div>
+                <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                  <div>🟢 Module 13 Performance Engine (Online)</div>
+                  <div>🟢 Module 14 Opportunity Acquisition (Online)</div>
+                  <div>🟢 Module 6 Interview Prep (Online)</div>
+                  <div>🟢 Module 5 Resume Intelligence (Online)</div>
+                  <div>🟢 Module 8 Learning Hub (Online)</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
         <!-- VIEW 1: DASHBOARD (Matching Reference Images) -->
         <section id="viewDashboard" class="app-view">
           <div class="page-greeting">

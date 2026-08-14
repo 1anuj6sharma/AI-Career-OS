@@ -1,7 +1,7 @@
 /**
  * AI CAREER OPERATING SYSTEM — FRONTEND CORE ENGINE
  * Synchronizes UI components, dual-theme switching, view routing,
- * live checklist progress, AI chat, and backend API integration (Modules 1–14).
+ * live checklist progress, AI chat, and backend API integration (Modules 1–15).
  */
 
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAIChat();
   initResumeBuilder();
   initModule14ApprovalGateway();
+  initModule15CommandCenter();
   checkBackendHealth();
 });
 
@@ -80,12 +81,12 @@ function initNavigation() {
 
   const btnDashChatAI = document.getElementById('btnDashChatAI');
   if (btnDashChatAI) {
-    btnDashChatAI.addEventListener('click', () => switchView('aiCoach'));
+    btnDashChatAI.addEventListener('click', () => switchView('commandCenter'));
   }
 
   const btnAskAI = document.getElementById('btnHeaderAskAI');
   if (btnAskAI) {
-    btnAskAI.addEventListener('click', () => switchView('aiCoach'));
+    btnAskAI.addEventListener('click', () => switchView('commandCenter'));
   }
 
   const btnLogout = document.getElementById('btnLogout');
@@ -123,6 +124,9 @@ function switchView(viewId) {
   }
   if (state.backendOnline && (viewId === 'jobs' || viewId === 'opportunities')) {
     fetchModule14Opportunities();
+  }
+  if (state.backendOnline && viewId === 'commandCenter') {
+    fetchModule15NextBestAction();
   }
 }
 
@@ -177,10 +181,10 @@ function initAIChat() {
     const text = input.value.trim();
     if (!text) return;
 
-    appendChatMessage('user', text);
+    appendChatMessage('user', text, 'coachChatMessages');
     input.value = '';
 
-    const thinkingMsg = appendChatMessage('ai', '🤖 AI is analyzing your Career Performance State...');
+    const thinkingMsg = appendChatMessage('ai', '🤖 AI is analyzing your Career Performance State...', 'coachChatMessages');
 
     try {
       if (state.backendOnline) {
@@ -218,13 +222,13 @@ function initAIChat() {
   });
 }
 
-function appendChatMessage(sender, message) {
-  const container = document.getElementById('coachChatMessages');
+function appendChatMessage(sender, message, containerId = 'coachChatMessages') {
+  const container = document.getElementById(containerId);
   if (!container) return;
 
   const bubble = document.createElement('div');
   bubble.className = `chat-msg-bubble ${sender}`;
-  bubble.innerHTML = sender === 'user' ? message : `<strong>🤖 AI Career Coach</strong><br>${message}`;
+  bubble.innerHTML = sender === 'user' ? message : `<strong>🧠 Master Career Orchestrator</strong><br>${message}`;
   
   container.appendChild(bubble);
   container.scrollTop = container.scrollHeight;
@@ -268,7 +272,7 @@ function initResumeBuilder() {
 }
 
 /* ==========================================================================
-   6. MODULE 14 HUMAN-IN-THE-LOOP APPROVAL GATEWAY & API SYNCHRONIZATION
+   6. MODULE 14 & MODULE 15 MASTER ORCHESTRATOR FRONTEND INTEGRATION
    ========================================================================== */
 function initModule14ApprovalGateway() {
   const btnApprove = document.getElementById('btnApproveApplication');
@@ -317,6 +321,55 @@ function initModule14ApprovalGateway() {
   }
 }
 
+function initModule15CommandCenter() {
+  const form = document.getElementById('commandCenterForm');
+  const btnExecuteNBA = document.getElementById('btnExecuteNextBestAction');
+
+  if (btnExecuteNBA) {
+    btnExecuteNBA.addEventListener('click', () => {
+      switchView('interviews');
+    });
+  }
+
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('commandCenterInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    appendChatMessage('user', text, 'commandCenterMessages');
+    input.value = '';
+
+    const thinkingMsg = appendChatMessage('ai', '🧠 Master Orchestrator analyzing global Career State & routing modules...', 'commandCenterMessages');
+
+    try {
+      if (state.backendOnline && state.user.token) {
+        const res = await fetch(`${API_BASE_URL}/master-orchestrator/chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.user.token}`
+          },
+          body: JSON.stringify({ message: text })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          thinkingMsg.innerHTML = `<strong>🧠 Master Career Orchestrator</strong><br>${data.reply || 'Execution complete across target capability modules.'}`;
+          return;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    setTimeout(() => {
+      thinkingMsg.innerHTML = `<strong>🧠 Master Career Orchestrator</strong><br>I have routed your goal to <strong>Module 6 (Interview Prep)</strong> and <strong>Module 14 (Opportunity Acquisition)</strong>. Your primary gap is System Design.`;
+    }, 600);
+  });
+}
+
 async function checkBackendHealth() {
   try {
     const res = await fetch('http://localhost:8000/health');
@@ -325,6 +378,7 @@ async function checkBackendHealth() {
       console.log('✅ Connected to AI Career OS FastAPI Backend.');
       fetchModule13Dashboard();
       fetchModule14Opportunities();
+      fetchModule15NextBestAction();
     }
   } catch (err) {
     state.backendOnline = false;
@@ -366,5 +420,26 @@ async function fetchModule14Opportunities() {
     }
   } catch (err) {
     console.log('Using default opportunities data.');
+  }
+}
+
+async function fetchModule15NextBestAction() {
+  if (!state.user.token) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/master-orchestrator/next-best-action`, {
+      headers: {
+        'Authorization': `Bearer ${state.user.token}`
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log('⚡ Module 15 Next Best Action fetched:', data);
+      const nbaTitle = document.getElementById('nbaTitle');
+      const nbaReason = document.getElementById('nbaReason');
+      if (nbaTitle) nbaTitle.textContent = data.action_title;
+      if (nbaReason) nbaReason.textContent = data.description;
+    }
+  } catch (err) {
+    console.log('Using default Next Best Action.');
   }
 }
