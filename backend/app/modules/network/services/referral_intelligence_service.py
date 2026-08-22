@@ -58,7 +58,8 @@ class ReferralIntelligenceService:
         contact_name: str,
         contact_company: str,
         contact_role: str,
-        verified_evidence: List[str]
+        verified_evidence: List[str],
+        user_name: str = "Anuj Saraswat"
     ) -> Dict[str, str]:
         """
         Generates personalized outreach messages grounded strictly in verified evidence.
@@ -73,7 +74,7 @@ class ReferralIntelligenceService:
             f"As a Senior Backend Engineer with hands-on experience in {evidence_summary}, "
             f"I'm very interested in learning more about your team's architecture priorities. "
             f"If you're open to it, I'd love to connect and share mutual technical context.\n\n"
-            f"Best regards,\nAnuj Saraswat"
+            f"Best regards,\n{user_name}"
         )
         return {"subject": subject, "message": message}
 

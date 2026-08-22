@@ -130,13 +130,13 @@ class OutreachAgent:
     def __init__(self, llm_service: LLMService):
         self.llm_service = llm_service
 
-    def run(self, contact_id: int, contact_name: str, company: str, evidence: List[str]) -> OutreachGenerationOutput:
+    def run(self, contact_id: int, contact_name: str, company: str, evidence: List[str], user_name: str = "Anuj Saraswat") -> OutreachGenerationOutput:
         ev_summary = ", ".join(evidence) if evidence else "Python, FastAPI, and scalable microservices"
         return OutreachGenerationOutput(
             contact_id=contact_id,
             purpose="REFERRAL_REQUEST",
             subject=f"Connecting regarding Backend Engineering at {company}",
-            message=f"Hi {contact_name},\n\nI hope you're doing well! I'm interested in the Senior Backend position at {company}. Given my background in {ev_summary}, I'd love to learn more about your team and explore a potential referral.\n\nBest regards,\nAnuj Saraswat",
+            message=f"Hi {contact_name},\n\nI hope you're doing well! I'm interested in the Senior Backend position at {company}. Given my background in {ev_summary}, I'd love to learn more about your team and explore a potential referral.\n\nBest regards,\n{user_name}",
             verified_evidence_used=evidence,
             human_approval_required=True
         )

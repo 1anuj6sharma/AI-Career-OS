@@ -3,54 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Career OS — Job, Application & AI Career Intelligence Platform</title>
+  <title>AI Career OS — Autonomous AI Career Agent Ecosystem</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- AUTH SECTION (Show if not logged in) -->
-  <div id="authSection" class="modal-overlay" style="display: none;">
+  <!-- AUTH SECTION (Modal shown if not signed in) -->
+  <div id="authSection" class="modal-overlay">
     <div class="modal-content" style="max-width: 420px;">
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <div class="logo-icon-box" style="margin: 0 auto 0.75rem; width: 44px; height: 44px; font-size: 1.4rem;">💼</div>
-        <h2 style="font-size: 1.4rem; font-weight: 700;">Welcome to AI Career OS</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Sign in to access your AI Career Copilot</p>
+        <div class="logo-icon-box" style="margin: 0 auto 0.75rem; width: 48px; height: 48px; font-size: 1.5rem;">💼</div>
+        <h2 style="font-size: 1.35rem; font-weight: 700;">AI Career Operating System</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;" id="authSubtitle">Sign in to your account</p>
       </div>
 
-      <div style="display: flex; background: var(--bg-input); padding: 3px; border-radius: 8px; margin-bottom: 1rem;">
-        <button class="btn btn-block active" id="tabLogin" style="font-size: 0.8rem; padding: 0.4rem;">Sign In</button>
-        <button class="btn btn-block" id="tabRegister" style="font-size: 0.8rem; padding: 0.4rem; background: transparent; color: var(--text-muted);">Create Account</button>
+      <div style="display: flex; background: var(--bg-input); padding: 3px; border-radius: 8px; margin-bottom: 1.25rem;">
+        <button class="btn btn-block active" id="tabLogin" style="font-size: 0.82rem; padding: 0.45rem;">Sign In</button>
+        <button class="btn btn-block" id="tabRegister" style="font-size: 0.82rem; padding: 0.45rem; background: transparent; color: var(--text-muted);">Create Account</button>
       </div>
 
       <form id="authForm">
         <div class="form-group" id="groupName" style="display: none;">
           <label>Full Name</label>
-          <input type="text" id="authName" placeholder="Anuj Saraswat">
+          <input type="text" id="authName" placeholder="e.g. Alex Johnson">
         </div>
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" id="authEmail" required value="anuj.saraswat@example.com">
+          <input type="email" id="authEmail" required placeholder="e.g. alex@example.com">
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="authPassword" required value="password123">
+          <input type="password" id="authPassword" required placeholder="••••••••">
         </div>
-        <button type="submit" class="btn btn-primary btn-block" id="btnAuthSubmit">Sign In</button>
+        <button type="submit" class="btn btn-primary btn-block" id="btnAuthSubmit" style="margin-top: 0.5rem;">Sign In</button>
       </form>
       <div id="authError" style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--danger); text-align: center; display: none;"></div>
     </div>
   </div>
 
   <!-- MAIN APP SHELL -->
-  <div id="appSection" class="app-shell">
+  <div id="appSection" class="app-shell" style="display: flex;">
     
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="brand-logo">
-          <div class="logo-icon-box">💼</div>
+          <div class="logo-icon-box">🧠</div>
           <span>AI Career <span style="color: var(--primary);">OS</span></span>
         </div>
       </div>
@@ -60,22 +60,22 @@
           <span class="nav-icon">📊</span> Dashboard
         </button>
         <button class="nav-link" data-view="commandCenter">
-          <span class="nav-icon">🧠</span> Command Center
+          <span class="nav-icon">🧠</span> Decision Engine
+        </button>
+        <button class="nav-link" data-view="jobs">
+          <span class="nav-icon">💼</span> Jobs & Internships
+        </button>
+        <button class="nav-link" data-view="learning">
+          <span class="nav-icon">📚</span> Learning & Skills
+        </button>
+        <button class="nav-link" data-view="business">
+          <span class="nav-icon">🚀</span> Business & Freelance
         </button>
         <button class="nav-link" data-view="resumes">
           <span class="nav-icon">📄</span> Resume Builder
         </button>
-        <button class="nav-link" data-view="jobs">
-          <span class="nav-icon">🔍</span> Job Finder
-        </button>
-        <button class="nav-link" data-view="aiCoach">
-          <span class="nav-icon">🤖</span> AI Coach
-        </button>
-        <button class="nav-link" data-view="skillPath">
-          <span class="nav-icon">📈</span> Skill Path
-        </button>
         <button class="nav-link" data-view="projects">
-          <span class="nav-icon">📁</span> Projects
+          <span class="nav-icon">📁</span> Project Evidence
         </button>
         <button class="nav-link" data-view="kanban">
           <span class="nav-icon">📋</span> Applications
@@ -83,17 +83,17 @@
         <button class="nav-link" data-view="interviews">
           <span class="nav-icon">🎤</span> Interview Prep
         </button>
-        <button class="nav-link" data-view="learning">
-          <span class="nav-icon">📚</span> Learning
-        </button>
-        <button class="nav-link" data-view="offers">
-          <span class="nav-icon">💰</span> Offers
+        <button class="nav-link" data-view="aiCoach">
+          <span class="nav-icon">🤖</span> AI Career Coach
         </button>
         <button class="nav-link" data-view="network">
-          <span class="nav-icon">🌐</span> Networking & Brand
+          <span class="nav-icon">🌐</span> Network CRM
+        </button>
+        <button class="nav-link" data-view="offers">
+          <span class="nav-icon">💰</span> Offers & Retainers
         </button>
         <button class="nav-link" data-view="analytics">
-          <span class="nav-icon">📊</span> Analytics
+          <span class="nav-icon">📈</span> Analytics
         </button>
         <button class="nav-link" data-view="settings">
           <span class="nav-icon">⚙️</span> Settings
@@ -103,10 +103,10 @@
       <!-- SIDEBAR USER PROFILE FOOTER -->
       <div class="sidebar-user-card">
         <div class="user-info">
-          <div class="user-avatar" id="avatarInitials">AS</div>
+          <div class="user-avatar" id="avatarInitials">?</div>
           <div class="user-details">
-            <h5 id="userNameDisplay">Anuj Saraswat</h5>
-            <span id="userRoleBadge">Premium Plan</span>
+            <h5 id="userNameDisplay">User</h5>
+            <span id="userRoleBadge">Active Account</span>
           </div>
         </div>
         <button class="btn-signout" id="btnLogout" title="Sign Out">🚪</button>
@@ -120,13 +120,13 @@
       <header class="top-header">
         <div class="header-search">
           <span class="search-icon">🔍</span>
-          <input type="text" id="globalSearch" placeholder="Search anything (jobs, skills, notes)...">
+          <input type="text" id="globalSearch" placeholder="Search across Jobs, Learning & Freelance Gigs...">
         </div>
 
         <div class="header-actions">
           <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">🌙</button>
           <button class="btn-ask-ai" id="btnHeaderAskAI">
-            <span>🤖</span> Ask AI Assistant
+            <span>⚡</span> "What Should I Do Next?"
           </button>
         </div>
       </header>
@@ -134,253 +134,44 @@
       <!-- PAGE CONTENT AREA -->
       <main class="page-content">
         
-        <!-- VIEW 0: CAREER OS COMMAND CENTER (Module 15 Master Orchestrator) -->
-        <section id="viewCommandCenter" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>🧠 Career OS Command Center</h1>
-            <p>Autonomous Master Orchestrator & Multi-Agent Executive Command Center.</p>
-          </div>
-
-          <!-- NEXT BEST ACTION HERO CARD -->
-          <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12)); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
-              <div>
-                <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;">🎯 Next Best Action Recommendation</span>
-                <h2 style="font-size: 1.35rem; font-weight: 800; margin-top: 0.2rem;" id="nbaTitle">Complete System Design Mock Interview</h2>
-              </div>
-              <div style="text-align: right;">
-                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 3px 10px; border-radius: 12px; font-weight: 700;">Rank Score: 92.5</span>
-              </div>
-            </div>
-            
-            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;" id="nbaReason">
-              Your target role (Senior Backend Engineer) requires stronger system design performance, which is identified as your primary gap blocking interview progression.
-            </p>
-
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
-              <button class="btn btn-primary" id="btnExecuteNextBestAction">⚡ Execute Next Best Action (Module 6)</button>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Impact: <strong style="color: var(--success);">HIGH</strong> • Target: <strong>Interview Prep</strong></span>
-            </div>
-          </div>
-
-          <!-- COMMAND CENTER GRID -->
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
-            
-            <!-- LEFT: CONVERSATIONAL COMMAND CENTER CHAT & MASTER STRATEGY -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-              
-              <!-- COMMAND CENTER INTERFACE CHAT -->
-              <div class="card chat-box-card">
-                <div class="card-title">💬 Command Center Conversational Interface</div>
-                <div class="chat-messages-area" id="commandCenterMessages" style="height: 260px;">
-                  <div class="chat-msg-bubble ai">
-                    <strong>🧠 Master Career Orchestrator</strong><br>
-                    Welcome to the AI Career OS Command Center. I coordinate all 14 specialized modules to achieve your career objective. Ask me anything like:<br>
-                    • <em>"What should I do today?"</em><br>
-                    • <em>"Why am I not getting interviews?"</em><br>
-                    • <em>"Create a 90-day plan to become an AI Engineer."</em>
-                  </div>
-                </div>
-
-                <form id="commandCenterForm" class="chat-input-row">
-                  <input type="text" id="commandCenterInput" placeholder="Command your AI Career OS..." required>
-                  <button type="submit" class="btn btn-primary">Execute</button>
-                </form>
-              </div>
-
-              <!-- MASTER STRATEGY VERSIONING -->
-              <div class="card">
-                <div class="card-title">🎯 Master Strategy & Goal Decomposition</div>
-                <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-color);">
-                  <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem;">
-                    <span>Active Strategy: Mastery Plan v1</span>
-                    <span style="color: var(--primary);">Goal: Senior Backend / AI Engineer</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
-                    Objective: Systematically master backend microservices, system design, and AI application engineering over 90 days.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- RIGHT: PENDING APPROVALS & AGENT EXECUTION -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-              
-              <!-- LEVEL 3/4 APPROVALS WIDGET -->
-              <div class="card">
-                <div class="card-title">🛡️ Pending Approvals</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">
-                  <div style="padding: 0.6rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--accent); border-radius: 4px; margin-top: 0.5rem;">
-                    <strong>Application Handoff: Stripe</strong><br>
-                    Senior Backend Engineer • Score 91.5/100<br>
-                    <span style="font-size: 0.75rem; color: var(--accent);">Level 3 Approval Required</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- SYSTEM READINESS & MODULE STATUS -->
-              <div class="card">
-                <div class="card-title">🌐 Module Capability Network</div>
-                <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.4rem;">
-                  <div>🟢 Module 13 Performance Engine (Online)</div>
-                  <div>🟢 Module 14 Opportunity Acquisition (Online)</div>
-                  <div>🟢 Module 6 Interview Prep (Online)</div>
-                  <div>🟢 Module 5 Resume Intelligence (Online)</div>
-                  <div>🟢 Module 8 Learning Hub (Online)</div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-
-        <!-- VIEW 16: NETWORK INTELLIGENCE & PERSONAL BRAND (Module 16) -->
-        <section id="viewNetwork" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>🌐 AI Network Intelligence & Personal Brand Engine</h1>
-            <p>Relationship Intelligence, Referral Opportunity Detection & Personal Brand Optimization.</p>
-          </div>
-
-          <!-- TOP NETWORK METRICS -->
-          <div class="metrics-row" style="margin-bottom: 1.5rem;">
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Network Health</span>
-                <div class="stat-value" id="valNetworkHealth">78.5%</div>
-                <div class="stat-trend">🟢 Strong Connections</div>
-              </div>
-              <div style="font-size: 1.8rem;">🌐</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Active Relationships</span>
-                <div class="stat-value" id="valActiveRel">24</div>
-                <div class="stat-trend">💬 Warm Contacts</div>
-              </div>
-              <div style="font-size: 1.8rem;">👥</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Referral Opportunities</span>
-                <div class="stat-value" id="valReferralsCount">7</div>
-                <div class="stat-trend">🎯 High Match Jobs</div>
-              </div>
-              <div style="font-size: 1.8rem;">⚡</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Response Rate</span>
-                <div class="stat-value" id="valResponseRate">35%</div>
-                <div class="stat-trend">📈 2x Industry Avg</div>
-              </div>
-              <div style="font-size: 1.8rem;">📬</div>
-            </div>
-          </div>
-
-          <!-- NETWORK GRID -->
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
-            
-            <!-- LEFT: REFERRAL OPPORTUNITIES & OUTREACH APPROVAL GATEWAY -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-              
-              <!-- REFERRAL OPPORTUNITY HERO CARD -->
-              <div class="card" style="border: 2px solid var(--accent);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
-                  <div>
-                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase;">🎯 Detected Referral Opportunity</span>
-                    <h3 style="font-size: 1.2rem; font-weight: 800; margin-top: 0.2rem;">Stripe — Senior Backend Engineer</h3>
-                  </div>
-                  <div style="text-align: right;">
-                    <span style="font-size: 0.75rem; background: rgba(245, 158, 11, 0.2); color: var(--accent); padding: 3px 10px; border-radius: 12px; font-weight: 700;">Referral Score: 88.5/100</span>
-                  </div>
-                </div>
-
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-                  <strong>Matched Connection:</strong> Siddharth Mehta (Engineering Manager at Stripe)<br>
-                  <strong>Relationship Tier:</strong> WARM • Alumni Connection • Shared Python & FastAPI focus
-                </div>
-
-                <!-- GROUNDED OUTREACH PREVIEW -->
-                <div style="padding: 0.75rem; background: var(--bg-surface); border-radius: 6px; border: 1px dashed var(--border-color); margin-bottom: 1rem; font-size: 0.82rem;">
-                  <strong>Grounded Outreach Draft (Verified Evidence Only):</strong><br>
-                  <em>"Hi Siddharth, I'm interested in the Senior Backend position at Stripe. Given my background in FastAPI microservices, Async PGVector, and Redis Caching, I'd love to learn more about your team and explore a potential referral."</em>
-                </div>
-
-                <!-- HUMAN APPROVAL GATEWAY BUTTONS -->
-                <div style="display: flex; gap: 0.75rem;">
-                  <button class="btn btn-primary" id="btnApproveReferralOutreach">✓ Approve & Send Referral Request</button>
-                  <button class="btn btn-secondary" id="btnRejectReferralOutreach">✕ Reject Draft</button>
-                </div>
-              </div>
-
-              <!-- CONTACT CRM DIRECTORY -->
-              <div class="card">
-                <div class="card-title">👥 Network CRM Directory</div>
-                <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
-                  <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
-                    <div>
-                      <strong>Siddharth Mehta</strong> — Engineering Manager at Stripe<br>
-                      <span style="font-size: 0.75rem; color: var(--text-muted);">Source: ALUMNI • Last Interaction: 14 days ago</span>
-                    </div>
-                    <span style="color: var(--success); font-size: 0.75rem; font-weight: 700;">Referral Score 88.5</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
-                    <div>
-                      <strong>Rahul Sharma</strong> — Technical Recruiter at TechCorp<br>
-                      <span style="font-size: 0.75rem; color: var(--text-muted);">Source: RECRUITER • Last Interaction: 5 days ago</span>
-                    </div>
-                    <span style="color: var(--accent); font-size: 0.75rem; font-weight: 700;">Score 82.0</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- RIGHT: PERSONAL BRAND & POSITIONING -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-              
-              <!-- PERSONAL BRAND SCORE CARD -->
-              <div class="card">
-                <div class="card-title">⭐ Personal Brand Score</div>
-                <div style="text-align: center; margin: 0.75rem 0;">
-                  <div style="font-size: 2.2rem; font-weight: 800; color: var(--primary);">84.5 / 100</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted);">Positioning: Senior Backend & AI Specialist</div>
-                </div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">
-                  <strong>Key Recommendations:</strong>
-                  <ul style="padding-left: 1.2rem; margin-top: 0.4rem;">
-                    <li>Publish System Design architecture benchmark article</li>
-                    <li>Add FastAPI case study summary to GitHub profile</li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- FOLLOW-UP SCHEDULER WIDGET -->
-              <div class="card">
-                <div class="card-title">📅 Intelligent Follow-up Scheduler</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">
-                  <div style="padding: 0.5rem; background: rgba(99, 102, 241, 0.1); border-left: 3px solid var(--primary); border-radius: 4px; margin-top: 0.4rem;">
-                    <strong>Siddharth Mehta (Stripe)</strong><br>
-                    Follow up due in 7 days regarding referral conversation.
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-
-        <!-- VIEW 1: DASHBOARD (Matching Reference Images) -->
+        <!-- VIEW 1: DASHBOARD & AUTONOMOUS DECISION ENGINE -->
         <section id="viewDashboard" class="app-view">
           <div class="page-greeting">
-            <h1>Welcome back, <span id="greetingName">Anuj</span>! 👋</h1>
-            <p>Your AI Career Assistant is here to help you grow, apply and succeed.</p>
+            <h1>Welcome, <span id="greetingName">User</span>! 👋</h1>
+            <p>AI Career Agent Ecosystem — Autonomous multi-pillar intelligence.</p>
+          </div>
+
+          <!-- AUTONOMOUS "WHAT SHOULD I DO NEXT?" CLOSED-LOOP DECISION CARD -->
+          <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12)); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div>
+                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.25rem;">
+                  <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;" id="nbaPillarBadge">🎯 AI DECISION ENGINE</span>
+                  <span style="font-size: 0.7rem; background: rgba(99, 102, 241, 0.18); color: var(--primary); padding: 2px 8px; border-radius: 8px; font-weight: 600;" id="nbaStrategyVersion">Strategy: v1.0</span>
+                </div>
+                <h2 style="font-size: 1.35rem; font-weight: 800;" id="nbaTitle">Initialize Career Profile & Skills</h2>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 3px 10px; border-radius: 12px; font-weight: 700;" id="nbaScoreBadge">ROI Score: 95/100</span>
+              </div>
+            </div>
+            
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.85rem;" id="nbaReason">
+              Welcome! Start by adding your target role and top 3 technical skills to power autonomous matching across Jobs, Learning, and Freelance Gigs.
+            </p>
+
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn btn-primary" id="btnExecuteNextBestAction">⚡ Execute 1-Click Action</button>
+              <span style="font-size: 0.8rem; color: var(--text-muted);" id="nbaImpactText">Impact: <strong style="color: var(--success);">MAXIMUM</strong></span>
+            </div>
+
+            <!-- CLOSED-LOOP RESULT & FEEDBACK TRACKER BAR -->
+            <div class="decision-flywheel-bar">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">🔄 Feedback Flywheel:</span>
+              <button class="btn-flywheel-outcome" data-outcome="completed">✅ Mark Completed / Applied</button>
+              <button class="btn-flywheel-outcome" data-outcome="interview">💬 Interview / Client Reply</button>
+              <button class="btn-flywheel-outcome" data-outcome="postponed">⏭️ Skip / Adapt Strategy</button>
+            </div>
           </div>
 
           <!-- TOP METRICS ROW -->
@@ -388,46 +179,46 @@
             <div class="stat-card">
               <div class="stat-info">
                 <span>Profile Strength</span>
-                <div class="stat-value" id="valProfileStrength">85%</div>
-                <div class="stat-trend">🟢 Strong</div>
+                <div class="stat-value" id="valProfileStrength">0%</div>
+                <div class="stat-trend" id="trendProfileStrength">Clean Slate</div>
               </div>
               <div style="font-size: 1.8rem;">📈</div>
             </div>
 
             <div class="stat-card">
               <div class="stat-info">
-                <span>Applications</span>
-                <div class="stat-value" id="valApplications">24</div>
-                <div class="stat-trend" style="color: var(--primary);">Applied</div>
+                <span>Job Applications</span>
+                <div class="stat-value" id="valApplications">0</div>
+                <div class="stat-trend" style="color: var(--primary);">Tracked</div>
               </div>
-              <div style="font-size: 1.8rem;">📤</div>
+              <div style="font-size: 1.8rem;">💼</div>
             </div>
 
             <div class="stat-card">
               <div class="stat-info">
-                <span>Interviews</span>
-                <div class="stat-value" id="valInterviews">6</div>
-                <div class="stat-trend" style="color: var(--accent);">Upcoming</div>
-              </div>
-              <div style="font-size: 1.8rem;">🎤</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Job Matches</span>
-                <div class="stat-value" id="valJobMatches">18</div>
-                <div class="stat-trend" style="color: var(--accent-cyan);">High Match</div>
-              </div>
-              <div style="font-size: 1.8rem;">🎯</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Skills</span>
-                <div class="stat-value" id="valSkills">32</div>
-                <div class="stat-trend" style="color: var(--success);">Acquired</div>
+                <span>Skills Mastered</span>
+                <div class="stat-value" id="valSkills">0</div>
+                <div class="stat-trend" style="color: var(--success);">Evidence Graph</div>
               </div>
               <div style="font-size: 1.8rem;">🎓</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Freelance Pipeline</span>
+                <div class="stat-value" id="valFreelancePipeline">$0</div>
+                <div class="stat-trend" style="color: var(--accent);">Gigs & Clients</div>
+              </div>
+              <div style="font-size: 1.8rem;">🚀</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Decisions Executed</span>
+                <div class="stat-value" id="valDecisionsExecuted">0</div>
+                <div class="stat-trend" style="color: var(--accent-cyan);">Feedback Loops</div>
+              </div>
+              <div style="font-size: 1.8rem;">⚡</div>
             </div>
           </div>
 
@@ -440,202 +231,100 @@
               <!-- TODAY'S PLAN -->
               <div class="card">
                 <div class="card-title">
-                  <span>Today's Plan</span>
-                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="planProgressText">Progress: 60%</span>
+                  <span>Today's Execution Plan</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="planProgressText">Progress: 0%</span>
                 </div>
                 
                 <div class="task-checklist" id="checklistTasks">
-                  <div class="checklist-item done">
-                    <div class="checklist-left">
-                      <input type="checkbox" class="checklist-checkbox" checked>
-                      <span class="checklist-title">Improve Python skills</span>
-                    </div>
-                    <span class="checklist-time">45m</span>
-                  </div>
-
-                  <div class="checklist-item">
-                    <div class="checklist-left">
-                      <input type="checkbox" class="checklist-checkbox">
-                      <span class="checklist-title">Apply to 3 Data Engineer jobs</span>
-                    </div>
-                    <span class="checklist-time">30m</span>
-                  </div>
-
-                  <div class="checklist-item">
-                    <div class="checklist-left">
-                      <input type="checkbox" class="checklist-checkbox">
-                      <span class="checklist-title">System Design practice</span>
-                    </div>
-                    <span class="checklist-time">60m</span>
-                  </div>
-
-                  <div class="checklist-item">
-                    <div class="checklist-left">
-                      <input type="checkbox" class="checklist-checkbox">
-                      <span class="checklist-title">Resume review</span>
-                    </div>
-                    <span class="checklist-time">20m</span>
-                  </div>
+                  <!-- Rendered dynamically -->
                 </div>
+
+                <form id="formAddTask" class="inline-add-row">
+                  <input type="text" id="inputNewTaskTitle" placeholder="Add a daily action (Job apply, skill study, client pitch)..." required style="flex: 1;">
+                  <input type="text" id="inputNewTaskTime" placeholder="30m" style="width: 70px;">
+                  <button type="submit" class="btn btn-primary btn-sm">+ Add</button>
+                </form>
 
                 <div class="progress-container">
                   <div class="progress-header">
                     <span>Total Progress</span>
-                    <span id="planPercentLabel">60%</span>
+                    <span id="planPercentLabel">0%</span>
                   </div>
                   <div class="progress-track">
-                    <div class="progress-fill" id="planPercentBar" style="width: 60%;"></div>
+                    <div class="progress-fill" id="planPercentBar" style="width: 0%;"></div>
                   </div>
                 </div>
               </div>
 
-              <!-- SKILL PROGRESS -->
+              <!-- SKILL EVIDENCE PROGRESS -->
               <div class="card">
-                <div class="card-title">Skill Progress</div>
-                <div style="display: flex; flex-direction: column; gap: 0.85rem;">
-                  <div>
-                    <div class="progress-header">
-                      <span>Python (Advanced)</span>
-                      <span>80%</span>
-                    </div>
-                    <div class="progress-track">
-                      <div class="progress-fill" style="width: 80%;"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="progress-header">
-                      <span>SQL (Advanced)</span>
-                      <span>75%</span>
-                    </div>
-                    <div class="progress-track">
-                      <div class="progress-fill" style="width: 75%;"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="progress-header">
-                      <span>Azure (Intermediate)</span>
-                      <span>60%</span>
-                    </div>
-                    <div class="progress-track">
-                      <div class="progress-fill" style="width: 60%;"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="progress-header">
-                      <span>Power BI (Intermediate)</span>
-                      <span>50%</span>
-                    </div>
-                    <div class="progress-track">
-                      <div class="progress-fill" style="width: 50%;"></div>
-                    </div>
-                  </div>
+                <div class="card-title">
+                  <span>Skill Evidence Matrix</span>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="skillCountLabel">0 Skills</span>
                 </div>
+                
+                <div id="skillProgressList" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                  <!-- Rendered dynamically -->
+                </div>
+
+                <form id="formAddSkill" class="inline-add-row">
+                  <input type="text" id="inputNewSkillName" placeholder="Skill Name (Python, PySpark, FastAPI)..." required style="flex: 1;">
+                  <select id="inputNewSkillLevel" style="width: 130px;">
+                    <option value="50">Beginner (50%)</option>
+                    <option value="75" selected>Intermediate (75%)</option>
+                    <option value="90">Advanced (90%)</option>
+                    <option value="100">Expert (100%)</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary btn-sm">+ Add Skill</button>
+                </form>
               </div>
 
-              <!-- RECENT ACTIVITIES -->
+              <!-- RECENT ACTIVITIES & DECISION MEMORY -->
               <div class="card">
-                <div class="card-title">Recent Activities</div>
-                <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
-                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
-                    <span>Applied to <strong>Data Engineer at TCS</strong></span>
-                    <span style="color: var(--text-muted);">2h ago</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
-                    <span>Resume updated with Azure skills</span>
-                    <span style="color: var(--text-muted);">5h ago</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">
-                    <span>Completed SQL Advanced lesson</span>
-                    <span style="color: var(--text-muted);">Yesterday</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between;">
-                    <span>AI Mock Interview Completed (Score: 88%)</span>
-                    <span style="color: var(--text-muted);">2 days ago</span>
-                  </div>
+                <div class="card-title">Feedback Loop & Activity Memory</div>
+                <div id="activityFeed" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                  <!-- Rendered dynamically -->
                 </div>
               </div>
 
             </div>
 
-            <!-- RIGHT COLUMN -->
+            <!-- RIGHT COLUMN: 3 PILLAR QUICK HUB -->
             <div style="display: flex; flex-direction: column; gap: 1.25rem;">
               
-              <!-- AI RECOMMENDATION -->
-              <div class="card ai-recommendation-card">
+              <!-- 3-PILLAR QUICK SUMMARY -->
+              <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(245, 158, 11, 0.08)); border: 1px solid var(--border-color);">
                 <div class="card-title" style="color: var(--primary);">
-                  <span>🤖 AI Recommendation</span>
-                </div>
-                <p style="font-size: 0.85rem; line-height: 1.4;">Based on your profile, I recommend you focus on <strong>Data Engineering</strong> roles.</p>
-                
-                <div style="margin-top: 0.6rem;">
-                  <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Top Skills to improve:</span>
-                  <div class="skill-pills">
-                    <span class="pill">Azure Data Factory</span>
-                    <span class="pill">SQL</span>
-                    <span class="pill">Data Modeling</span>
-                    <span class="pill">Python</span>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnDashStartLearning">Start Learning</button>
-              </div>
-
-              <!-- JOB MATCHES -->
-              <div class="card">
-                <div class="card-title">
-                  <span>Job Matches</span>
-                  <button class="btn btn-outline btn-sm" id="btnDashViewJobs">View All →</button>
+                  <span>🌐 Tri-Stream Opportunity Ingestion</span>
                 </div>
                 
-                <div class="job-match-list">
-                  <div class="job-match-item">
-                    <div class="job-match-company">
-                      <div class="company-logo-placeholder">TCS</div>
-                      <div class="job-match-details">
-                        <h6>Data Engineer</h6>
-                        <span>TCS • Bengaluru</span>
-                      </div>
-                    </div>
-                    <span class="match-score-badge">95% Match</span>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.85rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
+                    <span>💼 <strong>Jobs & Internships</strong></span>
+                    <button class="btn btn-outline btn-sm" id="btnDashGoJobs">Explore →</button>
                   </div>
-
-                  <div class="job-match-item">
-                    <div class="job-match-company">
-                      <div class="company-logo-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">NC</div>
-                      <div class="job-match-details">
-                        <h6>Azure Data Engineer</h6>
-                        <span>Networth Corp • Remote</span>
-                      </div>
-                    </div>
-                    <span class="match-score-badge">90% Match</span>
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
+                    <span>📚 <strong>Learning & Roadmaps</strong></span>
+                    <button class="btn btn-outline btn-sm" id="btnDashGoLearning">Learn →</button>
                   </div>
-
-                  <div class="job-match-item">
-                    <div class="job-match-company">
-                      <div class="company-logo-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">AC</div>
-                      <div class="job-match-details">
-                        <h6>Junior Data Engineer</h6>
-                        <span>Accenture • Hybrid</span>
-                      </div>
-                    </div>
-                    <span class="match-score-badge">85% Match</span>
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
+                    <span>🚀 <strong>Business & Freelancing</strong></span>
+                    <button class="btn btn-outline btn-sm" id="btnDashGoBusiness">Gigs & Pitches →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- AI CAREER ASSISTANT QUICK CHAT CARD -->
+              <!-- AI ASSISTANT CHAT HERO -->
               <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white;">
-                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;">AI Career Assistant</h4>
-                <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.75rem;">Hi Anuj! I can help you with:</p>
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;">🧠 AI Career Orchestrator</h4>
+                <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.75rem;" id="aiCardGreeting">Ready to guide your career flywheel.</p>
                 <div style="font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem;">
-                  <div>✓ Resume Review</div>
-                  <div>✓ Mock Interviews</div>
-                  <div>✓ Career Guidance</div>
-                  <div>✓ Skill Recommendations</div>
+                  <div>✓ Tri-Stream Opportunity Discovery</div>
+                  <div>✓ Grounded AI Client Pitch Generator</div>
+                  <div>✓ ATS Resume Optimizer & Scorer</div>
+                  <div>✓ Autonomous Action Feedback Loop</div>
                 </div>
-                <button class="btn btn-block" style="background: white; color: var(--primary); font-weight: 700;" id="btnDashChatAI">Chat with AI</button>
+                <button class="btn btn-block" style="background: white; color: var(--primary); font-weight: 700;" id="btnDashChatAI">Chat with AI Agent</button>
               </div>
 
             </div>
@@ -643,12 +332,213 @@
           </div>
         </section>
 
-        <!-- VIEW 2: RESUME BUILDER (Matching Reference Images) -->
+        <!-- VIEW 2: PILLAR 1 — JOBS STREAM (Full-Time, Remote, Internships, Govt) -->
+        <section id="viewJobs" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>💼 Jobs & Opportunities Stream</h1>
+            <p>Full-Time, Remote, Internships, and Government / Public Sector discovery.</p>
+          </div>
+
+          <!-- JOB STREAM CATEGORY TABS -->
+          <div class="stream-tabs-bar" id="jobStreamCategoryTabs">
+            <button class="stream-tab-btn active" data-cat="all">🌐 All Roles</button>
+            <button class="stream-tab-btn" data-cat="Full-Time">🏢 Full-Time</button>
+            <button class="stream-tab-btn" data-cat="Remote">🌍 Remote</button>
+            <button class="stream-tab-btn" data-cat="Internship">🎓 Internships</button>
+            <button class="stream-tab-btn" data-cat="Government">🏛️ Government / Public</button>
+          </div>
+
+          <div class="job-finder-split">
+            <div>
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="jobSearchQuery" placeholder="Search by title, company or skill..." style="flex: 1;">
+                <button class="btn btn-primary" id="btnFilterJobs">Search</button>
+              </div>
+
+              <div id="jobListCards">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <div class="card" id="jobDetailPane">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div>
+                  <h2 style="font-size: 1.3rem;" id="oppDetailTitle">Select a Job Opportunity</h2>
+                  <p style="color: var(--primary); font-weight: 600;" id="oppDetailCompany">Click any role to view detailed match breakdown</p>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);" id="oppDetailScore">-- <span style="font-size: 0.8rem; color: var(--text-muted);">/100</span></div>
+                  <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;" id="oppDetailPriority">AI Match Score</span>
+                </div>
+              </div>
+
+              <div id="jobDetailBody">
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Select any opportunity from the list to view requirements, match score, and apply.</p>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-primary" id="btnApplyJobAction" style="display: none;">Apply & Add to Applications</button>
+                <button class="btn btn-outline" id="btnSaveJobAction" style="display: none;">Save Job</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 3: PILLAR 2 — LEARNING & SKILLS STREAM -->
+        <section id="viewLearning" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>📚 Learning, Skills & Certifications Stream</h1>
+            <p>Personalized skill gap roadmaps, interactive challenges, and project portfolios.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 320px; gap: 1.25rem;">
+            <div class="card">
+              <div class="card-title">🎯 Personalized Skill Gap Roadmap</div>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;" id="skillPathTitle">Engineering Progression Path</h3>
+              
+              <div class="roadmap-timeline" id="skillPathTimeline">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div class="card">
+                <div class="card-title">Roadmap Velocity</div>
+                <div style="text-align: center; margin: 1.5rem 0;">
+                  <div style="font-size: 2.8rem; font-weight: 700; color: var(--primary);" id="skillPathOverallPct">0%</div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Competency Score</p>
+                </div>
+                <div style="background: var(--bg-input); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                  <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Current Priority</span>
+                  <h6 style="font-size: 0.9rem; margin-top: 0.2rem;" id="skillPathCurrentFocus">Add skills to generate custom modules</h6>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-title">Certifications & Credentials</div>
+                <p style="font-size: 0.82rem; color: var(--text-muted);">Verified credentials boost your ATS Match Score by +25%.</p>
+                <div id="certListContainer" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem;">
+                  <!-- Dynamic certs -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 4: PILLAR 3 — BUSINESS & FREELANCE STREAM -->
+        <section id="viewBusiness" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h1>🚀 Business, Freelance & Client Gigs Stream</h1>
+              <p>High-ticket gigs, client acquisition, rate calculator, and grounded AI proposal generation.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenAddGigModal">+ Post Client Gig</button>
+          </div>
+
+          <!-- FREELANCE METRICS -->
+          <div class="metrics-row" style="margin-bottom: 1.5rem;">
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Active Gigs</span>
+                <div class="stat-value" id="valBusinessGigsCount">0</div>
+                <div class="stat-trend">High-Ticket Opportunities</div>
+              </div>
+              <div style="font-size: 1.8rem;">💼</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Client Pipeline</span>
+                <div class="stat-value" id="valBusinessPitchesCount">0</div>
+                <div class="stat-trend">Proposals Pitched</div>
+              </div>
+              <div style="font-size: 1.8rem;">📬</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <span>Recommended Hourly Rate</span>
+                <div class="stat-value" id="valCalculatedRate">$85/hr</div>
+                <div class="stat-trend">Market Value Calculator</div>
+              </div>
+              <div style="font-size: 1.8rem;">💰</div>
+            </div>
+          </div>
+
+          <!-- BUSINESS SPLIT: GIG DISCOVERY & CLIENT CRM -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+            
+            <!-- LEFT: GIG OPPORTUNITIES & 1-CLICK PROPOSAL GENERATOR -->
+            <div class="card">
+              <div class="card-title">🎯 High-Ticket Freelance & Consulting Opportunities</div>
+              <div id="freelanceGigsContainer" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <!-- RIGHT: CLIENT PROPOSAL WORKSPACE & CRM -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div class="card">
+                <div class="card-title">⚡ AI Grounded Proposal Engine</div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.75rem;">
+                  Generate tailored, evidence-backed client proposals using your verified skills and portfolio projects.
+                </p>
+                <button class="btn btn-primary btn-block" id="btnQuickGenerateProposal">Generate Proposal for Selected Gig</button>
+              </div>
+
+              <div class="card">
+                <div class="card-title">📊 Client Deal Pipeline</div>
+                <div id="clientPipelineList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <!-- Dynamic deals -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- VIEW 5: DECISION ENGINE / COMMAND CENTER -->
+        <section id="viewCommandCenter" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>🧠 Autonomous AI Decision Engine & Orchestrator</h1>
+            <p>Closed-loop multi-agent reasoning answering "What Should I Do Next?".</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+            <div class="card chat-box-card">
+              <div class="card-title">💬 Master Orchestrator Conversational Interface</div>
+              <div class="chat-messages-area" id="commandCenterMessages" style="height: 280px;">
+                <div class="chat-msg-bubble ai" id="commandCenterWelcomeMsg">
+                  <strong>🧠 Master Career Orchestrator</strong><br>
+                  Welcome to your AI Career Agent Ecosystem. I coordinate across Jobs, Learning, and Freelancing to calculate your highest-value Next Best Action. Ask me anything!
+                </div>
+              </div>
+
+              <form id="commandCenterForm" class="chat-input-row">
+                <input type="text" id="commandCenterInput" placeholder="Command your AI Career OS..." required>
+                <button type="submit" class="btn btn-primary">Execute</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="card-title">🌐 Active Multi-Agent Nodes</div>
+              <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.45rem;">
+                <div>🟢 Jobs & Application Agent (Online)</div>
+                <div>🟢 Learning & Skill Graph Agent (Online)</div>
+                <div>🟢 Business & Freelance Proposal Agent (Online)</div>
+                <div>🟢 Memory & Feedback Loop Agent (Online)</div>
+                <div>🟢 Closed-Loop Adaptation Strategy (Online)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 6: RESUME BUILDER -->
         <section id="viewResumes" class="app-view" style="display: none;">
           <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-              <h1>Resume Builder</h1>
-              <p>Create a professional resume that gets you hired.</p>
+              <h1>Resume Builder & ATS Scorer</h1>
+              <p>Create and optimize a targeted, high-impact resume in real time.</p>
             </div>
             <div style="display: flex; gap: 0.5rem;">
               <button class="btn btn-outline" id="btnResumePreview">👁️ Preview</button>
@@ -657,241 +547,152 @@
           </div>
 
           <div class="resume-builder-layout">
-            
-            <!-- LEFT PANEL: AI SUGGESTIONS -->
             <div class="card">
               <div class="card-title" style="font-size: 0.95rem;">AI Suggestions</div>
-              
               <div class="ai-suggestion-box">
-                <h6>💡 Improve Summary</h6>
-                <p>Add key achievements and quantify your impact for Data Engineering roles.</p>
+                <h6>💡 Professional Summary</h6>
+                <p>Highlight your core skills, years of experience, and measurable impact.</p>
               </div>
-
               <div class="ai-suggestion-box">
-                <h6>⚡ Skills Optimization</h6>
-                <p>Add relevant skills like Azure Data Factory, Data Modeling, and PySpark.</p>
+                <h6>⚡ Technical Skills</h6>
+                <p>Include modern tools and frameworks relevant to your target role.</p>
               </div>
-
-              <div class="ai-suggestion-box">
-                <h6>🎯 Experience Enhancement</h6>
-                <p>Use stronger action verbs (e.g. 'Architected', 'Optimized', 'Automated').</p>
-              </div>
-
-              <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnApplyAISuggestions">Apply All Suggestions</button>
+              <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnApplyAISuggestions">Apply AI Template</button>
             </div>
 
-            <!-- CENTER PANEL: LIVE RESUME EDITOR / PREVIEW -->
             <div class="resume-paper" id="resumePaper">
-              <h2 contenteditable="true" id="resName">Anuj Saraswat</h2>
-              <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;" contenteditable="true" id="resTitle">Aspiring Data Engineer</p>
-              <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;" contenteditable="true" id="resContact">anuj.saraswat@example.com • Noida, India • linkedin.com/in/anuj-saraswat</p>
+              <h2 contenteditable="true" id="resName" placeholder="Your Full Name">Your Name</h2>
+              <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;" contenteditable="true" id="resTitle">Target Role / Title</p>
+              <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;" contenteditable="true" id="resContact">email@example.com • Location • linkedin.com/in/profile</p>
 
               <h3>Summary</h3>
-              <p style="font-size: 0.85rem; line-height: 1.5;" contenteditable="true" id="resSummary">Passionate Computer Science student skilled in Python, SQL, Azure, and data technologies. Strong problem-solving and analytical abilities.</p>
+              <p style="font-size: 0.85rem; line-height: 1.5;" contenteditable="true" id="resSummary">Click here to write your professional career summary and key strengths...</p>
 
               <h3>Skills</h3>
-              <p style="font-size: 0.85rem;" contenteditable="true" id="resSkills">Python • SQL • Azure • Data Structures • Power BI • ETL • Excel</p>
+              <p style="font-size: 0.85rem;" contenteditable="true" id="resSkills">Add your skills separated by dots (e.g. Python • SQL • Docker)...</p>
 
               <h3>Experience</h3>
-              <div style="margin-bottom: 0.75rem;">
-                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 0.85rem;">
-                  <span>Software Developer Intern — Tech Solutions</span>
-                  <span style="color: #64748b;">June 2024 - Aug 2024</span>
+              <div id="resExperienceContainer">
+                <div style="margin-bottom: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 0.85rem;">
+                    <span contenteditable="true">Role Title — Company Name</span>
+                    <span style="color: #64748b;" contenteditable="true">2023 - Present</span>
+                  </div>
+                  <ul style="font-size: 0.8rem; margin-left: 1.2rem; margin-top: 0.25rem;">
+                    <li contenteditable="true">Describe key responsibilities and engineering achievements...</li>
+                  </ul>
                 </div>
-                <ul style="font-size: 0.8rem; margin-left: 1.2rem; margin-top: 0.25rem;">
-                  <li>Developed backend APIs using Python and FastAPI</li>
-                  <li>Worked on database design and SQL queries</li>
-                  <li>Collaborated in a team to deliver features</li>
-                </ul>
               </div>
 
               <h3>Education</h3>
-              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
-                <span>B.Tech Computer Science Engineering</span>
-                <span style="color: #64748b;">2022 - 2026</span>
+              <div id="resEducationContainer">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
+                  <span contenteditable="true">Degree / Certification — University or Institution</span>
+                  <span style="color: #64748b;" contenteditable="true">Graduation Year</span>
+                </div>
               </div>
             </div>
 
-            <!-- RIGHT PANEL: RESUME SCORE & BREAKDOWN -->
             <div class="card">
-              <div class="card-title" style="font-size: 0.95rem;">Resume Score</div>
-              
+              <div class="card-title" style="font-size: 0.95rem;">Live ATS Resume Score</div>
               <div style="text-align: center; margin: 1rem 0;">
-                <div style="font-size: 2.4rem; font-weight: 700; color: var(--primary);">85 <span style="font-size: 1rem; color: var(--text-muted);">/100</span></div>
-                <p style="font-size: 0.8rem; color: var(--success); font-weight: 600; margin-top: 0.2rem;">Great! Your resume is strong.</p>
+                <div style="font-size: 2.4rem; font-weight: 700; color: var(--primary);" id="resScoreVal">0 <span style="font-size: 1rem; color: var(--text-muted);">/100</span></div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 0.2rem;" id="resScoreStatus">Fill details to boost score</p>
               </div>
 
               <div style="margin-top: 1rem;">
                 <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info">
-                    <span>Content</span>
-                    <span>90%</span>
-                  </div>
-                  <div class="progress-track"><div class="progress-fill" style="width: 90%;"></div></div>
+                  <div class="score-breakdown-info"><span>Content</span><span id="scoreContentPct">0%</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="barScoreContent" style="width: 0%;"></div></div>
                 </div>
-
                 <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info">
-                    <span>Format</span>
-                    <span>84%</span>
-                  </div>
-                  <div class="progress-track"><div class="progress-fill" style="width: 84%;"></div></div>
+                  <div class="score-breakdown-info"><span>Format</span><span id="scoreFormatPct">0%</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="barScoreFormat" style="width: 0%;"></div></div>
                 </div>
-
                 <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info">
-                    <span>Skills</span>
-                    <span>85%</span>
-                  </div>
-                  <div class="progress-track"><div class="progress-fill" style="width: 85%;"></div></div>
+                  <div class="score-breakdown-info"><span>Skills</span><span id="scoreSkillsPct">0%</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="barScoreSkills" style="width: 0%;"></div></div>
                 </div>
-
                 <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info">
-                    <span>Impact</span>
-                    <span>85%</span>
-                  </div>
-                  <div class="progress-track"><div class="progress-fill" style="width: 85%;"></div></div>
+                  <div class="score-breakdown-info"><span>Impact</span><span id="scoreImpactPct">0%</span></div>
+                  <div class="progress-track"><div class="progress-fill" id="barScoreImpact" style="width: 0%;"></div></div>
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        <!-- VIEW 3: JOB FINDER -->
-        <section id="viewJobs" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Job Finder</h1>
-            <p>Find the best jobs tailored for you.</p>
-          </div>
-
-          <div class="job-finder-split">
-            <!-- LEFT LIST -->
+        <!-- VIEW 7: PROJECTS PORTFOLIO -->
+        <section id="viewProjects" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-              <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                <input type="text" id="jobSearchQuery" placeholder="Search by title or skill..." style="flex: 1;">
-                <button class="btn btn-primary" id="btnFilterJobs">Search</button>
-              </div>
-
-              <div id="jobListCards">
-                <div class="job-card-selectable active">
-                  <div style="display: flex; justify-content: space-between;">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">Data Engineer</h5>
-                    <span class="match-score-badge">95% Match</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--primary);">TCS • Bengaluru</p>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Onsite</p>
-                </div>
-
-                <div class="job-card-selectable">
-                  <div style="display: flex; justify-content: space-between;">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">Azure Data Engineer</h5>
-                    <span class="match-score-badge">90% Match</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--primary);">Networth Corp • Remote</p>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Remote</p>
-                </div>
-
-                <div class="job-card-selectable">
-                  <div style="display: flex; justify-content: space-between;">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">Junior Data Engineer</h5>
-                    <span class="match-score-badge">85% Match</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--primary);">Accenture • Hybrid</p>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Full Time • Hybrid</p>
-                </div>
-              </div>
+              <h1>Projects & Portfolio Evidence</h1>
+              <p>Track and showcase real-world engineering project work.</p>
             </div>
+            <button class="btn btn-primary" id="btnOpenAddProjectModal">+ Add Project</button>
+          </div>
 
-            <!-- RIGHT DETAIL VIEW -->
-            <div class="card" id="jobDetailPane">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                <div>
-                  <h2 style="font-size: 1.3rem;" id="oppDetailTitle">Senior Backend Engineer</h2>
-                  <p style="color: var(--primary); font-weight: 600;" id="oppDetailCompany">Stripe — Remote</p>
-                </div>
-                <div style="text-align: right;">
-                  <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);" id="oppDetailScore">91.5 <span style="font-size: 0.8rem; color: var(--text-muted);">/100</span></div>
-                  <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;">High Priority Match</span>
-                </div>
-              </div>
+          <div id="projectsListContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem;">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
 
-              <!-- MODULE 14 OPPORTUNITY SCORES BREAKDOWN -->
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem; background: var(--bg-surface); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color);">
-                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Skill Match</span><br><strong style="font-size: 0.9rem; color: var(--success);">88%</strong></div>
-                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Career Alignment</span><br><strong style="font-size: 0.9rem; color: var(--primary);">95%</strong></div>
-                <div><span style="font-size: 0.7rem; color: var(--text-muted);">Compensation</span><br><strong style="font-size: 0.9rem; color: var(--accent-cyan);">$150k-$190k</strong></div>
-              </div>
+        <!-- VIEW 8: KANBAN APPLICATIONS BOARD -->
+        <section id="viewKanban" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h1>Applications Pipeline Board</h1>
+              <p>Organize and track your active job applications across all stages.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenAddAppModal">+ Add Application</button>
+          </div>
 
-              <div style="border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.5rem;">
-                <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">Key Requirements & Evidence</h4>
-                <div style="font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem;">
-                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ Python</span>
-                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ FastAPI</span>
-                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ PostgreSQL</span>
-                  <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 8px; border-radius: 4px; font-weight: 600;">✓ Docker</span>
-                  <span style="background: rgba(239, 68, 68, 0.15); color: var(--danger); padding: 2px 8px; border-radius: 4px; font-weight: 600;">! AWS Cloud</span>
-                </div>
-              </div>
-
-              <!-- HUMAN-IN-THE-LOOP APPROVAL GATEWAY CARD -->
-              <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08)); border: 1.5px solid var(--primary); margin-top: 0.75rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">🛡️ Human-in-the-Loop Approval Gateway</span>
-                  <span style="font-size: 0.7rem; padding: 2px 8px; background: rgba(245, 158, 11, 0.2); color: var(--accent); border-radius: 12px; font-weight: 600;">Status: PENDING_APPROVAL</span>
-                </div>
-                
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-                  AI has prepared your tailored application package using verified Career Evidence. Please review and approve before submission:
-                </p>
-
-                <div style="font-size: 0.78rem; background: var(--bg-surface); padding: 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 0.75rem;">
-                  <div><strong>Selected Resume:</strong> Backend Resume v3</div>
-                  <div><strong>Grounded Highlights:</strong> FastAPI microservices, PostgreSQL indexing, Redis cache</div>
-                  <div style="margin-top: 0.25rem;"><strong>Cover Letter Preview:</strong> <em>"Dear Hiring Team at Stripe, I am writing to express my strong interest in the Senior Backend Engineer position..."</em></div>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem;">
-                  <button class="btn btn-primary btn-block" id="btnApproveApplication">✓ Approve & Submit Application</button>
-                  <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" id="btnRejectApplication">✕ Reject</button>
-                </div>
-              </div>
-
+          <div style="display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;" id="kanbanBoardContainer">
+            <div class="kanban-column" id="colSaved">
+              <div class="kanban-column-header"><span>Saved</span><span class="pill" id="countSaved">0</span></div>
+              <div class="kanban-card-list" id="kanbanSavedList"></div>
+            </div>
+            <div class="kanban-column" id="colApplied">
+              <div class="kanban-column-header"><span>Applied</span><span class="pill" id="countApplied">0</span></div>
+              <div class="kanban-card-list" id="kanbanAppliedList"></div>
+            </div>
+            <div class="kanban-column" id="colInterview">
+              <div class="kanban-column-header"><span>Interview</span><span class="pill" id="countInterview">0</span></div>
+              <div class="kanban-card-list" id="kanbanInterviewList"></div>
+            </div>
+            <div class="kanban-column" id="colOffer">
+              <div class="kanban-column-header"><span>Offer</span><span class="pill" id="countOffer">0</span></div>
+              <div class="kanban-card-list" id="kanbanOfferList"></div>
             </div>
           </div>
         </section>
 
-        <!-- VIEW 4: AI COACH (Matching Reference Images) -->
+        <!-- VIEW 9: INTERVIEW PREP -->
+        <section id="viewInterviews" class="app-view" style="display: none;">
+          <div class="page-greeting">
+            <h1>Interview Preparation & Practice</h1>
+            <p>Sharpen your technical, behavioral, and system design readiness.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">AI Mock Interview Generator</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Practice tailored interview scenarios based on your target role and skills.</p>
+            <button class="btn btn-primary" id="btnStartMockInterview">Start AI Mock Interview Session</button>
+          </div>
+        </section>
+
+        <!-- VIEW 10: AI COACH -->
         <section id="viewAICoach" class="app-view" style="display: none;">
           <div class="page-greeting">
             <h1>AI Career Coach</h1>
-            <p>Your personal career coach available 24/7.</p>
+            <p>Your interactive career mentor available 24/7.</p>
           </div>
 
           <div class="coach-chat-container">
-            <!-- CHAT CARD -->
             <div class="card chat-box-card">
               <div class="chat-messages-area" id="coachChatMessages">
-                <div class="chat-msg-bubble ai">
+                <div class="chat-msg-bubble ai" id="coachWelcomeMsg">
                   <strong>🤖 AI Career Coach</strong><br>
-                  Great choice! Data Engineering is in high demand. Here's a roadmap for you:<br>
-                  1. Strengthen SQL and Python<br>
-                  2. Learn Cloud (Azure/AWS)<br>
-                  3. Master Data Engineering tools (PySpark, Databricks)<br>
-                  4. Build real-world pipeline projects
-                </div>
-
-                <div class="chat-msg-bubble user">
-                  What skills should I focus on for Azure Data Engineer roles?
-                </div>
-
-                <div class="chat-msg-bubble ai">
-                  Based on current market trends, focus on:<br>
-                  • Azure Data Factory<br>
-                  • PySpark & Databricks<br>
-                  • Azure Synapse Analytics<br>
-                  • Data Modeling & SQL
+                  Hi! I am your personal AI Career Coach. Ask me about career roadmaps, resume tips, interview prep, or technical skill strategies!
                 </div>
               </div>
 
@@ -900,244 +701,245 @@
                 <button type="submit" class="btn btn-primary">Send</button>
               </form>
             </div>
-
-            <!-- RIGHT SIDEBAR: COACH TOOLS -->
-            <div class="card">
-              <div class="card-title">Coach Tools</div>
-              
-              <button class="coach-tool-btn" id="toolResumeReview">
-                <span>📄 Resume Review</span>
-                <span>→</span>
-              </button>
-
-              <button class="coach-tool-btn" id="toolMockInterview">
-                <span>🎤 Mock Interview</span>
-                <span>→</span>
-              </button>
-
-              <button class="coach-tool-btn" id="toolSkillGap">
-                <span>📈 Skill Gap Analysis</span>
-                <span>→</span>
-              </button>
-
-              <button class="coach-tool-btn" id="toolRoadmap">
-                <span>🎯 Career Roadmap</span>
-                <span>→</span>
-              </button>
-            </div>
           </div>
         </section>
 
-        <!-- VIEW 5: SKILL PATH (Matching Reference Images) -->
-        <section id="viewSkillPath" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Skill Path</h1>
-            <p>Personalized learning path for your goals.</p>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem;">
-            <!-- LEFT TIMELINE -->
-            <div class="card">
-              <h3 style="font-size: 1.1rem; font-weight: 700;">Data Engineer Roadmap</h3>
-              
-              <div class="roadmap-timeline">
-                <div class="roadmap-step completed">
-                  <div class="roadmap-step-header">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">1. SQL & Database Fundamentals</h5>
-                    <span class="badge-status completed">Completed</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">Master queries, indexing, joins, and schema normalization.</p>
-                </div>
-
-                <div class="roadmap-step">
-                  <div class="roadmap-step-header">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">2. Python for Data Engineering</h5>
-                    <span class="badge-status in-progress">In Progress</span>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">Pandas, PySpark, API integration, and file parsing.</p>
-                </div>
-
-                <div class="roadmap-step locked">
-                  <div class="roadmap-step-header">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">3. Data Modeling</h5>
-                    <span class="badge-status locked">Locked</span>
-                  </div>
-                </div>
-
-                <div class="roadmap-step locked">
-                  <div class="roadmap-step-header">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">4. ETL & Data Warehousing</h5>
-                    <span class="badge-status locked">Locked</span>
-                  </div>
-                </div>
-
-                <div class="roadmap-step locked">
-                  <div class="roadmap-step-header">
-                    <h5 style="font-size: 0.95rem; font-weight: 600;">5. Cloud (Azure)</h5>
-                    <span class="badge-status locked">Locked</span>
-                  </div>
-                </div>
-              </div>
+        <!-- VIEW 11: NETWORKING & CRM -->
+        <section id="viewNetwork" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h1>🌐 Networking CRM & Personal Brand</h1>
+              <p>Manage key industry connections and referral outreach.</p>
             </div>
-
-            <!-- RIGHT PROGRESS -->
-            <div class="card">
-              <div class="card-title">Current Progress</div>
-              <div style="text-align: center; margin: 1.5rem 0;">
-                <div style="font-size: 2.8rem; font-weight: 700; color: var(--primary);">45%</div>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">Overall Progress</p>
-              </div>
-
-              <div style="background: var(--bg-input); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Upcoming</span>
-                <h6 style="font-size: 0.9rem; margin-top: 0.2rem;">Data Modeling</h6>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Next season</span>
-                <button class="btn btn-primary btn-block btn-sm" style="margin-top: 0.75rem;">Continue Learning</button>
-              </div>
-            </div>
+            <button class="btn btn-primary" id="btnOpenAddContactModal">+ Add Contact</button>
           </div>
-        </section>
 
-        <!-- VIEW 6: PROJECTS -->
-        <section id="viewProjects" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Projects & Role Portfolio</h1>
-            <p>Showcase real-world engineering project evidence.</p>
-          </div>
           <div class="card">
-            <h3>Real-time Data Pipeline with Azure</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Automated ETL pipeline using Azure Data Factory, Databricks, and Synapse.</p>
-          </div>
-        </section>
-
-        <!-- VIEW 7: KANBAN -->
-        <section id="viewKanban" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Applications Pipeline Board</h1>
-            <p>Track applications across recruitment stages.</p>
-          </div>
-          <div style="display: flex; gap: 1rem; overflow-x: auto;" id="kanbanCols">
-            <div class="card" style="flex: 0 0 260px;">
-              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Saved (2)</h4>
-              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
-                <h6 style="font-size: 0.85rem;">ETL Developer</h6>
-                <span style="font-size: 0.75rem; color: var(--primary);">Capgemini</span>
-              </div>
-            </div>
-
-            <div class="card" style="flex: 0 0 260px;">
-              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Applied (5)</h4>
-              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
-                <h6 style="font-size: 0.85rem;">Data Engineer</h6>
-                <span style="font-size: 0.75rem; color: var(--primary);">TCS</span>
-              </div>
-            </div>
-
-            <div class="card" style="flex: 0 0 260px;">
-              <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem;">Interview (3)</h4>
-              <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
-                <h6 style="font-size: 0.85rem;">Azure Data Engineer</h6>
-                <span style="font-size: 0.75rem; color: var(--primary);">Networth Corp</span>
-              </div>
+            <div class="card-title">👥 Network CRM Directory</div>
+            <div id="networkDirectoryContainer" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <!-- Rendered dynamically -->
             </div>
           </div>
         </section>
 
-        <!-- VIEW 8: INTERVIEW PREP -->
-        <section id="viewInterviews" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Interview Prep</h1>
-            <p>Mock interviews and technical practice.</p>
-          </div>
-          <div class="card">
-            <h3>Technical Interview Practice</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Practice Python, SQL, and Azure architecture questions.</p>
-          </div>
-        </section>
-
-        <!-- VIEW 9: LEARNING -->
-        <section id="viewLearning" class="app-view" style="display: none;">
-          <div class="page-greeting">
-            <h1>Learning Hub</h1>
-            <p>Interactive skill building challenges.</p>
-          </div>
-          <div class="card">
-            <h3>Python & SQL Modules</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Self-paced learning paths and exercises.</p>
-          </div>
-        </section>
-
-        <!-- VIEW 10: OFFERS -->
+        <!-- VIEW 12: OFFERS & RETAINERS -->
         <section id="viewOffers" class="app-view" style="display: none;">
           <div class="page-greeting">
-            <h1>Offers & Decisions</h1>
-            <p>Compensation analysis and AI offer guidance.</p>
+            <h1>Offer & Retainer Management</h1>
+            <p>Evaluate job offers, client retainer contracts, and compensation packages.</p>
           </div>
-          <div class="card">
-            <h3>Active Offer: Data Engineer</h3>
-            <p style="font-size: 0.85rem; color: var(--success); font-weight: 600;">Recommendation: ACCEPT</p>
+          <div class="card" id="offersCard">
+            <div class="card-title">Active Offers & Retainers</div>
+            <div id="offersListContainer">
+              <div class="empty-state">
+                <div class="empty-state-icon">💰</div>
+                <div class="empty-state-text">No active offers or retainers recorded yet.</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- VIEW 11: ANALYTICS (Matching Reference Images) -->
+        <!-- VIEW 13: ANALYTICS -->
         <section id="viewAnalytics" class="app-view" style="display: none;">
           <div class="page-greeting">
-            <h1>Analytics</h1>
-            <p>Track your progress and performance.</p>
+            <h1>Career Performance & Flywheel Analytics</h1>
+            <p>Track your closed-loop conversion rates across all 3 pillars.</p>
           </div>
 
           <div class="metrics-row">
             <div class="stat-card">
               <div class="stat-info">
-                <span>Profile Views</span>
-                <div class="stat-value">128</div>
-                <div class="stat-trend">+12%</div>
+                <span>Skills Tracked</span>
+                <div class="stat-value" id="analyticsSkills">0</div>
+                <div class="stat-trend">Evidence Base</div>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-info">
-                <span>Applications</span>
-                <div class="stat-value">24</div>
-                <div class="stat-trend">+16%</div>
+                <span>Job Applications</span>
+                <div class="stat-value" id="analyticsApps">0</div>
+                <div class="stat-trend">Pillar 1</div>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-info">
-                <span>Interview Calls</span>
-                <div class="stat-value">6</div>
-                <div class="stat-trend">+20%</div>
+                <span>Freelance Deals</span>
+                <div class="stat-value" id="analyticsFreelance">0</div>
+                <div class="stat-trend">Pillar 3</div>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-info">
-                <span>Offers</span>
-                <div class="stat-value">1</div>
-                <div class="stat-trend">+100%</div>
+                <span>Closed Decisions</span>
+                <div class="stat-value" id="analyticsDecisions">0</div>
+                <div class="stat-trend">Flywheel Loops</div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- VIEW 12: SETTINGS -->
+        <!-- VIEW 14: SETTINGS -->
         <section id="viewSettings" class="app-view" style="display: none;">
           <div class="page-greeting">
-            <h1>Settings</h1>
-            <p>Manage your account settings and preferences.</p>
+            <h1>Account & Career Profile Settings</h1>
+            <p>Configure your personal profile, target career role, and preferences.</p>
           </div>
-          <div class="card" style="max-width: 500px;">
-            <div class="form-group">
-              <label>Target Role Preference</label>
-              <input type="text" value="Data Engineer">
-            </div>
-            <div class="form-group">
-              <label>Target Location</label>
-              <input type="text" value="Bengaluru / Remote">
-            </div>
-            <button class="btn btn-primary">Save Settings</button>
+          <div class="card" style="max-width: 540px;">
+            <form id="formSettings">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="settingName" placeholder="Your Name" required>
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="settingEmail" placeholder="email@example.com" disabled style="opacity: 0.7;">
+              </div>
+              <div class="form-group">
+                <label>Target Role Preference</label>
+                <input type="text" id="settingTargetRole" placeholder="e.g. Senior Backend Engineer, Data Scientist, Full Stack Developer">
+              </div>
+              <div class="form-group">
+                <label>Target Location</label>
+                <input type="text" id="settingTargetLocation" placeholder="e.g. Remote / New York / Bengaluru / Hybrid">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+            </form>
           </div>
         </section>
 
       </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD APPLICATION -->
+  <div id="modalAddApp" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Add Job Application</h3>
+        <button class="btn-close" id="btnCloseAddAppModal">✕</button>
+      </div>
+      <form id="formAddApplication">
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" id="appCompany" placeholder="e.g. Google, Stripe, Microsoft" required>
+        </div>
+        <div class="form-group">
+          <label>Job Title</label>
+          <input type="text" id="appRole" placeholder="e.g. Senior Backend Engineer" required>
+        </div>
+        <div class="form-group">
+          <label>Stage / Status</label>
+          <select id="appStatus">
+            <option value="Saved">Saved</option>
+            <option value="Applied" selected>Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Add Application</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD PROJECT -->
+  <div id="modalAddProject" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Add Portfolio Project</h3>
+        <button class="btn-close" id="btnCloseAddProjectModal">✕</button>
+      </div>
+      <form id="formAddProject">
+        <div class="form-group">
+          <label>Project Title</label>
+          <input type="text" id="projTitle" placeholder="e.g. Distributed Cache & KV Store" required>
+        </div>
+        <div class="form-group">
+          <label>Description & Evidence</label>
+          <textarea id="projDesc" rows="3" placeholder="Engineered high throughput API pipeline using Python, Redis and PostgreSQL..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Technologies Used (comma separated)</label>
+          <input type="text" id="projTech" placeholder="e.g. Python, FastAPI, Docker, PostgreSQL">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save Project</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD CONTACT -->
+  <div id="modalAddContact" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Add Network Connection</h3>
+        <button class="btn-close" id="btnCloseAddContactModal">✕</button>
+      </div>
+      <form id="formAddContact">
+        <div class="form-group">
+          <label>Contact Name</label>
+          <input type="text" id="contactName" placeholder="e.g. Sarah Connor" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" id="contactCompany" placeholder="e.g. Stripe" required>
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <input type="text" id="contactRole" placeholder="e.g. Engineering Director" required>
+        </div>
+        <div class="form-group">
+          <label>Relationship Tier</label>
+          <select id="contactTier">
+            <option value="WARM">Warm (Alumni / Ex-Colleague)</option>
+            <option value="RECRUITER">Recruiter</option>
+            <option value="COLD">New Connection</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Save Contact</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD FREELANCE GIG -->
+  <div id="modalAddGig" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Add Client Gig / Freelance Contract</h3>
+        <button class="btn-close" id="btnCloseAddGigModal">✕</button>
+      </div>
+      <form id="formAddGig">
+        <div class="form-group">
+          <label>Client / Company Name</label>
+          <input type="text" id="gigClient" placeholder="e.g. FinTech Global" required>
+        </div>
+        <div class="form-group">
+          <label>Project Scope / Title</label>
+          <input type="text" id="gigTitle" placeholder="e.g. Scalable FastAPI Microservice & Vector DB" required>
+        </div>
+        <div class="form-group">
+          <label>Budget / Retainer</label>
+          <input type="text" id="gigBudget" placeholder="e.g. $4,500 fixed or $90/hr" required>
+        </div>
+        <div class="form-group">
+          <label>Required Tech Stack (comma separated)</label>
+          <input type="text" id="gigTech" placeholder="e.g. Python, FastAPI, Docker, PGVector">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Post Gig to Pipeline</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AI PROPOSAL VIEWER -->
+  <div id="modalProposal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">🚀 Grounded AI Client Pitch Proposal</h3>
+        <button class="btn-close" id="btnCloseProposalModal">✕</button>
+      </div>
+      <div class="proposal-preview-box" id="proposalTextContent"></div>
+      <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+        <button class="btn btn-primary" id="btnCopyProposal">📋 Copy Proposal</button>
+        <button class="btn btn-outline" id="btnMarkProposalSent">✓ Mark as Pitched in CRM</button>
+      </div>
     </div>
   </div>
 
