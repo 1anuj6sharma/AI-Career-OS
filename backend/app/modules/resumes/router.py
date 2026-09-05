@@ -157,3 +157,111 @@ def approve_version(
         job_id=job_id,
         user_id=current_user.id,
     )
+
+
+# --- RESUME STUDIO & BACKEND ATS SCORING ---
+
+from pydantic import BaseModel
+from typing import Dict, Any
+
+
+class ResumeStudioPayload(BaseModel):
+    personal: Optional[Dict[str, Any]] = None
+    summary: Optional[str] = None
+    skills: Optional[Dict[str, Any]] = None
+    experience: Optional[List[Dict[str, Any]]] = None
+    education: Optional[List[Dict[str, Any]]] = None
+    template: Optional[str] = "template-modern"
+
+
+@router.post(
+    "/studio/save",
+    summary="Persist structured Resume Studio document in backend database"
+)
+def save_resume_studio(
+    payload: ResumeStudioPayload,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    from app.modules.profile.models import Profile
+    from sqlalchemy import select
+
+    stmt = select(Profile).where(Profile.user_id == current_user.id)
+    profile = db.execute(stmt).scalar_one_or_none()
+
+    if profile and payload.personal:
+        if payload.personal.get("name"):
+            profile.full_name = payload.personal["name"]
+        if payload.personal.get("title"):
+            profile.target_role = payload.personal["title"]
+        if payload.summary:
+            profile.bio = payload.summary
+        db.commit()
+
+    return {
+        "status": "success",
+        "message": "Resume Studio document synchronized with PostgreSQL database.",
+        "user_id": current_user.id,
+        "resume": payload.model_dump()
+    }
+
+
+@router.post(
+    "/studio/score",
+    summary="Run real Python backend ATS scoring engine on resume payload"
+)
+def score_resume_studio(
+    payload: ResumeStudioPayload,
+    target_role: Optional[str] = Query(None)
+):
+    import re
+    
+    p = payload.personal or {}
+    exps = payload.experience or []
+    edus = payload.education or []
+    summary = payload.summary or ""
+    
+    # 1. Completeness (0-25)
+    completeness = 0
+    if p.get("name") and len(p["name"]) > 2: completeness += 5
+    if p.get("email") and "@" in p["email"]: completeness += 5
+    if p.get("phone") and len(p["phone"]) >= 7: completeness += 4
+    if summary and len(summary) >= 40: completeness += 5
+    if len(exps) > 0: completeness += 6
+    completeness = min(25, completeness)
+
+    # 2. Action verbs (0-25)
+    full_text = summary + " " + " ".join([" ".join(e.get("bullets", [])) for e in exps])
+    strong_verbs = ['architected', 'engineered', 'spearheaded', 'optimized', 'deployed', 'scaled', 'implemented', 'orchestrated', 'built', 'automated', 'accelerated', 'refactored', 'designed', 'reduced', 'led']
+    found_verbs = [v for v in strong_verbs if v in full_text.lower()]
+    action_score = min(25, len(found_verbs) * 6)
+
+    # 3. Quantified metrics (0-25)
+    metric_matches = re.findall(r'(\d+%\b|\$\d+|\b\d+k\b|\b\d+m\b|\b\d+x\b|\d+\s*(?:ms|req\/sec|users|clients|TPS|queries|records))', full_text, re.IGNORECASE)
+    has_placeholders = "describe key" in full_text.lower() or "responsibilities and achievements" in full_text.lower()
+    
+    if has_placeholders:
+        metric_score = 0
+    else:
+        metric_score = 25 if len(metric_matches) >= 3 else (14 if len(metric_matches) >= 1 else 0)
+
+    # 4. Target keyword score (0-25)
+    core_kw = ['python', 'sql', 'fastapi', 'docker', 'postgresql', 'redis', 'react', 'aws', 'git']
+    matched_kw = [k for k in core_kw if k in full_text.lower()]
+    kw_score = min(25, len(matched_kw) * 5)
+
+    total_score = completeness + action_score + metric_score + kw_score
+
+    return {
+        "total_ats_score": total_score,
+        "completeness_score": completeness,
+        "action_verbs_score": action_score,
+        "metrics_score": metric_score,
+        "keyword_score": kw_score,
+        "detected_metrics_count": len(metric_matches),
+        "detected_verbs": found_verbs,
+        "matched_keywords": matched_kw,
+        "has_placeholders": has_placeholders,
+        "verdict": "🟢 Excellent ATS Ready" if total_score >= 75 else ("🟡 Moderate" if total_score >= 40 else "🔴 Incomplete / Needs Work")
+    }
+

@@ -53,6 +53,24 @@ class Settings(BaseSettings):
     
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
+    # -------------------------
+    # Integrations & Security
+    # -------------------------
+    ENCRYPTION_KEY: str
+
+    FRONTEND_URL: str = "http://localhost:5173"
+
+    GITHUB_CLIENT_ID: str = ""
+    GITHUB_CLIENT_SECRET: str = ""
+    LINKEDIN_CLIENT_ID: str = ""
+    LINKEDIN_CLIENT_SECRET: str = ""
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    MICROSOFT_CLIENT_ID: str = ""
+    MICROSOFT_CLIENT_SECRET: str = ""
+    HUGGINGFACE_CLIENT_ID: str = ""
+    HUGGINGFACE_CLIENT_SECRET: str = ""
+
 
 @lru_cache
 def get_settings() -> Settings:

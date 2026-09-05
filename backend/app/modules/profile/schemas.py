@@ -41,8 +41,8 @@ class ProfileResponse(BaseModel):
 
 class SkillCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
-    category: str = Field(..., min_length=1, max_length=50)
-    proficiency_level: Optional[str] = None
+    category: str = Field(default="Technical", min_length=1, max_length=50)
+    proficiency_level: Optional[str] = "Advanced"
 
 class SkillUpdate(BaseModel):
     name: Optional[str] = None

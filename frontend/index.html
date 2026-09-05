@@ -57,43 +57,46 @@
 
       <nav class="sidebar-nav">
         <button class="nav-link active" data-view="dashboard">
-          <span class="nav-icon">📊</span> Dashboard
+          <span class="nav-icon">🏠</span> Dashboard (Command Center)
         </button>
         <button class="nav-link" data-view="commandCenter">
-          <span class="nav-icon">🧠</span> Decision Engine
+          <span class="nav-icon">🧠</span> AI Decision Engine
         </button>
         <button class="nav-link" data-view="jobs">
-          <span class="nav-icon">💼</span> Jobs & Internships
-        </button>
-        <button class="nav-link" data-view="learning">
-          <span class="nav-icon">📚</span> Learning & Skills
-        </button>
-        <button class="nav-link" data-view="business">
-          <span class="nav-icon">🚀</span> Business & Freelance
-        </button>
-        <button class="nav-link" data-view="resumes">
-          <span class="nav-icon">📄</span> Resume Builder
-        </button>
-        <button class="nav-link" data-view="projects">
-          <span class="nav-icon">📁</span> Project Evidence
+          <span class="nav-icon">💼</span> Opportunity Intelligence
         </button>
         <button class="nav-link" data-view="kanban">
-          <span class="nav-icon">📋</span> Applications
+          <span class="nav-icon">📋</span> Applications Pipeline
         </button>
         <button class="nav-link" data-view="interviews">
-          <span class="nav-icon">🎤</span> Interview Prep
+          <span class="nav-icon">🎤</span> Interview Intelligence
+        </button>
+        <button class="nav-link" data-view="learning">
+          <span class="nav-icon">📚</span> Learning & Skill Gaps
+        </button>
+        <button class="nav-link" data-view="projects">
+          <span class="nav-icon">🧩</span> Project Evidence Graph
+        </button>
+        <button class="nav-link" data-view="resumes">
+          <span class="nav-icon">📄</span> Resume Intelligence
+        </button>
+        <button class="nav-link" data-view="business">
+          <span class="nav-icon">🚀</span> Freelance & Client Gigs
+        </button>
+        <button class="nav-link" data-view="network">
+          <span class="nav-icon">🌐</span> Network & Referrals
+        </button>
+        <button class="nav-link" data-view="offers">
+          <span class="nav-icon">⭐</span> Personal Brand & Offers
         </button>
         <button class="nav-link" data-view="aiCoach">
           <span class="nav-icon">🤖</span> AI Career Coach
         </button>
-        <button class="nav-link" data-view="network">
-          <span class="nav-icon">🌐</span> Network CRM
-        </button>
-        <button class="nav-link" data-view="offers">
-          <span class="nav-icon">💰</span> Offers & Retainers
+        <button class="nav-link" data-view="integrations">
+          <span class="nav-icon">🔌</span> Connected Accounts & Tools
         </button>
         <button class="nav-link" data-view="analytics">
-          <span class="nav-icon">📈</span> Analytics
+          <span class="nav-icon">📊</span> Career Analytics & Telemetry
         </button>
         <button class="nav-link" data-view="settings">
           <span class="nav-icon">⚙️</span> Settings
@@ -117,6 +120,7 @@
     <div class="main-wrapper">
       
       <!-- TOP HEADER BAR -->
+      <!-- TOP HEADER BAR -->
       <header class="top-header">
         <div class="header-search">
           <span class="search-icon">🔍</span>
@@ -124,6 +128,10 @@
         </div>
 
         <div class="header-actions">
+          <div class="live-pulse-badge">
+            <span class="pulse-dot"></span>
+            <span>Live AI Pulse: Active</span>
+          </div>
           <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">🌙</button>
           <button class="btn-ask-ai" id="btnHeaderAskAI">
             <span>⚡</span> "What Should I Do Next?"
@@ -134,202 +142,259 @@
       <!-- PAGE CONTENT AREA -->
       <main class="page-content">
         
-        <!-- VIEW 1: DASHBOARD & AUTONOMOUS DECISION ENGINE -->
+        <!-- VIEW 1: AI CAREER COMMAND CENTER (REARCHITECTED DASHBOARD) -->
         <section id="viewDashboard" class="app-view">
-          <div class="page-greeting">
-            <h1>Welcome, <span id="greetingName">User</span>! 👋</h1>
-            <p>AI Career Agent Ecosystem — Autonomous multi-pillar intelligence.</p>
-          </div>
+          
+          <!-- 1. 🧠 AI CAREER STATE (The most important part) -->
+          <div class="command-center-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <h1 class="cmd-title" style="font-size: 1.75rem; font-weight: 800; margin: 0; letter-spacing: -0.03em;">YOUR <span style="color: var(--primary);">CAREER STATE</span></h1>
+              <span class="live-pulse-badge" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+                <span class="pulse-dot"></span>
+                AI Orchestrator Online
+              </span>
+            </div>
 
-          <!-- AUTONOMOUS "WHAT SHOULD I DO NEXT?" CLOSED-LOOP DECISION CARD -->
-          <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12)); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-              <div>
-                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.25rem;">
-                  <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;" id="nbaPillarBadge">🎯 AI DECISION ENGINE</span>
-                  <span style="font-size: 0.7rem; background: rgba(99, 102, 241, 0.18); color: var(--primary); padding: 2px 8px; border-radius: 8px; font-weight: 600;" id="nbaStrategyVersion">Strategy: v1.0</span>
+            <!-- MAIN METRICS BOX (Glassmorphic, Spacious) -->
+            <div class="career-state-box">
+              <div class="state-goal-section">
+                <div>
+                  <div class="state-label">Goal</div>
+                  <div class="state-value highlight">Senior AI/ML Systems Engineer</div>
                 </div>
-                <h2 style="font-size: 1.35rem; font-weight: 800;" id="nbaTitle">Initialize Career Profile & Skills</h2>
+                <div>
+                  <div class="state-label">Target</div>
+                  <div class="state-value">90 Days</div>
+                </div>
               </div>
-              <div style="text-align: right;">
-                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 3px 10px; border-radius: 12px; font-weight: 700;" id="nbaScoreBadge">ROI Score: 95/100</span>
+
+              <div class="state-metrics-grid">
+                <div class="metric-item">
+                  <span class="metric-label">Career Health</span>
+                  <span class="metric-value">78<span class="metric-sub">/100</span></span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Goal Progress</span>
+                  <span class="metric-value">64%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Readiness</span>
+                  <span class="metric-value">72%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Opportunity Fit</span>
+                  <span class="metric-value">86%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Execution</span>
+                  <span class="metric-value">60%</span>
+                </div>
               </div>
-            </div>
-            
-            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.85rem;" id="nbaReason">
-              Welcome! Start by adding your target role and top 3 technical skills to power autonomous matching across Jobs, Learning, and Freelance Gigs.
-            </p>
-
-            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-              <button class="btn btn-primary" id="btnExecuteNextBestAction">⚡ Execute 1-Click Action</button>
-              <span style="font-size: 0.8rem; color: var(--text-muted);" id="nbaImpactText">Impact: <strong style="color: var(--success);">MAXIMUM</strong></span>
-            </div>
-
-            <!-- CLOSED-LOOP RESULT & FEEDBACK TRACKER BAR -->
-            <div class="decision-flywheel-bar">
-              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">🔄 Feedback Flywheel:</span>
-              <button class="btn-flywheel-outcome" data-outcome="completed">✅ Mark Completed / Applied</button>
-              <button class="btn-flywheel-outcome" data-outcome="interview">💬 Interview / Client Reply</button>
-              <button class="btn-flywheel-outcome" data-outcome="postponed">⏭️ Skip / Adapt Strategy</button>
+              
+              <div class="state-bottleneck-section">
+                <div class="bottleneck-alert">
+                  <span class="icon">⚠</span>
+                  <div>
+                    <strong style="color: #fff;">Current Bottleneck:</strong> <span style="color: rgba(255,255,255,0.85);">LangGraph Production Evidence</span>
+                  </div>
+                </div>
+                <div class="ai-priority-alert">
+                  <span class="icon">⚡</span>
+                  <div>
+                    <strong style="color: #fff;">AI Priority:</strong> <span style="color: rgba(255,255,255,0.85);">→ Build 1 production-grade agent workflow</span>
+                  </div>
+                </div>
+                <div class="state-actions">
+                  <button class="btn btn-primary" id="btnExecuteNextBestAction" style="font-size: 1.05rem; padding: 0.85rem 1.75rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5); font-weight: 700;">🚀 Execute Priority Action</button>
+                  <button class="btn btn-outline" id="btnHeroShowReasoning" style="font-size: 1rem; padding: 0.8rem 1.5rem; background: rgba(255,255,255,0.05); color: #fff; border-color: rgba(255,255,255,0.2);">🧠 Show Reasoning</button>
+                  <button class="btn btn-outline" id="btnHeroChangeGoal" style="font-size: 1rem; padding: 0.8rem 1.5rem; background: rgba(255,255,255,0.05); color: #fff; border-color: rgba(255,255,255,0.2);">🎯 Calibrate Goal</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- TOP METRICS ROW -->
-          <div class="metrics-row">
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Profile Strength</span>
-                <div class="stat-value" id="valProfileStrength">0%</div>
-                <div class="stat-trend" id="trendProfileStrength">Clean Slate</div>
-              </div>
-              <div style="font-size: 1.8rem;">📈</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Job Applications</span>
-                <div class="stat-value" id="valApplications">0</div>
-                <div class="stat-trend" style="color: var(--primary);">Tracked</div>
-              </div>
-              <div style="font-size: 1.8rem;">💼</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Skills Mastered</span>
-                <div class="stat-value" id="valSkills">0</div>
-                <div class="stat-trend" style="color: var(--success);">Evidence Graph</div>
-              </div>
-              <div style="font-size: 1.8rem;">🎓</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Freelance Pipeline</span>
-                <div class="stat-value" id="valFreelancePipeline">$0</div>
-                <div class="stat-trend" style="color: var(--accent);">Gigs & Clients</div>
-              </div>
-              <div style="font-size: 1.8rem;">🚀</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-info">
-                <span>Decisions Executed</span>
-                <div class="stat-value" id="valDecisionsExecuted">0</div>
-                <div class="stat-trend" style="color: var(--accent-cyan);">Feedback Loops</div>
-              </div>
-              <div style="font-size: 1.8rem;">⚡</div>
-            </div>
-          </div>
-
-          <!-- DASHBOARD MAIN GRID -->
-          <div class="dashboard-grid">
+          <!-- 2. DASHBOARD GRID (Clean, separated boxes) -->
+          <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; margin-top: 2rem;">
             
             <!-- LEFT COLUMN -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div class="dash-column" style="display: flex; flex-direction: column; gap: 1.75rem;">
               
-              <!-- TODAY'S PLAN -->
-              <div class="card">
-                <div class="card-title">
-                  <span>Today's Execution Plan</span>
-                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="planProgressText">Progress: 0%</span>
+              <!-- APPROVAL CENTER -->
+              <div class="premium-card approval-center">
+                <div class="card-header">
+                  <h2>🔐 Human-in-the-Loop Approval Center</h2>
+                  <span class="badge warning">3 Pending</span>
                 </div>
+                <p class="card-desc">Review and approve high-stakes actions before AI agents execute them.</p>
                 
-                <div class="task-checklist" id="checklistTasks">
-                  <!-- Rendered dynamically -->
-                </div>
-
-                <form id="formAddTask" class="inline-add-row">
-                  <input type="text" id="inputNewTaskTitle" placeholder="Add a daily action (Job apply, skill study, client pitch)..." required style="flex: 1;">
-                  <input type="text" id="inputNewTaskTime" placeholder="30m" style="width: 70px;">
-                  <button type="submit" class="btn btn-primary btn-sm">+ Add</button>
-                </form>
-
-                <div class="progress-container">
-                  <div class="progress-header">
-                    <span>Total Progress</span>
-                    <span id="planPercentLabel">0%</span>
+                <div class="approval-list spaced" id="approvalQueueList">
+                  <div class="approval-item">
+                    <div class="app-info">
+                      <span class="app-title">Apply to Anthropic</span>
+                      <span class="app-desc">Custom tailored resume ready for Senior AI Engineer role.</span>
+                    </div>
+                    <div class="app-actions">
+                      <button class="btn btn-sm btn-success">Approve & Submit</button>
+                      <button class="btn btn-sm btn-outline">Review</button>
+                      <button class="btn btn-sm btn-danger-outline">Reject</button>
+                    </div>
                   </div>
-                  <div class="progress-track">
-                    <div class="progress-fill" id="planPercentBar" style="width: 0%;"></div>
+                  <div class="approval-item">
+                    <div class="app-info">
+                      <span class="app-title">Warm Referral Message</span>
+                      <span class="app-desc">To Engineering Director at Stripe.</span>
+                    </div>
+                    <div class="app-actions">
+                      <button class="btn btn-sm btn-success">Approve & Send</button>
+                      <button class="btn btn-sm btn-outline">Edit Pitch</button>
+                    </div>
+                  </div>
+                  <div class="approval-item">
+                    <div class="app-info">
+                      <span class="app-title">Freelance Proposal</span>
+                      <span class="app-desc">For $4,500 FastAPI microservice on Upwork.</span>
+                    </div>
+                    <div class="app-actions">
+                      <button class="btn btn-sm btn-success">Approve & Send</button>
+                      <button class="btn btn-sm btn-outline">Modify</button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- SKILL EVIDENCE PROGRESS -->
-              <div class="card">
-                <div class="card-title">
-                  <span>Skill Evidence Matrix</span>
-                  <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" id="skillCountLabel">0 Skills</span>
+              <!-- AI EXECUTION MATRIX -->
+              <div class="premium-card execution-matrix">
+                <div class="card-header">
+                  <h2>⚡ Today's AI Execution Plan</h2>
+                  <span class="badge success">60% Complete</span>
                 </div>
-                
-                <div id="skillProgressList" style="display: flex; flex-direction: column; gap: 0.85rem;">
-                  <!-- Rendered dynamically -->
-                </div>
-
-                <form id="formAddSkill" class="inline-add-row">
-                  <input type="text" id="inputNewSkillName" placeholder="Skill Name (Python, PySpark, FastAPI)..." required style="flex: 1;">
-                  <select id="inputNewSkillLevel" style="width: 130px;">
-                    <option value="50">Beginner (50%)</option>
-                    <option value="75" selected>Intermediate (75%)</option>
-                    <option value="90">Advanced (90%)</option>
-                    <option value="100">Expert (100%)</option>
-                  </select>
-                  <button type="submit" class="btn btn-primary btn-sm">+ Add Skill</button>
-                </form>
-              </div>
-
-              <!-- RECENT ACTIVITIES & DECISION MEMORY -->
-              <div class="card">
-                <div class="card-title">Feedback Loop & Activity Memory</div>
-                <div id="activityFeed" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
-                  <!-- Rendered dynamically -->
+                <div class="table-responsive">
+                  <table class="premium-table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Execute</th>
+                      </tr>
+                    </thead>
+                    <tbody id="executionMatrixBody">
+                      <tr>
+                        <td><strong>Build LangGraph Agent</strong></td>
+                        <td>Solves critical bottleneck</td>
+                        <td><span class="status-badge ready">Ready</span></td>
+                        <td><button class="btn btn-sm btn-primary">Start</button></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Review Resume v2</strong></td>
+                        <td>Matched for Stripe role</td>
+                        <td><span class="status-badge review">Review</span></td>
+                        <td><button class="btn btn-sm btn-outline">View</button></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Complete FastAPI Module</strong></td>
+                        <td>Daily upskilling goal</td>
+                        <td><span class="status-badge done">Done</span></td>
+                        <td><button class="btn btn-sm btn-ghost" disabled>✓</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
             </div>
 
-            <!-- RIGHT COLUMN: 3 PILLAR QUICK HUB -->
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- RIGHT COLUMN -->
+            <div class="dash-column" style="display: flex; flex-direction: column; gap: 1.75rem;">
               
-              <!-- 3-PILLAR QUICK SUMMARY -->
-              <div class="card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(245, 158, 11, 0.08)); border: 1px solid var(--border-color);">
-                <div class="card-title" style="color: var(--primary);">
-                  <span>🌐 Tri-Stream Opportunity Ingestion</span>
+              <!-- OPPORTUNITY RADAR -->
+              <div class="premium-card opportunity-radar">
+                <div class="card-header">
+                  <h2>🔎 Opportunity Intelligence Radar</h2>
+                  <span class="badge primary">18 Matches</span>
                 </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.85rem;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
-                    <span>💼 <strong>Jobs & Internships</strong></span>
-                    <button class="btn btn-outline btn-sm" id="btnDashGoJobs">Explore →</button>
+                <div class="opp-cards-spaced" id="oppItemsGrid">
+                  <div class="opp-premium-card">
+                    <div class="opp-main">
+                      <div class="opp-title">Senior ML Engineer <span class="match-score">91% Match</span></div>
+                      <div class="opp-company">Anthropic • San Francisco (Hybrid)</div>
+                    </div>
+                    <div class="opp-gaps">
+                      <span class="tag verified">✅ Python</span>
+                      <span class="tag verified">✅ FastAPI</span>
+                      <span class="tag gap">❌ LangGraph</span>
+                    </div>
+                    <button class="btn btn-block btn-primary-light">AI Recommendation: High Probability</button>
                   </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
-                    <span>📚 <strong>Learning & Roadmaps</strong></span>
-                    <button class="btn btn-outline btn-sm" id="btnDashGoLearning">Learn →</button>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-surface); border-radius: 6px;">
-                    <span>🚀 <strong>Business & Freelancing</strong></span>
-                    <button class="btn btn-outline btn-sm" id="btnDashGoBusiness">Gigs & Pitches →</button>
+                  <div class="opp-premium-card">
+                    <div class="opp-main">
+                      <div class="opp-title">Agentic AI Workflows <span class="match-score">88% Match</span></div>
+                      <div class="opp-company">Upwork Contract • $4,500 Budget</div>
+                    </div>
+                    <div class="opp-gaps">
+                      <span class="tag verified">✅ FastAPI</span>
+                      <span class="tag verified">✅ API Design</span>
+                    </div>
+                    <button class="btn btn-block btn-primary-light">AI Recommendation: Easy Win</button>
                   </div>
                 </div>
               </div>
 
-              <!-- AI ASSISTANT CHAT HERO -->
-              <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white;">
-                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;">🧠 AI Career Orchestrator</h4>
-                <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.75rem;" id="aiCardGreeting">Ready to guide your career flywheel.</p>
-                <div style="font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem;">
-                  <div>✓ Tri-Stream Opportunity Discovery</div>
-                  <div>✓ Grounded AI Client Pitch Generator</div>
-                  <div>✓ ATS Resume Optimizer & Scorer</div>
-                  <div>✓ Autonomous Action Feedback Loop</div>
+              <!-- LIVE MULTI-AGENT TELEMETRY -->
+              <div class="premium-card agent-telemetry">
+                <div class="card-header">
+                  <h2>🤖 Multi-Agent Activity Telemetry</h2>
+                  <span class="live-pulse-badge" style="font-size: 0.7rem;">Live Stream</span>
                 </div>
-                <button class="btn btn-block" style="background: white; color: var(--primary); font-weight: 700;" id="btnDashChatAI">Chat with AI Agent</button>
+                <div class="telemetry-feed">
+                  <div class="log-entry">
+                    <span class="log-time">Just now</span>
+                    <span class="log-agent">Opportunity Agent</span>
+                    <span class="log-action">Scanned 126 new roles.</span>
+                  </div>
+                  <div class="log-entry">
+                    <span class="log-time">2m ago</span>
+                    <span class="log-agent">Matching Agent</span>
+                    <span class="log-action">Ranked top 18 fits for Senior ML.</span>
+                  </div>
+                  <div class="log-entry">
+                    <span class="log-time">15m ago</span>
+                    <span class="log-agent">Resume Agent</span>
+                    <span class="log-action">Optimized resume for Stripe application.</span>
+                  </div>
+                  <div class="log-entry">
+                    <span class="log-time">1h ago</span>
+                    <span class="log-agent">Master Orchestrator</span>
+                    <span class="log-action">Calibrated closed-loop plan. Bottleneck identified.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- APPLICATION FUNNEL COMMAND CENTER -->
+              <div class="premium-card app-funnel">
+                <div class="card-header">
+                  <h2>📋 Application Funnel Command Center</h2>
+                  <span class="badge accent">Visual Pipeline</span>
+                </div>
+                <div class="funnel-visual">
+                  <div class="f-step"><span class="f-num">42</span><span class="f-lbl">Disc</span></div>
+                  <div class="f-arrow">→</div>
+                  <div class="f-step"><span class="f-num">18</span><span class="f-lbl">Short</span></div>
+                  <div class="f-arrow">→</div>
+                  <div class="f-step"><span class="f-num">8</span><span class="f-lbl">App</span></div>
+                  <div class="f-arrow">→</div>
+                  <div class="f-step highlight"><span class="f-num">3</span><span class="f-lbl">Assess</span></div>
+                  <div class="f-arrow">→</div>
+                  <div class="f-step"><span class="f-num">2</span><span class="f-lbl">Intv</span></div>
+                </div>
+                <p class="funnel-insight" style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted); background: var(--bg-input); padding: 0.75rem; border-radius: 8px; border-left: 3px solid var(--accent);">
+                  <strong>🧠 AI Rejection Learning:</strong> Adapting to low conversion from Assessment to Interview. Recommending interview prep simulations.
+                </p>
               </div>
 
             </div>
-
           </div>
+
         </section>
 
         <!-- VIEW 2: PILLAR 1 — JOBS STREAM (Full-Time, Remote, Internships, Govt) -->
@@ -533,94 +598,267 @@
           </div>
         </section>
 
-        <!-- VIEW 6: RESUME BUILDER -->
+        <!-- VIEW 6: RESUME INTELLIGENCE STUDIO & ATS DIAGNOSTIC ENGINE -->
         <section id="viewResumes" class="app-view" style="display: none;">
-          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
             <div>
-              <h1>Resume Builder & ATS Scorer</h1>
-              <p>Create and optimize a targeted, high-impact resume in real time.</p>
+              <h1 style="display: flex; align-items: center; gap: 0.5rem;">📄 Resume Intelligence & ATS Studio</h1>
+              <p>Build, tailor, and score production-grade ATS resumes grounded in real evidence.</p>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn btn-outline" id="btnResumePreview">👁️ Preview</button>
-              <button class="btn btn-primary" id="btnResumeDownload">📥 Download PDF</button>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn btn-outline" id="btnResumeCopyText" title="Copy clean text formatted for ATS submission">📋 Copy Raw Text</button>
+              <button class="btn btn-outline" id="btnResumePreview" title="Toggle Fullscreen View">👁️ Preview Fullscreen</button>
+              <button class="btn btn-primary" id="btnResumeDownload" title="Print or Save PDF">📥 Download ATS PDF</button>
             </div>
           </div>
 
-          <div class="resume-builder-layout">
-            <div class="card">
-              <div class="card-title" style="font-size: 0.95rem;">AI Suggestions</div>
-              <div class="ai-suggestion-box">
-                <h6>💡 Professional Summary</h6>
-                <p>Highlight your core skills, years of experience, and measurable impact.</p>
+          <div class="resume-studio-layout">
+            
+            <!-- LEFT COLUMN: INTERACTIVE RESUME STUDIO EDITOR -->
+            <div class="resume-editor-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">✏️ Resume Studio Editor</span>
+                <button class="btn btn-outline btn-sm" id="btnResetResumeDefault" style="font-size: 0.72rem; padding: 0.2rem 0.5rem;">Reset</button>
               </div>
-              <div class="ai-suggestion-box">
-                <h6>⚡ Technical Skills</h6>
-                <p>Include modern tools and frameworks relevant to your target role.</p>
+
+              <!-- EDITOR SECTION TABS -->
+              <div class="resume-editor-tabs" id="resumeEditorTabs">
+                <button class="resume-tab-btn active" data-tab="tabResBasics">👤 Basics</button>
+                <button class="resume-tab-btn" data-tab="tabResSummary">✨ Summary</button>
+                <button class="resume-tab-btn" data-tab="tabResExp">💼 Work</button>
+                <button class="resume-tab-btn" data-tab="tabResEdu">🎓 Education</button>
+                <button class="resume-tab-btn" data-tab="tabResSkills">⚡ Skills</button>
+                <button class="resume-tab-btn" data-tab="tabResTailor">🎯 Tailor</button>
               </div>
-              <button class="btn btn-primary btn-sm btn-block" style="margin-top: 0.5rem;" id="btnApplyAISuggestions">Apply AI Template</button>
+
+              <!-- TAB 1: BASICS -->
+              <div class="resume-tab-panel active" id="tabResBasics">
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Full Name</label>
+                  <input type="text" id="inputResName" placeholder="e.g. Alex Johnson" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Professional Headline / Target Role</label>
+                  <input type="text" id="inputResTitle" placeholder="e.g. Senior Backend Engineer" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Email Address</label>
+                  <input type="email" id="inputResEmail" placeholder="alex.johnson@example.com" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Phone Number</label>
+                  <input type="text" id="inputResPhone" placeholder="+1 (555) 234-5678" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Location</label>
+                  <input type="text" id="inputResLocation" placeholder="San Francisco, CA (or Remote)" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">LinkedIn Profile URL / Handle</label>
+                  <input type="text" id="inputResLinkedIn" placeholder="linkedin.com/in/alex-johnson" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">GitHub / Portfolio URL</label>
+                  <input type="text" id="inputResGitHub" placeholder="github.com/alex-dev" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+              </div>
+
+              <!-- TAB 2: SUMMARY -->
+              <div class="resume-tab-panel" id="tabResSummary">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <label style="font-size: 0.76rem; font-weight: 600;">Executive Summary</label>
+                  <button class="btn btn-outline btn-sm" id="btnAiEnhanceSummary" style="font-size: 0.72rem; padding: 0.2rem 0.45rem; color: var(--primary);">✨ AI STAR Polish</button>
+                </div>
+                <textarea id="inputResSummary" rows="6" placeholder="Engineered high-throughput distributed systems..." style="font-size: 0.82rem; width: 100%; line-height: 1.4; padding: 0.5rem;"></textarea>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem;">
+                  💡 <strong>ATS Rule:</strong> Include your core domain, years of hands-on stack experience, and 1 standout quantified achievement.
+                </div>
+              </div>
+
+              <!-- TAB 3: WORK EXPERIENCE -->
+              <div class="resume-tab-panel" id="tabResExp">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-size: 0.78rem; font-weight: 700;">Experience Entries</span>
+                  <button class="btn btn-primary btn-sm" id="btnAddExpEntry" style="font-size: 0.72rem; padding: 0.25rem 0.55rem;">+ Add Position</button>
+                </div>
+                <div id="editorExpList" style="display: flex; flex-direction: column; gap: 0.65rem;">
+                  <!-- Dynamic Exp Inputs -->
+                </div>
+              </div>
+
+              <!-- TAB 4: EDUCATION -->
+              <div class="resume-tab-panel" id="tabResEdu">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-size: 0.78rem; font-weight: 700;">Education & Certifications</span>
+                  <button class="btn btn-primary btn-sm" id="btnAddEduEntry" style="font-size: 0.72rem; padding: 0.25rem 0.55rem;">+ Add Degree</button>
+                </div>
+                <div id="editorEduList" style="display: flex; flex-direction: column; gap: 0.65rem;">
+                  <!-- Dynamic Edu Inputs -->
+                </div>
+              </div>
+
+              <!-- TAB 5: SKILLS -->
+              <div class="resume-tab-panel" id="tabResSkills">
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Languages & Core</label>
+                  <input type="text" id="inputResSkillsLang" placeholder="Python, Go, TypeScript, SQL" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Frameworks & Libraries</label>
+                  <input type="text" id="inputResSkillsFrameworks" placeholder="FastAPI, Django, React, LangChain, PyTorch" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.6rem;">
+                  <label style="font-size: 0.76rem;">Cloud, DevOps & Databases</label>
+                  <input type="text" id="inputResSkillsCloud" placeholder="Docker, Kubernetes, AWS, PostgreSQL, Redis, Kafka" style="font-size: 0.82rem; padding: 0.45rem 0.65rem;">
+                </div>
+                <button class="btn btn-outline btn-sm btn-block" id="btnSyncVerifiedSkills" style="font-size: 0.75rem; margin-top: 0.5rem;">🔄 Sync from Evidence Graph</button>
+              </div>
+
+              <!-- TAB 6: JOB TAILORING & KEYWORDS -->
+              <div class="resume-tab-panel" id="tabResTailor">
+                <label style="font-size: 0.76rem; font-weight: 600;">Select Target Job to Optimize For</label>
+                <select id="selectTargetJobTailor" style="font-size: 0.82rem; width: 100%; padding: 0.45rem; margin-top: 0.25rem; margin-bottom: 0.75rem;">
+                  <option value="0">Anthropic — AI / LLM Systems Engineer</option>
+                  <option value="1">Stripe — Senior Backend Engineer (Distributed)</option>
+                  <option value="2">Scale AI — AI Pipeline Engineer</option>
+                  <option value="3">Datadog — Distributed Systems Engineer</option>
+                </select>
+                <button class="btn btn-primary btn-sm btn-block" id="btnRunAITailorScan">⚡ Run ATS Keyword Alignment</button>
+                <div id="tailorScanResults" style="margin-top: 0.75rem; font-size: 0.76rem; color: var(--text-muted);">
+                  <!-- Match results rendered dynamically -->
+                </div>
+              </div>
+
             </div>
 
-            <div class="resume-paper" id="resumePaper">
-              <h2 contenteditable="true" id="resName" placeholder="Your Full Name">Your Name</h2>
-              <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;" contenteditable="true" id="resTitle">Target Role / Title</p>
-              <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;" contenteditable="true" id="resContact">email@example.com • Location • linkedin.com/in/profile</p>
+            <!-- CENTER COLUMN: ATS DOCUMENT CANVAS -->
+            <div class="resume-canvas-wrapper">
+              
+              <!-- TEMPLATE SWITCHER TOOLBAR -->
+              <div class="resume-template-bar">
+                <div style="display: flex; gap: 0.4rem; align-items: center;">
+                  <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">ATS Style:</span>
+                  <button class="template-pill-btn active" data-template="template-modern">💼 Modern Tech</button>
+                  <button class="template-pill-btn" data-template="template-harvard">🏛️ Harvard Executive</button>
+                  <button class="template-pill-btn" data-template="template-minimal">⚡ Silicon Valley</button>
+                </div>
+                <div style="font-size: 0.72rem; color: #94a3b8;">Standard A4 / Letter ATS-Safe</div>
+              </div>
 
-              <h3>Summary</h3>
-              <p style="font-size: 0.85rem; line-height: 1.5;" contenteditable="true" id="resSummary">Click here to write your professional career summary and key strengths...</p>
-
-              <h3>Skills</h3>
-              <p style="font-size: 0.85rem;" contenteditable="true" id="resSkills">Add your skills separated by dots (e.g. Python • SQL • Docker)...</p>
-
-              <h3>Experience</h3>
-              <div id="resExperienceContainer">
-                <div style="margin-bottom: 0.75rem;">
-                  <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 0.85rem;">
-                    <span contenteditable="true">Role Title — Company Name</span>
-                    <span style="color: #64748b;" contenteditable="true">2023 - Present</span>
+              <!-- PRINTABLE / RENDERED RESUME CANVAS -->
+              <div class="resume-paper-canvas template-modern" id="resumePaperCanvas">
+                
+                <!-- HEADER -->
+                <div id="canvasHeader">
+                  <div class="res-header-name" id="cvName">Alex Johnson</div>
+                  <div class="res-header-title" id="cvTitle">Senior Backend & AI Systems Engineer</div>
+                  <div class="res-header-contact" id="cvContact">
+                    <span id="cvEmail">alex.johnson@example.com</span> •
+                    <span id="cvPhone">+1 (555) 234-5678</span> •
+                    <span id="cvLocation">San Francisco, CA</span> •
+                    <span id="cvLinkedIn">linkedin.com/in/alex-johnson</span> •
+                    <span id="cvGitHub">github.com/alex-dev</span>
                   </div>
-                  <ul style="font-size: 0.8rem; margin-left: 1.2rem; margin-top: 0.25rem;">
-                    <li contenteditable="true">Describe key responsibilities and engineering achievements...</li>
-                  </ul>
                 </div>
+
+                <!-- PROFESSIONAL SUMMARY -->
+                <div id="canvasSummarySection">
+                  <div class="res-section-title">Professional Summary</div>
+                  <p id="cvSummary" style="font-size: 0.84rem; line-height: 1.45; color: #334155; margin-bottom: 0.75rem;">
+                    High-impact Software Engineer with 4+ years of experience architecting distributed backend services, high-throughput APIs, and multi-agent AI pipelines. Proven track record reducing latency by 42% and managing production deployments serving 50k+ daily users.
+                  </p>
+                </div>
+
+                <!-- TECHNICAL SKILLS -->
+                <div id="canvasSkillsSection">
+                  <div class="res-section-title">Technical Skills</div>
+                  <div style="font-size: 0.84rem; line-height: 1.5; color: #334155; margin-bottom: 0.75rem;">
+                    <div><strong>Languages & Core:</strong> <span id="cvSkillsLang">Python, TypeScript, SQL, Go</span></div>
+                    <div><strong>Frameworks:</strong> <span id="cvSkillsFrameworks">FastAPI, Django, React, LangChain, PyTorch</span></div>
+                    <div><strong>Infrastructure & Tools:</strong> <span id="cvSkillsCloud">Docker, PostgreSQL, Redis, AWS, Git, Kafka</span></div>
+                  </div>
+                </div>
+
+                <!-- WORK EXPERIENCE -->
+                <div id="canvasExperienceSection">
+                  <div class="res-section-title">Professional Experience</div>
+                  <div id="cvExperienceList">
+                    <!-- Dynamic Experience Nodes -->
+                  </div>
+                </div>
+
+                <!-- KEY PROJECTS (PORTFOLIO EVIDENCE) -->
+                <div id="canvasProjectsSection">
+                  <div class="res-section-title">Key Engineering Projects</div>
+                  <div id="cvProjectsList">
+                    <!-- Dynamic Projects -->
+                  </div>
+                </div>
+
+                <!-- EDUCATION -->
+                <div id="canvasEducationSection">
+                  <div class="res-section-title">Education & Certifications</div>
+                  <div id="cvEducationList">
+                    <!-- Dynamic Education -->
+                  </div>
+                </div>
+
               </div>
 
-              <h3>Education</h3>
-              <div id="resEducationContainer">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
-                  <span contenteditable="true">Degree / Certification — University or Institution</span>
-                  <span style="color: #64748b;" contenteditable="true">Graduation Year</span>
-                </div>
-              </div>
             </div>
 
-            <div class="card">
-              <div class="card-title" style="font-size: 0.95rem;">Live ATS Resume Score</div>
-              <div style="text-align: center; margin: 1rem 0;">
-                <div style="font-size: 2.4rem; font-weight: 700; color: var(--primary);" id="resScoreVal">0 <span style="font-size: 1rem; color: var(--text-muted);">/100</span></div>
-                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 0.2rem;" id="resScoreStatus">Fill details to boost score</p>
+            <!-- RIGHT COLUMN: LIVE ATS DIAGNOSTIC SCORER -->
+            <div class="ats-diagnostic-card">
+              <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-main);">
+                📊 Live ATS Diagnostic Scorer
               </div>
 
-              <div style="margin-top: 1rem;">
-                <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info"><span>Content</span><span id="scoreContentPct">0%</span></div>
-                  <div class="progress-track"><div class="progress-fill" id="barScoreContent" style="width: 0%;"></div></div>
+              <!-- REAL ATS SCORE METER -->
+              <div class="ats-score-meter-box">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); line-height: 1;" id="liveAtsScoreVal">0</div>
+                <div style="font-size: 0.75rem; font-weight: 700; margin-top: 0.35rem; color: var(--text-muted);" id="liveAtsScoreLabel">Evaluating Content...</div>
+              </div>
+
+              <!-- 4 REAL ATS DIMENSIONS -->
+              <div style="margin-bottom: 1.25rem;">
+                <div class="ats-metric-dim-row">
+                  <div class="dim-head"><span>Completeness & Layout</span><strong id="dimCompletenessVal">0/25</strong></div>
+                  <div class="progress-track"><div class="progress-fill" id="barDimCompleteness" style="width: 0%;"></div></div>
                 </div>
-                <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info"><span>Format</span><span id="scoreFormatPct">0%</span></div>
-                  <div class="progress-track"><div class="progress-fill" id="barScoreFormat" style="width: 0%;"></div></div>
+                <div class="ats-metric-dim-row">
+                  <div class="dim-head"><span>Strong Action Verbs</span><strong id="dimActionVerbsVal">0/25</strong></div>
+                  <div class="progress-track"><div class="progress-fill" id="barDimActionVerbs" style="width: 0%;"></div></div>
                 </div>
-                <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info"><span>Skills</span><span id="scoreSkillsPct">0%</span></div>
-                  <div class="progress-track"><div class="progress-fill" id="barScoreSkills" style="width: 0%;"></div></div>
+                <div class="ats-metric-dim-row">
+                  <div class="dim-head"><span>Quantified Impact Metrics</span><strong id="dimMetricsVal">0/25</strong></div>
+                  <div class="progress-track"><div class="progress-fill" id="barDimMetrics" style="width: 0%;"></div></div>
                 </div>
-                <div class="score-breakdown-bar">
-                  <div class="score-breakdown-info"><span>Impact</span><span id="scoreImpactPct">0%</span></div>
-                  <div class="progress-track"><div class="progress-fill" id="barScoreImpact" style="width: 0%;"></div></div>
+                <div class="ats-metric-dim-row">
+                  <div class="dim-head"><span>Target Skill Alignment</span><strong id="dimKeywordsVal">0/25</strong></div>
+                  <div class="progress-track"><div class="progress-fill" id="barDimKeywords" style="width: 0%;"></div></div>
                 </div>
               </div>
+
+              <!-- DIAGNOSTIC CHECKLIST -->
+              <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-main);">
+                🔍 ATS Parsing Audit Checklist
+              </div>
+              <div id="atsAuditChecklist" style="display: flex; flex-direction: column; margin-bottom: 1rem;">
+                <!-- Dynamically audited checklist -->
+              </div>
+
+              <!-- 1-CLICK QUICK FIX BUTTONS -->
+              <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                <button class="btn btn-outline btn-sm btn-block" id="btnAutoInjectMetrics" style="font-size: 0.75rem;">⚡ Auto-Inject Quantified Metrics</button>
+                <button class="btn btn-primary btn-sm btn-block" id="btnSyncProfileToResume" style="font-size: 0.75rem;">🔄 Load Full Profile to Resume</button>
+              </div>
+
             </div>
+
           </div>
         </section>
+
+        <!-- VIEW 7: PROJECTS PORTFOLIO -->
 
         <!-- VIEW 7: PROJECTS PORTFOLIO -->
         <section id="viewProjects" class="app-view" style="display: none;">
@@ -778,7 +1016,198 @@
           </div>
         </section>
 
-        <!-- VIEW 14: SETTINGS -->
+        <!-- VIEW 14: CONNECTED ACCOUNTS & DATA INTEGRATIONS HUB -->
+        <section id="viewIntegrations" class="app-view" style="display: none;">
+          <div class="page-greeting" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h1 style="display: flex; align-items: center; gap: 0.5rem;">🔌 Connected Accounts & Data Integrations</h1>
+              <p>Connect your developer platforms, coding practice hubs, and job mailboxes to power real-time AI telemetry.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline" id="btnSyncAllIntegrations">🔄 Sync All Accounts</button>
+            </div>
+          </div>
+
+          <div class="integration-grid" id="integrationCardsGrid">
+            
+            <!-- 1. GITHUB INTEGRATION CARD -->
+            <div class="integration-card" id="cardIntegGitHub">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: #ffffff; background: #24292e;">🐙</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">GitHub</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">Repositories, Commits & Languages</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeGithubStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Auto-imports repositories, architectural case studies, top programming languages, and commit telemetry directly into your Project Evidence Graph.
+                </p>
+                <div class="integration-stats-box" id="statsGithubBox" style="display: none;">
+                  <div class="integration-stat-unit"><span id="statGithubReposLabel">Public Repos</span><strong id="statGithubReposVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Total Stars</span><strong id="statGithubStarsVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Top Stack</span><strong id="statGithubStackVal">-</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="github" id="btnConnectGithub">🔗 Connect GitHub Account</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="github" id="btnSyncGithub" style="display: none;">🔄 Sync Repos</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="github" id="btnDisconnectGithub" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- 2. LINKEDIN INTEGRATION CARD -->
+            <div class="integration-card" id="cardIntegLinkedIn">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: white; background: #0077b5;">💼</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">LinkedIn</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">Profile, Work History & Network CRM</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeLinkedinStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Synchronizes verified work experience, alumni networks, and company connections for warm referral routing and automated outreach tailoring.
+                </p>
+                <div class="integration-stats-box" id="statsLinkedinBox" style="display: none;">
+                  <div class="integration-stat-unit"><span>Experience</span><strong id="statLinkedinExpVal">0 Roles</strong></div>
+                  <div class="integration-stat-unit"><span>Warm Contacts</span><strong id="statLinkedinContactsVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Alumni Paths</span><strong id="statLinkedinAlumniVal">0</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="linkedin" id="btnConnectLinkedin">🔗 Connect LinkedIn Profile</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="linkedin" id="btnSyncLinkedin" style="display: none;">🔄 Sync Network</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="linkedin" id="btnDisconnectLinkedin" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- 3. LEETCODE INTEGRATION CARD -->
+            <div class="integration-card" id="cardIntegLeetCode">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: #ffa116; background: #282828;">💡</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">LeetCode</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">DSA Problem Solving & Contest Rating</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeLeetcodeStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Feeds problem solving telemetry (Easy/Medium/Hard breakdown, contest rating) straight into your Interview STAR readiness score.
+                </p>
+                <div class="integration-stats-box" id="statsLeetcodeBox" style="display: none;">
+                  <div class="integration-stat-unit"><span>Solved Total</span><strong id="statLeetcodeSolvedVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Contest Rating</span><strong id="statLeetcodeRatingVal">Unranked</strong></div>
+                  <div class="integration-stat-unit"><span>Top Percentile</span><strong id="statLeetcodePercentileVal">-</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="leetcode" id="btnConnectLeetcode">🔗 Connect LeetCode Profile</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="leetcode" id="btnSyncLeetcode" style="display: none;">🔄 Sync Stats</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="leetcode" id="btnDisconnectLeetcode" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- 4. GEEKSFORGEEKS (GFG) INTEGRATION CARD -->
+            <div class="integration-card" id="cardIntegGFG">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: #2f8d46; background: #e8f5e9;">🟢</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">GeeksforGeeks (GFG)</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">Coding Score, Practice & Institute Rank</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeGfgStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Imports GFG practice scores, institution rank, and topic-wise DSA milestones into your verified skill graph.
+                </p>
+                <div class="integration-stats-box" id="statsGfgBox" style="display: none;">
+                  <div class="integration-stat-unit"><span>Coding Score</span><strong id="statGfgScoreVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Solved Problems</span><strong id="statGfgSolvedVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Institute Rank</span><strong id="statGfgRankVal">-</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="gfg" id="btnConnectGfg">🔗 Connect GeeksforGeeks</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="gfg" id="btnSyncGfg" style="display: none;">🔄 Sync Score</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="gfg" id="btnDisconnectGfg" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- 5. JOB MAILBOX & EMAIL TRACKER (GMAIL / OUTLOOK) -->
+            <div class="integration-card" id="cardIntegEmail">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: #ea4335; background: #fce8e6;">📬</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">Job Mailbox (Email Sync)</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">Gmail, Outlook & Recruiter Inboxes</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeEmailStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Automates application lifecycle tracking by scanning for ATS confirmations, interview invitations, and recruiter responses to update Kanban columns.
+                </p>
+                <div class="integration-stats-box" id="statsEmailBox" style="display: none;">
+                  <div class="integration-stat-unit"><span>Active Inboxes</span><strong id="statEmailInboxesVal">1</strong></div>
+                  <div class="integration-stat-unit"><span>Auto-Logged Apps</span><strong id="statEmailAppsVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Interview Invites</span><strong id="statEmailInvitesVal">0</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="email" id="btnConnectEmail">🔗 Connect Job Application Email</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="email" id="btnSyncEmail" style="display: none;">⚡ Scan Inboxes</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="email" id="btnDisconnectEmail" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- 6. KAGGLE & HUGGING FACE (AI / ML) -->
+            <div class="integration-card" id="cardIntegKaggle">
+              <div>
+                <div class="integration-card-top">
+                  <div class="integration-brand">
+                    <div class="integration-icon-box" style="color: #20beff; background: #e1f5fe;">🤗</div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem;">Kaggle & Hugging Face</div>
+                      <span style="font-size: 0.76rem; color: var(--text-muted);">ML Models, Datasets & Competitions</span>
+                    </div>
+                  </div>
+                  <span class="integration-status-badge disconnected" id="badgeKaggleStatus">Not Connected</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                  Showcase machine learning models, open-source weights, dataset contributions, and competition medals.
+                </p>
+                <div class="integration-stats-box" id="statsKaggleBox" style="display: none;">
+                  <div class="integration-stat-unit"><span>Notebooks</span><strong id="statKaggleNotebooksVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Models Hosted</span><strong id="statKaggleModelsVal">0</strong></div>
+                  <div class="integration-stat-unit"><span>Medals</span><strong id="statKaggleMedalsVal">0</strong></div>
+                </div>
+              </div>
+              <div class="integration-actions-row">
+                <button class="btn btn-primary btn-sm btn-block btn-open-connect-modal" data-platform="kaggle" id="btnConnectKaggle">🔗 Connect AI Portfolio</button>
+                <button class="btn btn-outline btn-sm btn-sync-platform" data-platform="kaggle" id="btnSyncKaggle" style="display: none;">🔄 Sync Models</button>
+                <button class="btn btn-outline btn-sm btn-disconnect-platform" data-platform="kaggle" id="btnDisconnectKaggle" style="display: none; color: var(--danger); border-color: rgba(239,68,68,0.3);">Disconnect</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- VIEW 15: SETTINGS -->
         <section id="viewSettings" class="app-view" style="display: none;">
           <div class="page-greeting">
             <h1>Account & Career Profile Settings</h1>
@@ -925,10 +1354,7 @@
         </div>
         <button type="submit" class="btn btn-primary btn-block">Post Gig to Pipeline</button>
       </form>
-    </div>
-  </div>
-
-  <!-- MODAL: AI PROPOSAL VIEWER -->
+    <!-- MODAL: AI PROPOSAL VIEWER -->
   <div id="modalProposal" class="modal-overlay" style="display: none;">
     <div class="modal-content" style="max-width: 600px;">
       <div class="modal-header">
@@ -940,6 +1366,140 @@
         <button class="btn btn-primary" id="btnCopyProposal">📋 Copy Proposal</button>
         <button class="btn btn-outline" id="btnMarkProposalSent">✓ Mark as Pitched in CRM</button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PEER MEETUP & MOCK PAIRING -->
+  <div id="modalPeerMatch" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">🤝 Request 1-on-1 Peer Mock & Meetup</h3>
+        <button class="btn-close" id="btnClosePeerMatchModal">✕</button>
+      </div>
+      <form id="formPeerMatch">
+        <div class="form-group">
+          <label>Connecting With Peer</label>
+          <input type="text" id="peerTargetName" readonly style="background: var(--bg-input); font-weight: 600;">
+        </div>
+        <div class="form-group">
+          <label>Session Type</label>
+          <select id="peerSessionType">
+            <option value="system_design">Technical System Design Mock (45m)</option>
+            <option value="fastapi_backend">FastAPI & Python Deep Dive (30m)</option>
+            <option value="resume_swap">Resume & Portfolio Review Swap (20m)</option>
+            <option value="freelance_pitch">Freelance Proposal / Cold Outreach Review (20m)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Time Slot</label>
+          <select id="peerTimeSlot">
+            <option value="now">⚡ Instant Match (Active Now)</option>
+            <option value="today_evening">Today Evening (6:30 PM)</option>
+            <option value="tomorrow_morning">Tomorrow Morning (10:00 AM)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Note / Problem you'd like to work through</label>
+          <textarea id="peerMatchNote" rows="2" placeholder="e.g. Practicing Redis caching & LangChain agent architectures..."></textarea>
+  <!-- MODAL: CALIBRATE CAREER GOAL -->
+  <div id="modalCalibrateGoal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">🎯 Calibrate Career Objective & Target State</h3>
+        <button class="btn-close" id="btnCloseCalibrateGoalModal">✕</button>
+      </div>
+      <form id="formCalibrateGoal">
+        <div class="form-group">
+          <label>Target Role Title</label>
+          <input type="text" id="goalTargetRole" placeholder="e.g. Senior AI/ML Systems Engineer" required>
+        </div>
+        <div class="form-group">
+          <label>Target Timeline</label>
+          <select id="goalTimeline">
+            <option value="30">30 Days (Sprint)</option>
+            <option value="60">60 Days (Standard)</option>
+            <option value="90" selected>90 Days (Quarterly Objective)</option>
+            <option value="180">180 Days (Long-term Transition)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Target Compensation Band (Annual or Hourly)</label>
+          <input type="text" id="goalSalaryBand" placeholder="e.g. $165k - $220k / yr or $90/hr" required>
+        </div>
+        <div class="form-group">
+          <label>Workplace Preference</label>
+          <select id="goalWorkplace">
+            <option value="remote" selected>Remote First / Global</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="onsite">Onsite</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Primary Dream Companies (comma-separated)</label>
+          <input type="text" id="goalTargetCompanies" placeholder="e.g. Anthropic, Stripe, OpenAI, Snowflake">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">🚀 Save & Recalibrate AI Strategy</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: STRATEGY REASONING DIAGNOSIS -->
+  <div id="modalReasoning" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">🧠 Master Orchestrator Strategy Reasoning</h3>
+        <button class="btn-close" id="btnCloseReasoningModal">✕</button>
+      </div>
+      <div style="font-size: 0.86rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 0.85rem;" id="reasoningModalContent">
+        <!-- Rendered dynamically -->
+      </div>
+      <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary" id="btnCloseReasoningModalBtn">Understood ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: APPROVAL ACTION REVIEW -->
+  <div id="modalActionReview" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;" id="actionReviewModalTitle">🔐 Action Review & Approval</h3>
+        <button class="btn-close" id="btnCloseActionReviewModal">✕</button>
+      </div>
+      <div id="actionReviewModalBody" style="font-size: 0.85rem; line-height: 1.55; margin: 0.85rem 0;">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONNECT PLATFORM INTEGRATION -->
+  <div id="modalConnectIntegration" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 700;" id="modalIntegTitle">🔗 Connect Account</h3>
+        <button class="btn-close" id="btnCloseIntegModal">✕</button>
+      </div>
+      <form id="formConnectIntegration" style="margin-top: 0.75rem;">
+        <input type="hidden" id="integPlatformType" value="">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 1rem;" id="modalIntegDesc">
+          Connect your account to synchronize evidence and telemetry into your AI Career OS.
+        </p>
+
+        <div class="form-group" id="groupIntegIdentifier">
+          <label id="labelIntegIdentifier">Username / Handle / Profile URL</label>
+          <input type="text" id="inputIntegIdentifier" placeholder="e.g. username" required style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">
+        </div>
+
+        <div class="form-group" id="groupIntegToken" style="display: none;">
+          <label id="labelIntegToken">API Key / Access Token (Optional)</label>
+          <input type="password" id="inputIntegToken" placeholder="ghp_xxxx or API Key" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.25rem;">
+          <button type="button" class="btn btn-outline" id="btnCancelIntegModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitIntegModal">🔗 Verify & Connect</button>
+        </div>
+      </form>
     </div>
   </div>
 

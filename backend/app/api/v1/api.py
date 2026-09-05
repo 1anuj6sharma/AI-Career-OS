@@ -16,6 +16,8 @@ from app.modules.opportunities.router import router as opportunities_router
 from app.modules.network.router import router as network_router
 from app.modules.offers.router import router as offers_router
 from app.modules.master_orchestrator.router import router as master_orchestrator_router
+from app.modules.integrations.router import router as integrations_router
+from app.modules.dashboard.router import router as dashboard_router
 
 api_router = APIRouter()
 
@@ -32,3 +34,5 @@ api_router.include_router(opportunities_router)
 api_router.include_router(network_router)
 api_router.include_router(offers_router)
 api_router.include_router(master_orchestrator_router)
+api_router.include_router(integrations_router)
+api_router.include_router(dashboard_router)
