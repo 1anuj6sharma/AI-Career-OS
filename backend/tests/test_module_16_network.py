@@ -2,9 +2,9 @@
 Unit & Integration Tests for Module 16 — AI Career Network, Personal Brand & Referral Intelligence Engine
 """
 import pytest
-from app.modules.network.services.referral_intelligence_service import ReferralIntelligenceService
-from app.modules.ai.services.llm_service import LLMService
-from app.modules.network.agents.networking_agents import (
+from app.controllers.network.services.referral_intelligence_service import ReferralIntelligenceService
+from app.controllers.ai.services.llm_service import LLMService
+from app.controllers.network.agents.networking_agents import (
     NetworkingSupervisorAgent,
     ContactDiscoveryAgent,
     RelationshipIntelligenceAgent,
@@ -13,7 +13,7 @@ from app.modules.network.agents.networking_agents import (
     PersonalBrandAgent,
     FollowupAgent,
 )
-from app.modules.network.graph.networking_graph import NetworkingGraphOrchestrator
+from app.controllers.network.graph.networking_graph import NetworkingGraphOrchestrator
 
 
 def test_referral_score_calculation():

@@ -20,8 +20,18 @@ from app.models.opportunities import (
 
 
 class OpportunityAcquisitionService:
-    def __init__(self, repo: OpportunityRepository):
+    def __init__(self, repo: Optional[OpportunityRepository] = None):
+        #: `repo` may be None for pure-computation callers (deterministic scoring with
+        #: no persistence). Methods that must persist raise instead of failing on None.
         self.repo = repo
+
+    def _require_repo(self) -> OpportunityRepository:
+        if self.repo is None:
+            raise RuntimeError(
+                'OpportunityAcquisitionService was constructed without a repository; '
+                'this operation needs database access.'
+            )
+        return self.repo
 
     # ------------------------------------------------------------------------
     # 1. Deduplication & Normalization Engine
@@ -42,7 +52,7 @@ class OpportunityAcquisitionService:
         Deduplicates job opportunities by external_job_id or (company_name, title).
         If duplicate exists, returns existing entity; otherwise creates new entity.
         """
-        existing = self.repo.find_existing_opportunity(company_name, title, external_job_id)
+        existing = self._require_repo().find_existing_opportunity(company_name, title, external_job_id)
         if existing:
             logger.info(f"Deduplicated existing opportunity id={existing.id} for company='{company_name}' title='{title}'")
             return existing
@@ -58,7 +68,7 @@ class OpportunityAcquisitionService:
             source=source,
             external_job_id=external_job_id,
         )
-        return self.repo.create_opportunity(new_opp)
+        return self._require_repo().create_opportunity(new_opp)
 
     # ------------------------------------------------------------------------
     # 2. Deterministic Opportunity Scoring Engine (0–100)
@@ -120,6 +130,10 @@ class OpportunityAcquisitionService:
             overall_score=overall,
             reasoning=reasoning,
         )
+        # The score itself is pure computation; persist it only when a repository
+        # was supplied, and return the record either way.
+        if self.repo is None:
+            return score_record
         return self.repo.save_opportunity_score(score_record)
 
     # ------------------------------------------------------------------------
@@ -136,7 +150,7 @@ class OpportunityAcquisitionService:
         Prepares structured application package, attaches resume & cover letter documents
         derived strictly from verified Career Evidence, and pauses status at PENDING_APPROVAL.
         """
-        opp = self.repo.get_opportunity(opportunity_id)
+        opp = self._require_repo().get_opportunity(opportunity_id)
         opp_title = opp.title if opp else target_role
         company = opp.company_name if opp else "Target Company"
 
@@ -148,7 +162,7 @@ class OpportunityAcquisitionService:
             status="PENDING_APPROVAL",
             source="AI_CAREER_OS",
         )
-        created_app = self.repo.create_application(app_record)
+        created_app = self._require_repo().create_application(app_record)
 
         # Audit Event
         event = ApplicationEventRecord(
@@ -156,7 +170,7 @@ class OpportunityAcquisitionService:
             event_type="APPLICATION_PREPARED",
             description=f"Application prepared by AI for {opp_title} at {company}. Awaiting human approval."
         )
-        self.repo.add_application_event(event)
+        self._require_repo().add_application_event(event)
 
         # Cover Letter Document (grounded strictly in verified evidence)
         cover_letter_text = (
@@ -172,19 +186,19 @@ class OpportunityAcquisitionService:
             document_type="COVER_LETTER",
             content_text=cover_letter_text
         )
-        self.repo.add_application_document(doc)
+        self._require_repo().add_application_document(doc)
 
-        return self.repo.get_application(created_app.id, user_id)
+        return self._require_repo().get_application(created_app.id, user_id)
 
     # ------------------------------------------------------------------------
     # 4. Human Approval Gateway Execution
     # ------------------------------------------------------------------------
     def approve_application(self, user_id: int, application_id: int, notes: Optional[str] = None) -> ApplicationRecord:
-        app = self.repo.get_application(application_id, user_id)
+        app = self._require_repo().get_application(application_id, user_id)
         if not app:
             raise ValueError(f"Application {application_id} not found for user {user_id}")
 
-        self.repo.update_application_status(application_id, user_id, "APPROVED")
+        self._require_repo().update_application_status(application_id, user_id, "APPROVED")
 
         # Record Approval Event
         event = ApplicationEventRecord(
@@ -192,44 +206,44 @@ class OpportunityAcquisitionService:
             event_type="APPLICATION_APPROVED",
             description=f"User approved application for submission. Notes: {notes or 'No notes provided.'}"
         )
-        self.repo.add_application_event(event)
-        return self.repo.get_application(application_id, user_id)
+        self._require_repo().add_application_event(event)
+        return self._require_repo().get_application(application_id, user_id)
 
     def reject_application(self, user_id: int, application_id: int) -> ApplicationRecord:
-        app = self.repo.get_application(application_id, user_id)
+        app = self._require_repo().get_application(application_id, user_id)
         if not app:
             raise ValueError(f"Application {application_id} not found for user {user_id}")
 
-        self.repo.update_application_status(application_id, user_id, "REJECTED_BY_USER")
+        self._require_repo().update_application_status(application_id, user_id, "REJECTED_BY_USER")
 
         event = ApplicationEventRecord(
             application_id=application_id,
             event_type="APPLICATION_REJECTED_BY_USER",
             description="User rejected application execution."
         )
-        self.repo.add_application_event(event)
-        return self.repo.get_application(application_id, user_id)
+        self._require_repo().add_application_event(event)
+        return self._require_repo().get_application(application_id, user_id)
 
     def submit_application(self, user_id: int, application_id: int) -> ApplicationRecord:
-        app = self.repo.get_application(application_id, user_id)
+        app = self._require_repo().get_application(application_id, user_id)
         if not app:
             raise ValueError(f"Application {application_id} not found for user {user_id}")
 
-        self.repo.update_application_status(application_id, user_id, "SUBMITTED")
+        self._require_repo().update_application_status(application_id, user_id, "SUBMITTED")
 
         event = ApplicationEventRecord(
             application_id=application_id,
             event_type="APPLICATION_SUBMITTED",
             description="Application submitted via compliant API/handoff."
         )
-        self.repo.add_application_event(event)
-        return self.repo.get_application(application_id, user_id)
+        self._require_repo().add_application_event(event)
+        return self._require_repo().get_application(application_id, user_id)
 
     # ------------------------------------------------------------------------
     # 5. Closed-Loop Feedback Learning Engine
     # ------------------------------------------------------------------------
     def analyze_feedback(self, user_id: int) -> ApplicationFeedbackRecord:
-        apps = self.repo.list_applications(user_id)
+        apps = self._require_repo().list_applications(user_id)
         total = len(apps)
         submitted = [a for a in apps if a.status in ["SUBMITTED", "SCREENING", "ASSESSMENT", "INTERVIEW", "OFFER"]]
         interviews = [a for a in apps if a.status in ["INTERVIEW", "OFFER"]]
@@ -254,4 +268,4 @@ class OpportunityAcquisitionService:
             analysis_summary=summary,
             insights_json=insights
         )
-        return self.repo.save_feedback(fb)
+        return self._require_repo().save_feedback(fb)

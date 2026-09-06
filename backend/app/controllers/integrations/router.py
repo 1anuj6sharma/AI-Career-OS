@@ -1,168 +1,306 @@
-from typing import List, Dict, Any, Optional
-from fastapi import APIRouter, Depends, status, HTTPException, Response, Request
+"""
+Connected Accounts & Tools API (spec §23).
+
+    GET    /integrations                      overview for the current user
+    GET    /integrations/catalog              static provider capabilities
+    GET    /integrations/{provider}           one provider card
+    GET    /integrations/{provider}/connect   start OAuth (returns authorize URL)
+    GET    /integrations/{provider}/callback  OAuth redirect target
+    POST   /integrations/{provider}/link      connect a non-OAuth platform
+    POST   /integrations/{provider}/sync      real synchronization
+    POST   /integrations/{provider}/disconnect  revoke + delete credentials
+    DELETE /integrations/{provider}           alias of disconnect
+    GET    /integrations/{provider}/health    reachability + token state
+
+No response in this module contains an access token, a refresh token, an API
+secret, a stack trace or a provider response body.
+"""
+from __future__ import annotations
+
+from typing import Any, Dict, List
+from urllib.parse import urlencode
+
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
-import uuid
 
-from app.core.config import settings
-from app.database.session import get_db
 from app.controllers.auth.dependencies import get_current_active_user
+from app.controllers.integrations.service import (
+    IntegrationServiceError,
+    integration_service,
+)
+from app.core.config import settings
+from app.core.logging import logger
+from app.database.session import get_db
 from app.models.auth import User
 from app.views.integrations import (
+    AuthorizationUrlOut,
+    ConnectedAccountOut,
+    DisconnectResultOut,
+    HealthOut,
+    IntegrationDisconnectIn,
     IntegrationLinkIn,
-    IntegrationItemOut,
-    IntegrationsStatusSummaryOut
+    IntegrationsOverviewOut,
+    IntegrationSyncIn,
+    ProviderCapabilityOut,
+    SyncResultOut,
 )
-from app.controllers.integrations.service import IntegrationService
 
-router = APIRouter(prefix="/integrations", tags=["Platform & Tool Integrations"])
-integration_service = IntegrationService()
+router = APIRouter(prefix="/integrations", tags=["Connected Accounts & Tools"])
 
-# In-memory simple state store for OAuth (In production use Redis)
-oauth_states: Dict[str, int] = {}
+
+def _http_error(exc: IntegrationServiceError) -> HTTPException:
+    """Map a service error to an HTTP error carrying only user-safe text."""
+    logger.info("Integration request failed [%s]: %s", exc.code, exc.detail)
+    return HTTPException(
+        status_code=exc.status_code,
+        detail={"code": exc.code, "message": exc.message},
+    )
+
+
+def _frontend_redirect(params: Dict[str, str]) -> RedirectResponse:
+    """
+    Send the browser back to the app with a short, safe status code only.
+    Never an exception message, never a provider body.
+    """
+    base = settings.FRONTEND_URL.rstrip("/")
+    return RedirectResponse(f"{base}/?{urlencode(params)}#integrations")
+
+
+# --------------------------------------------------------------------- reads
+
+@router.get(
+    "",
+    response_model=IntegrationsOverviewOut,
+    summary="All providers with the current user's real connection state",
+)
+def list_integrations(
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    return integration_service.list_accounts(db, current_user.id)
 
 
 @router.get(
     "/status",
-    response_model=IntegrationsStatusSummaryOut,
-    summary="Get all connected developer accounts and live telemetry status"
+    response_model=IntegrationsOverviewOut,
+    summary="Alias of GET /integrations (existing frontend contract)",
 )
-def get_integrations_status(
+def integrations_status(
     current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    return integration_service.get_user_integrations_summary(db, current_user.id)
+    return integration_service.list_accounts(db, current_user.id)
 
 
 @router.get(
-    "/{provider}/connect",
-    summary="Initiate OAuth connection for an external developer platform"
+    "/catalog",
+    response_model=List[ProviderCapabilityOut],
+    summary="Static provider capabilities and deployment configuration state",
 )
-async def connect_integration(
+def provider_catalog(_: User = Depends(get_current_active_user)):
+    return integration_service.catalog()
+
+
+# ------------------------------------------------------------------- OAuth
+
+@router.get(
+    "/{provider}/connect",
+    response_model=AuthorizationUrlOut,
+    summary="Start the OAuth flow for a provider",
+)
+def connect_integration(
     provider: str,
-    current_user: User = Depends(get_current_active_user)
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
 ):
     try:
-        # Generate OAuth state to prevent CSRF
-        state = str(uuid.uuid4())
-        oauth_states[state] = current_user.id
-        
-        url = integration_service.get_authorization_url(provider.lower(), state)
-        return {"url": url}
-    except ValueError as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        url = integration_service.begin_oauth(db, current_user.id, provider)
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
+    return {
+        "provider": provider.lower(),
+        "authorization_url": url,
+        "url": url,
+        "expires_in_seconds": settings.OAUTH_STATE_TTL_SECONDS,
+    }
 
 
 @router.get(
     "/{provider}/callback",
-    summary="Handle OAuth callback"
+    include_in_schema=False,
+    summary="OAuth redirect target",
 )
 async def oauth_callback(
     provider: str,
     request: Request,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    code = request.query_params.get("code")
-    state = request.query_params.get("state")
-    error = request.query_params.get("error")
-
-    frontend_redirect = f"{settings.FRONTEND_URL}/index.html" # Map to actual frontend URL logic
+    provider = provider.lower()
+    params = request.query_params
+    error = params.get("error")
+    code = params.get("code")
+    state = params.get("state")
 
     if error:
-        return RedirectResponse(f"{frontend_redirect}?error=oauth_denied&provider={provider}")
+        # User denied consent, or the provider rejected the request.
+        logger.info("OAuth denied for %s: %s", provider, error)
+        reason = "oauth_denied" if error in {"access_denied", "user_cancelled_login"} else "oauth_error"
+        return _frontend_redirect({"integration": provider, "error": reason})
 
-    if not code or not state:
-        return RedirectResponse(f"{frontend_redirect}?error=invalid_request&provider={provider}")
-
-    user_id = oauth_states.pop(state, None)
-    if not user_id:
-        return RedirectResponse(f"{frontend_redirect}?error=invalid_state&provider={provider}")
+    if not code:
+        return _frontend_redirect({"integration": provider, "error": "missing_code"})
 
     try:
-        redirect_uri = f"{settings.HOST}:{settings.PORT}/api/v1/integrations/{provider}/callback"
-        await integration_service.handle_oauth_callback(
-            db=db,
-            user_id=user_id,
-            provider_name=provider.lower(),
-            code=code,
-            redirect_uri=redirect_uri
-        )
-        return RedirectResponse(f"{frontend_redirect}?connected={provider}")
-    except Exception as e:
-        return RedirectResponse(f"{frontend_redirect}?error=connection_failed&provider={provider}&details={str(e)}")
+        user_id, verifier, redirect_uri = integration_service.consume_state(db, provider, state or "")
+    except IntegrationServiceError as exc:
+        logger.warning("OAuth state rejected for %s: %s", provider, exc.detail)
+        return _frontend_redirect({"integration": provider, "error": exc.code})
 
+    try:
+        await integration_service.complete_oauth(
+            db, user_id, provider, code=code, code_verifier=verifier, redirect_uri=redirect_uri
+        )
+    except IntegrationServiceError as exc:
+        logger.warning("OAuth completion failed for %s: %s", provider, exc.detail)
+        return _frontend_redirect({"integration": provider, "error": exc.code})
+
+    return _frontend_redirect({"integration": provider, "connected": "1"})
+
+
+# ------------------------------------------------------- non-OAuth linking
 
 @router.post(
     "/{provider}/link",
-    response_model=IntegrationItemOut,
+    response_model=ConnectedAccountOut,
     status_code=status.HTTP_201_CREATED,
-    summary="Link a public profile (LeetCode, GFG, Kaggle)"
+    summary="Connect a platform that has no OAuth (public profile or link-only)",
 )
 async def link_integration(
     provider: str,
     payload: IntegrationLinkIn,
     current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     try:
-        integration = await integration_service.link_public_profile(
-            db=db,
-            user_id=current_user.id,
-            provider_name=provider.lower(),
-            identifier=payload.identifier
+        await integration_service.link_account(
+            db,
+            current_user.id,
+            provider,
+            identifier=payload.identifier,
+            api_token=payload.api_token,
         )
-        return integration
-    except ValueError as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
+    return integration_service.get_account(db, current_user.id, provider)
 
+
+# --------------------------------------------------------------------- sync
 
 @router.post(
     "/{provider}/sync",
-    response_model=IntegrationItemOut,
-    summary="Trigger on-demand data sync for a specific connected platform"
+    response_model=SyncResultOut,
+    summary="Run a real synchronization for one connected platform",
 )
-async def sync_platform_data(
+async def sync_integration(
     provider: str,
+    payload: IntegrationSyncIn | None = None,
     current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    integration = await integration_service.sync_platform(db, current_user.id, provider.lower())
-    if not integration:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Platform {provider} is not currently connected."
+    try:
+        return await integration_service.sync(
+            db,
+            current_user.id,
+            provider,
+            trigger="manual",
+            force=bool(payload.force) if payload else False,
         )
-    return integration
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
 
 
 @router.post(
     "/sync-all",
-    response_model=List[IntegrationItemOut],
-    summary="Trigger parallel synchronization across all connected developer platforms"
+    response_model=List[SyncResultOut],
+    summary="Synchronize every connected, syncable platform",
 )
 async def sync_all_integrations(
     current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    return await integration_service.sync_all_user_integrations(db, current_user.id)
+    return await integration_service.sync_all(db, current_user.id)
+
+
+# --------------------------------------------------------------- disconnect
+
+@router.post(
+    "/{provider}/disconnect",
+    response_model=DisconnectResultOut,
+    summary="Revoke provider access and delete stored credentials",
+)
+async def disconnect_integration(
+    provider: str,
+    payload: IntegrationDisconnectIn | None = None,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        return await integration_service.disconnect(
+            db,
+            current_user.id,
+            provider,
+            purge_evidence=bool(payload.purge_evidence) if payload else False,
+        )
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
 
 
 @router.delete(
     "/{provider}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    summary="Disconnect an external platform"
+    response_model=DisconnectResultOut,
+    summary="Alias of POST /{provider}/disconnect",
 )
-def disconnect_platform(
+async def delete_integration(
     provider: str,
     current_user: User = Depends(get_current_active_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    success = integration_service.disconnect_platform(db, current_user.id, provider.lower())
-    if not success:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Platform {provider} is not connected."
-        )
-    return None
+    try:
+        return await integration_service.disconnect(db, current_user.id, provider)
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
+
+
+# ------------------------------------------------------------------- health
+
+@router.get(
+    "/{provider}/health",
+    response_model=HealthOut,
+    summary="Provider reachability and local token state",
+)
+async def integration_health(
+    provider: str,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+) -> Dict[str, Any]:
+    try:
+        return await integration_service.health(db, current_user.id, provider)
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc
+
+
+@router.get(
+    "/{provider}",
+    response_model=ConnectedAccountOut,
+    summary="One provider's real connection state for the current user",
+)
+def get_integration(
+    provider: str,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        return integration_service.get_account(db, current_user.id, provider)
+    except IntegrationServiceError as exc:
+        raise _http_error(exc) from exc

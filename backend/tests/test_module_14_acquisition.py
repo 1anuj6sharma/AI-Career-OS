@@ -2,10 +2,10 @@
 Unit & Integration Tests for Module 14 — AI Career Opportunity Intelligence & Job Acquisition Engine
 """
 import pytest
-from app.modules.opportunities.services.acquisition_service import OpportunityAcquisitionService
-from app.modules.opportunities.models import JobOpportunity
-from app.modules.ai.services.llm_service import LLMService
-from app.modules.opportunities.agents.acquisition_agents import (
+from app.controllers.opportunities.services.acquisition_service import OpportunityAcquisitionService
+from app.models.opportunities import JobOpportunity
+from app.controllers.ai.services.llm_service import LLMService
+from app.controllers.opportunities.agents.acquisition_agents import (
     OpportunitySupervisorAgent,
     DiscoveryAgent,
     MatchingAgent,
@@ -17,7 +17,7 @@ from app.modules.opportunities.agents.acquisition_agents import (
     TrackingAgent,
     FeedbackLearningAgent,
 )
-from app.modules.opportunities.graph.opportunity_graph import OpportunityGraphOrchestrator
+from app.controllers.opportunities.graph.opportunity_graph import OpportunityGraphOrchestrator
 
 
 def test_deterministic_opportunity_scoring():

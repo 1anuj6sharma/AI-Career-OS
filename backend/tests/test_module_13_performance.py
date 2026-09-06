@@ -2,11 +2,11 @@
 Unit & Integration Tests for Module 13 — AI Career Performance & Continuous Growth Engine
 """
 import pytest
-from app.modules.career.services.performance_service import PerformanceService
-from app.modules.career.repository import CareerRepository
-from app.modules.career.models import CareerGoal, CareerTask, CareerReview
-from app.modules.ai.services.llm_service import LLMService
-from app.modules.career.agents.performance_agents import (
+from app.controllers.career.services.performance_service import PerformanceService
+from app.controllers.career.repository import CareerRepository
+from app.models.career import CareerGoal, CareerTask, CareerReview
+from app.controllers.ai.services.llm_service import LLMService
+from app.controllers.career.agents.performance_agents import (
     CareerPlannerAgent,
     ProductivityAgent,
     PerformanceAnalyzerAgent,
@@ -18,7 +18,7 @@ from app.modules.career.agents.performance_agents import (
     CareerReviewAgent,
     CareerCoachAgent,
 )
-from app.modules.career.graph.planner_graph import CareerGraphOrchestrator
+from app.controllers.career.graph.planner_graph import CareerGraphOrchestrator
 
 
 def test_evidence_skill_confidence_calculation():

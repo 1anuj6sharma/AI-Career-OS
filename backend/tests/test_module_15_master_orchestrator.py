@@ -2,13 +2,13 @@
 Unit & Integration Tests for Module 15 — AI Career OS Master Orchestrator & Autonomous Career Agent
 """
 import pytest
-from app.modules.master_orchestrator.services.module_registry import (
+from app.controllers.master_orchestrator.services.module_registry import (
     MODULE_REGISTRY,
     resolve_modules_for_capabilities,
 )
-from app.modules.master_orchestrator.services.orchestration_service import MasterOrchestrationService
-from app.modules.ai.services.llm_service import LLMService
-from app.modules.master_orchestrator.agents.master_agents import (
+from app.controllers.master_orchestrator.services.orchestration_service import MasterOrchestrationService
+from app.controllers.ai.services.llm_service import LLMService
+from app.controllers.master_orchestrator.agents.master_agents import (
     MasterCareerAgent,
     IntentClassifierAgent,
     PlanningAgent,
@@ -17,7 +17,7 @@ from app.modules.master_orchestrator.agents.master_agents import (
     ReflectionEvaluationAgent,
     AdaptiveStrategyEngineAgent,
 )
-from app.modules.master_orchestrator.graph.master_graph import MasterGraphOrchestrator
+from app.controllers.master_orchestrator.graph.master_graph import MasterGraphOrchestrator
 
 
 def test_capability_module_registry():

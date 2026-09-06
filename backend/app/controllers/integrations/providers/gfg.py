@@ -1,88 +1,80 @@
-from typing import Dict, Any
-import re
+"""
+GeeksforGeeks connector — LINK ONLY.
 
-from .base import PublicProfileProvider, ProviderError
+GeeksforGeeks publishes no OAuth programme and no public API, and
+https://www.geeksforgeeks.org/robots.txt disallows automated agents.  Scraping
+the profile page would therefore be both unreliable and against the site's
+stated wishes, and we will not ask a user for their GFG password (spec §11).
 
-class GeeksForGeeksProvider(PublicProfileProvider):
+So this connector does exactly one honest thing: it records the profile URL the
+user gives us, after verifying the URL shape belongs to geeksforgeeks.org, so
+the [Open] button works and the account shows in the user's platform list.  It
+reports LIMITED permanently and never claims a synchronization or reports a
+single statistic.
+"""
+from __future__ import annotations
+
+from typing import Any, Dict
+
+from .base import (
+    AuthMethod,
+    Capability,
+    LinkOnlyProvider,
+    ProviderDescriptor,
+    ProviderError,
+    sanitize_username,
+)
+
+LIMITATION = (
+    "GeeksforGeeks does not offer an official API or OAuth, and its robots.txt "
+    "disallows automated access. We store only your profile link so you can open it "
+    "from here — practice statistics cannot be imported, and we will never ask for "
+    "your GeeksforGeeks password."
+)
+
+DESCRIPTOR = ProviderDescriptor(
+    name="gfg",
+    display_name="GeeksforGeeks",
+    auth_method=AuthMethod.LINK_ONLY,
+    capabilities=frozenset({Capability.IDENTITY}),
+    limitation_note=LIMITATION,
+    docs_url="https://www.geeksforgeeks.org/",
+    profile_url_template="https://www.geeksforgeeks.org/user/{username}/",
+    allowed_url_hosts=("geeksforgeeks.org",),
+)
+
+
+class GFGProvider(LinkOnlyProvider):
     @property
-    def provider_name(self) -> str:
-        return "gfg"
+    def descriptor(self) -> ProviderDescriptor:
+        return DESCRIPTOR
 
     async def validate_and_get_profile(self, identifier: str) -> Dict[str, Any]:
         """
-        GFG doesn't have a reliable open REST API, but we can do a basic validation of the handle/URL
+        Validate the handle/URL shape only.  We do not fetch the page, so we
+        cannot and do not assert the profile exists — the status stays LIMITED
+        and the UI says so.
         """
-        handle = identifier
-        match = re.search(r'geeksforgeeks\.org/user/([^/]+)/?', identifier)
-        if match:
-            handle = match.group(1)
-            
+        username = sanitize_username(identifier)
+        profile_url = DESCRIPTOR.profile_url_template.format(username=username)
+        if not profile_url.startswith("https://www.geeksforgeeks.org/user/"):
+            raise ProviderError("That does not look like a GeeksforGeeks profile.", code="invalid_identifier")
         return {
-            "provider_account_id": handle,
-            "provider_username": handle,
-            "display_name": handle,
-            "profile_url": f"https://auth.geeksforgeeks.org/user/{handle}/",
-            "avatar_url": None
+            "provider_account_id": username,
+            "provider_username": username,
+            "display_name": username,
+            "email": None,
+            "profile_url": profile_url,
+            "avatar_url": None,
+            "verified": False,
+            "limitation_note": LIMITATION,
         }
 
-    async def get_telemetry(self, identifier: str) -> Dict[str, Any]:
-        # Handle the case where the user entered an email as requested in the new UI
-        handle = identifier.split('@')[0] if '@' in identifier else identifier
-        match = re.search(r'geeksforgeeks\.org/user/([^/]+)/?', handle)
-        if match:
-            handle = match.group(1)
-
-        url = f"https://auth.geeksforgeeks.org/user/{handle}/"
-        import httpx
-        async with httpx.AsyncClient(timeout=15.0, follow_redirects=True) as client:
-            try:
-                res = await client.get(url, headers={'User-Agent': 'Mozilla/5.0'})
-                if res.status_code == 200:
-                    html = res.text
-                    
-                    # Extract coding score (usually in the format "Coding Score.*?(\d+)")
-                    score_match = re.search(r'Coding Score.*?(\d+)', html, re.IGNORECASE | re.DOTALL)
-                    coding_score = int(score_match.group(1)) if score_match else 0
-                    
-                    # Extract total solved problems
-                    solved_match = re.search(r'Problem Solved.*?(\d+)', html, re.IGNORECASE | re.DOTALL)
-                    solved_problems = int(solved_match.group(1)) if solved_match else 0
-                    
-                    # Extract rank
-                    rank_match = re.search(r'Institute Rank.*?<b>(\d+)</b>', html, re.IGNORECASE | re.DOTALL)
-                    institute_rank = f"Top #{rank_match.group(1)} (Institute)" if rank_match else "N/A"
-                    
-                    # Also fallback for Next.js JSON payload if available
-                    if coding_score == 0 and solved_problems == 0:
-                        import json
-                        next_match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.+?)</script>', html, re.DOTALL)
-                        if next_match:
-                            try:
-                                data = json.loads(next_match.group(1))
-                                user_details = data.get('props', {}).get('pageProps', {}).get('userInfo', {})
-                                coding_score = user_details.get('score', 0)
-                                solved_problems = user_details.get('totalProblemsSolved', 0)
-                                rank = user_details.get('instituteRank', '')
-                                if rank:
-                                    institute_rank = f"Top #{rank} (Institute)"
-                            except:
-                                pass
-                    
-                    return {
-                        "handle": handle,
-                        "coding_score": coding_score,
-                        "solved_problems": solved_problems,
-                        "institute_rank": institute_rank,
-                        "status": "linked_profile"
-                    }
-            except Exception as e:
-                pass
-                
-        # If parsing fails or times out, return zeroes
+    async def health_check(self) -> Dict[str, Any]:
         return {
-            "handle": handle,
-            "coding_score": 0,
-            "solved_problems": 0,
-            "institute_rank": "N/A",
-            "status": "linked_profile"
+            "provider": self.provider_name,
+            "configured": True,
+            "reachable": None,
+            "limitation_note": LIMITATION,
+            "detail": "Link-only provider: no API is contacted.",
         }

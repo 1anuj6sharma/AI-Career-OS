@@ -20,8 +20,18 @@ from app.controllers.master_orchestrator.services.module_registry import resolve
 
 
 class MasterOrchestrationService:
-    def __init__(self, repo: MasterOrchestratorRepository):
+    def __init__(self, repo: Optional[MasterOrchestratorRepository] = None):
+        #: `repo` may be None for pure-computation callers (scoring/ranking with no
+        #: persistence). Methods that must persist raise instead of silently no-op'ing.
         self.repo = repo
+
+    def _require_repo(self) -> MasterOrchestratorRepository:
+        if self.repo is None:
+            raise RuntimeError(
+                "MasterOrchestrationService was constructed without a repository; "
+                "this operation needs database access."
+            )
+        return self.repo
 
     # ------------------------------------------------------------------------
     # 1. Deterministic Next Best Action Engine
@@ -31,9 +41,8 @@ class MasterOrchestrationService:
         Calculates the single highest-value action for the user using deterministic scoring:
         Rank Score = (0.3 * Impact) + (0.25 * Alignment) + (0.2 * Urgency) + (0.15 * OppValue) - (0.1 * Effort)
         """
-        # Query active goals and metrics
-        active_plan = self.repo.get_active_plan(user_id)
-        
+        # Ranking is deterministic and does not depend on persisted state, so this
+        # works without a repository.
         # Candidate actions evaluation matrix
         candidates = [
             {
@@ -99,7 +108,7 @@ class MasterOrchestrationService:
     # 2. Master Strategy Management (Versioned Active Strategy)
     # ------------------------------------------------------------------------
     def get_or_create_active_strategy(self, user_id: int, goal_title: str = "Senior Backend / AI Engineer") -> MasterCareerStrategy:
-        active = self.repo.get_active_strategy(user_id)
+        active = self._require_repo().get_active_strategy(user_id)
         if active:
             return active
 
@@ -111,10 +120,10 @@ class MasterOrchestrationService:
             reasons_for_pivot="Initial master career baseline strategy created.",
             is_active=True
         )
-        return self.repo.create_strategy(new_strat)
+        return self._require_repo().create_strategy(new_strat)
 
     def adapt_strategy(self, user_id: int, pivot_reason: str, new_objective: str) -> MasterCareerStrategy:
-        active = self.repo.get_active_strategy(user_id)
+        active = self._require_repo().get_active_strategy(user_id)
         current_ver = active.version_number if active else 1
         new_ver = current_ver + 1
 
@@ -126,7 +135,7 @@ class MasterOrchestrationService:
             reasons_for_pivot=pivot_reason,
             is_active=True
         )
-        return self.repo.create_strategy(new_strat)
+        return self._require_repo().create_strategy(new_strat)
 
     # ------------------------------------------------------------------------
     # 3. 3-Level Career Memory Management
@@ -138,7 +147,7 @@ class MasterOrchestrationService:
             key=key,
             content_json=content
         )
-        return self.repo.save_memory(mem)
+        return self._require_repo().save_memory(mem)
 
     # ------------------------------------------------------------------------
     # 4. Master Plan & Goal Decomposition
@@ -153,7 +162,7 @@ class MasterOrchestrationService:
             status="ACTIVE",
             version=strategy.version_number
         )
-        created_plan = self.repo.create_plan(plan)
+        created_plan = self._require_repo().create_plan(plan)
 
         # Decomposed step DAG across modules
         steps_data = [
@@ -192,10 +201,10 @@ class MasterOrchestrationService:
                 status="PENDING",
                 dependencies_json=step["dependencies"]
             )
-            self.repo.create_plan_step(s_obj)
+            self._require_repo().create_plan_step(s_obj)
 
         logger.info(f"Decomposed and created master plan id={created_plan.id} for user={user_id}")
-        return self.repo.get_active_plan(user_id)
+        return self._require_repo().get_active_plan(user_id)
 
     # ------------------------------------------------------------------------
     # 5. Command Center Dashboard Aggregator
@@ -203,9 +212,9 @@ class MasterOrchestrationService:
     def get_command_center_dashboard(self, db: Session, user_id: int) -> Dict[str, Any]:
         strategy = self.get_or_create_active_strategy(user_id)
         next_action = self.calculate_next_best_action(db, user_id)
-        active_plan = self.repo.get_active_plan(user_id)
-        pending_apps = self.repo.list_pending_approvals(user_id)
-        events = self.repo.list_events(user_id)
+        active_plan = self._require_repo().get_active_plan(user_id)
+        pending_apps = self._require_repo().list_pending_approvals(user_id)
+        events = self._require_repo().list_events(user_id)
 
         return {
             "user_id": user_id,

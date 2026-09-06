@@ -41,3 +41,37 @@ class RegisterResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+
+
+# ---------------------------------------------------------------------------
+# Account recovery (password reset / email verification)
+# ---------------------------------------------------------------------------
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str = Field(..., min_length=16, max_length=512)
+    new_password: str = Field(..., min_length=8, max_length=200)
+
+
+class VerifyEmailRequest(BaseModel):
+    token: str = Field(..., min_length=16, max_length=512)
+
+
+class RecoveryResponse(BaseModel):
+    """
+    `message` is what the user sees. `email_delivered` is the truth about
+    delivery — it is False when SMTP is unconfigured or the send failed, so the
+    UI never claims an email was sent when it was not.
+    """
+
+    message: str
+    email_delivered: bool = False
+    #: Development only: where the message was written when SMTP is absent.
+    email_outbox_path: str | None = None
+
+
+class TokenCheckResponse(BaseModel):
+    valid: bool

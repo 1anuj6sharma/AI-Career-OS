@@ -1,7 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy import JSON, Column, Integer, String, ForeignKey, DateTime, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from app.database.base import Base
+
+#: JSONB on PostgreSQL (indexable, the production dialect), plain JSON everywhere
+#: else. A bare JSONB column cannot be compiled by SQLite, which broke the whole
+#: test suite at table-creation time.
+JSONVariant = JSON().with_variant(JSONB(), "postgresql")
 
 class ExecutionPlan(Base):
     __tablename__ = "execution_plans"
@@ -26,7 +31,7 @@ class ApprovalQueue(Base):
     action_type = Column(String, nullable=False) # e.g. APPLY, MESSAGE, PROPOSAL
     title = Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    metadata_json = Column(JSONB, nullable=True) # stores draft data, application details, etc.
+    metadata_json = Column(JSONVariant, nullable=True) # stores draft data, application details, etc.
     status = Column(String, default="PENDING") # PENDING, APPROVED, REJECTED
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     processed_at = Column(DateTime(timezone=True), nullable=True)
@@ -39,5 +44,5 @@ class CareerMemory(Base):
     event_type = Column(String, nullable=False) # e.g. ACTION_COMPLETED, SKILL_ADDED
     description = Column(Text, nullable=False)
     source = Column(String, nullable=True) # e.g. Dashboard, AI Orchestrator
-    metadata_json = Column(JSONB, nullable=True)
+    metadata_json = Column(JSONVariant, nullable=True)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
