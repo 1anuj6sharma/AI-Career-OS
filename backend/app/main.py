@@ -8,20 +8,21 @@ from app.database.base import Base
 from app.database.session import engine
 
 # Import all models to ensure they are registered with Base metadata
-import app.modules.auth.models
-import app.modules.profile.models
-import app.modules.jobs.models
-import app.modules.resumes.models
-import app.modules.interviews.models
-import app.modules.career.models
-import app.modules.learning.models
-import app.modules.brand.models
-import app.modules.opportunities.models
-import app.modules.network.models
-import app.modules.offers.models
-import app.modules.master_orchestrator.models
-import app.modules.integrations.models
-import app.modules.dashboard.models
+import app.models.auth
+import app.models.profile
+import app.models.jobs
+import app.models.resumes
+import app.models.interviews
+import app.models.career
+import app.models.learning
+import app.models.brand
+import app.models.opportunities
+import app.models.network
+import app.models.offers
+import app.models.master_orchestrator
+import app.models.integrations
+import app.models.dashboard
+import app.models.ai_coach
 
 setup_logging()
 

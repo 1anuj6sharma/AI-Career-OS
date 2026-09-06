@@ -3,21 +3,22 @@ API v1 Router — Composes all module routers (Modules 1–15).
 """
 from fastapi import APIRouter
 
-from app.modules.auth.router import router as auth_router
-from app.modules.profile.router import router as profile_router
-from app.modules.jobs.router import router as jobs_router
-from app.modules.ai.router import router as ai_router
-from app.modules.resumes.router import router as resumes_router
-from app.modules.interviews.router import router as interviews_router
-from app.modules.career.router import router as career_router
-from app.modules.learning.router import router as learning_router
-from app.modules.brand.router import router as brand_router
-from app.modules.opportunities.router import router as opportunities_router
-from app.modules.network.router import router as network_router
-from app.modules.offers.router import router as offers_router
-from app.modules.master_orchestrator.router import router as master_orchestrator_router
-from app.modules.integrations.router import router as integrations_router
-from app.modules.dashboard.router import router as dashboard_router
+from app.controllers.auth.router import router as auth_router
+from app.controllers.profile.router import router as profile_router
+from app.controllers.jobs.router import router as jobs_router
+from app.controllers.ai.router import router as ai_router
+from app.controllers.resumes.router import router as resumes_router
+from app.controllers.interviews.router import router as interviews_router
+from app.controllers.career.router import router as career_router
+from app.controllers.learning.router import router as learning_router
+from app.controllers.brand.router import router as brand_router
+from app.controllers.opportunities.router import router as opportunities_router
+from app.controllers.network.router import router as network_router
+from app.controllers.offers.router import router as offers_router
+from app.controllers.master_orchestrator.router import router as master_orchestrator_router
+from app.controllers.integrations.router import router as integrations_router
+from app.controllers.dashboard.router import router as dashboard_router
+from app.controllers.career_coach.router import router as career_coach_router
 
 api_router = APIRouter()
 
@@ -36,3 +37,4 @@ api_router.include_router(offers_router)
 api_router.include_router(master_orchestrator_router)
 api_router.include_router(integrations_router)
 api_router.include_router(dashboard_router)
+api_router.include_router(career_coach_router)
